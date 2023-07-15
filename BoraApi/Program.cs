@@ -172,16 +172,6 @@ static async void MigrateAndSeed(WebApplication app)
             Spotify = "12145833562",
             CreatedAt = new DateTime(2022, 04, 01),
         },
-        new Account("gandinirafaela@gmail.com")
-        {
-            Username = "rafagand",
-            Name = "Rafaela Gandini",
-            Instagram = "rafagand",
-            WhatsApp = "51981583771",
-            Spotify = "gandinir",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgCwlip_BZjPXJjj7_gA6Wu6Yqep1e6jXsP4i0FFxg=s96-c",
-            CreatedAt = new DateTime(2022, 05, 03),
-        },
         new Account("luanaleticiabueno@gmail.com")
         {
             Name = "Luana Bueno",
@@ -190,27 +180,6 @@ static async void MigrateAndSeed(WebApplication app)
             Spotify = "224juavirzfsjsxt5yva6fvly",
             Photo= "https://lh3.googleusercontent.com/a-/AOh14GhWN-zhlu_93Me88oT9v8554pdaJQdNYKpUp-i__c0=s340-p-k-rw-no",
             CreatedAt = new DateTime(2022, 04, 01),
-        },
-        new Account("divagandonosul@gmail.com")
-        {
-            Name = "Divagando",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgeKm5UynBAHY6Pl0jvBVvfFYM2A75KwIPuuS0=s96-c",
-            WhatsApp = "51992364249",
-            Instagram = "divagando.art",
-            Spotify = "12145833562",
-            CreatedAt = new DateTime(2022, 04, 01),
-        },
-        new Account("felipealmeida1395@gmail.com")
-        {
-            Name = "Felipe Almeida",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhohArS_wxlPMwCeHT8PmRO6Ts1oQSR4OvB8XrZFQ=s96-c",
-            CreatedAt = new DateTime(2022, 04, 28),
-        },
-        new Account("psicologa.tanaia@gmail.com")
-        {
-            Name = "Tanaia Rodrigues",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi2StRGx59Iy5W1DXXoJsyzo0PsZF-_ZqI416NN=s96-c",
-            CreatedAt = new DateTime(2022, 04, 29),
         },
         new Account("ricardoschieck@gmail.com")
         {
@@ -224,44 +193,11 @@ static async void MigrateAndSeed(WebApplication app)
             Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi14cQFSeyn5q6u3ZB_derhI7yIcA9dgX27OkBl=s96-c",
             CreatedAt = new DateTime(2022, 04, 30),
         },
-        new Account("jonas.santos.correa1@gmail.com")
-        {
-            Name = "Jonas Correa",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJwOC7erXvrJHA70UJGsSd1JV1JB9T9BdcYbAFJH=s96-c",
-            CreatedAt = new DateTime(2022, 05, 02),
-            CalendarAuthorized= true,
-            CalendarAccessToken = "ya29.a0ARrdaM8qKQzZYL3weEDeVrgVEjXzEyhjNpmDoOW1DFXKrT3H4mKWrHHaJd1scz5u_vgmySPnOFgISHjW0HNSOXUOr8FvFHH-FSiOi-ev40oSAvQqc_l6FMDFs1TcUuC9yoTIWPqjkxXD3HtxUoTjWa8fu-t0",
-            CalendarRefreshAccessToken = "1//0hnnvcOlqZfz7CgYIARAAGBESNwF-L9Ir7a1TLnnkl_p_EUk413j6McA_If2XbIBqEtwoWVnBNqt2WggGa39QrLlXFG6yUYVP7d0"
-        },
-        new Account("eds.pedroso.58@gmail.com")
-        {
-            Name = "Edson Pedroso",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJxnL21olUcIhwApbEFncNt7f37EshRf3f_we5PB=s96-c",
-            CreatedAt = new DateTime(2022, 05, 02),
-        },
         new Account("varreira.adv@gmail.com")
         {
             Name = "Anderson Varreira",
             Photo= "https://lh3.googleusercontent.com/a/AATXAJw-6J_C5vAh-d9Gp3ssN_ziJrOkzp6HMWXE6Ubm=s96-c",
             CreatedAt = new DateTime(2022, 05, 03),
-        },
-        new Account("rafaellalacerda17m@gmail.com")
-        {
-            Name = "Rafaella Lacerda",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhqCaFO-uDGlrAN2h9--Kkeu5WxpRiTqDMZomlgrw=s96-c",
-            CreatedAt = new DateTime(2022, 05, 03),
-        },
-        new Account("danielsantanaschaefer@gmail.com")
-        {
-            Name = "Daniel Schaefer",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GjREHDPMEu48vlof4ZiyDOL1_R6JqffJnLm7euzbjY=s96-c",
-            CreatedAt = new DateTime(2022, 05, 03),
-        },
-        new Account("lopes.laura95@gmail.com")
-        {
-            Name = "Laura Lopes",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgspOyvcp_TAKmEzNh23I3qnlXLJwpKegx5iGOMnw=s96-c",
-            CreatedAt = new DateTime(2022, 05, 07),
         },
         new Account("lucasbuenomagalhaes@gmail.com")
         {
@@ -269,134 +205,14 @@ static async void MigrateAndSeed(WebApplication app)
             Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggfyxso7uuqWxLMqvI3JTDOcKDRKkOgsz0oOwLWPw=s96-c",
             CreatedAt = new DateTime(2022, 05, 08),
         },
-        new Account("b.vargash21@gmail.com")
-        {
-            Name = "Bruno Vargas",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgRTDTt5rVSKic_1k2hGcyMmwDPQfsitYtyvkMu=s96-c",
-            CreatedAt = new DateTime(2022, 05, 12),
-        },
-        new Account("vitoriarqoue2000@gmail.com")
-        {
-            Name = "Vitória Roque",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhJt54oTmQuzjtQJqmFk6FDEvcqFRUepgZowZiHadI=s96-c",
-            CreatedAt = new DateTime(2022, 06, 11),
-        },
-        new Account("pavezivinicius@gmail.com")
-        {
-            Name = "Vinícius Pavezi",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhOhDPKfy6jb97uWflm1q367lOzkHpwWQn7JCufKA=s96-c",
-            CreatedAt = new DateTime(2022, 06, 14),
-        },
-        new Account("debora.blara19@gmail.com")
-        {
-            Name = "Débora Borges",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GiMfj386GjT5kY-M45LVAb2dxbjtsNZJnI3kMrXdg=s96-c",
-            CreatedAt = new DateTime(2022, 06, 14),
-        },
-        new Account("singutar2000@gmail.com")
-        {
-            Name = "Samuel de mello",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgTJT1DB6Qcz8kGeI6-8jk8amKuGfkhg37i6SJKB3w=s96-c",
-            CreatedAt = new DateTime(2022, 06, 16),
-        },
-        new Account("gabee.roggia@gmail.com")
-        {
-            Name = "gabriel roggia",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJwGtHK4oFqOAAA-vKWuXdbhvhpv5uIM_WyQerEGUg=s96-c",
-            CreatedAt = new DateTime(2022, 06, 18),
-        },
-        new Account("pfd0709@gmail.com")
-        {
-            Name = "Pietro Dias",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhZf_xVV0IB8CiRA1lmrV2CVFBSNt4Q1cB2uPUL=s96-c",
-            CreatedAt = new DateTime(2022, 06, 18),
-        },
-        new Account("lucasteyding@gmail.com")
-        {
-            Name = "Lucas Steyding",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJxI6sYBxzZESj6rWVleCalsxZelO1Z6H7t6dokZ=s96-c",
-            CreatedAt = new DateTime(2022, 06, 18),
-        },
-        new Account("matheusfrankehoppe@gmail.com")
-        {
-            Name = "Matheus Franke Hoppe",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgtoskZZ3jWjdMl4GNuEBwRo_wROB1cZ4ubmVHM=s96-c",
-            CreatedAt = new DateTime(2022, 06, 19),
-        },
-        new Account("anderson.zaniratti@gmail.com")
-        {
-            Name = "Anderson Zaniratti",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggj_yvm15rD-aWzhFvFX4AyAIigUdJjPQRTbS2icg=s96-c",
-            CreatedAt = new DateTime(2022, 06, 19),
-        },
-        new Account("vetteragencia@gmail.com")
-        {
-            Name = "Vetter Ag\u00eancia",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggtd6dZGV4_Bgnaub0k0RPHEWljEjGi-7k1kYTc=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("restaurantepavilhao@gmail.com")
-        {
-            Name = "Pavilh\u00e3o Porto Alegre",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Gikq53Jv4Bbdhmm2CMlZuEOjwi6KlD3h7dkBgs=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("diegoluismacedo@gmail.com")
-        {
-            Name = "DSK - Diego Soker",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJxRtUMxosvJIgXtG2YPjz-y8t5OC24ORele9zR2ySw=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("ezequiel.dartora92@gmail.com")
-        {
-            Name = "Ezequiel Dartora",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJxIi18cfJjurl5hhk6LV910RwGpcmqww-X8HnTA=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("fabiolandskron@gmail.com")
-        {
-            Name = "Fabio Landskron",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Gh-1uugkO-7FUOTqlSh7kyak7pYp8Adz4IeDsFY=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("pedrokroth@mx2.unisc.br")
-        {
-            Name = "Pedro Kroth",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhvRt-KRX6wD-KHlYuDU22_On_Weu7MsvfkqjsE=s96-c",
-            CreatedAt = new DateTime(2022, 06, 22),
-        },
-        new Account("pmarinho85@gmail.com")
-        {
-            Name = "Paulo Jos\u00e9 Marinho Dias",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgLhk2eEUMK51gRMI-Zm2VFG0_PF7IPGJLZh0snew=s96-c",
-            CreatedAt = new DateTime(2022, 06, 23),
-        },
-        new Account("karolzinha_hmt_ibias@hotmail.com")
-        {
-            Name = "Ana Caroline Ibias",
-            Photo= "https://lh3.googleusercontent.com/a/AATXAJw_WQIgZKm-z2FjeP522u5E-c4Sg3tff_2zqmt3=s96-c",
-            CreatedAt = new DateTime(2022, 06, 23),
-        },
         new Account("rodrigoschieck.pro@gmail.com")
         {
             Name = "Rodrigo Schieck",
             Photo= "https://lh3.googleusercontent.com/a-/AOh14Gjikfm33H1HZqqwzSV10X1H1ZQGUuA5hqo15fY0Zw=s96-c",
             CreatedAt = new DateTime(2022, 06, 24),
-        },
-        new Account("grazielepintoribeiro@gmail.com")
-        {
-            Name = "Graziele Ribeiro",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14Ghs7ympBmcup2kObibBUkfohX-uFNi0YAHuQiZrOQ=s96-c",
-            CreatedAt = new DateTime(2022, 06, 24),
-        },
-        new Account("eliveltondrey296@gmail.com")
-        {
-            Name = "Crypto Tech",
-            Photo= "https://lh3.googleusercontent.com/a-/AOh14GgELyJQp7QJ2LaET5NmbRLefTT_O4rxEc0HjDNAaw=s96-c",
-            CreatedAt = new DateTime(2022, 06, 24),
         }
     };
-    //boraDatabase.AddRange(accounts);
+    boraDatabase.AddRange(accounts);
 
     var homeContents = new List<Content>
     {
@@ -513,12 +329,12 @@ static async void MigrateAndSeed(WebApplication app)
     foreach (var homeContent in homeContents)
     {
         homeContent.CreatedAt = DateTime.Now;
-        homeContent.AccountId = 1;//lucasfogliarini!?
+        homeContent.AccountId = 1;//lucasfogliarini
     }
 
-    //boraDatabase.AddRange(homeContents);
+    boraDatabase.AddRange(homeContents);
 
-    //await boraDatabase.SaveChangesAsync();
+    await boraDatabase.SaveChangesAsync();
 }
 
 static string? TryGetConnectionString(WebApplicationBuilder builder)
