@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Spotify.Tests.Integration": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SpotifyApiClientId": "8d853260f0b7480889c1d6e43bc83676",
+        "SpotifyApiClientSecret": "d1f91885402e4e7bbb6a3ef9c455e7b4"
+      }
+    }
+  }
+}
