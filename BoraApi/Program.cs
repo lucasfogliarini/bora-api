@@ -219,112 +219,16 @@ static async void MigrateAndSeed(WebApplication app)
         new Content
         {
             Collection = "home",
-            Key = "title",
-            Text = "Divagando"
+            Key = "boraLink",
+            Text = "/lucasfogliarini"
         },
-        new Content
-        {
-            Collection = "home",
-            Key = "subtitle",
-            Text = "no Camarote"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "bora",
-            Text = "Bora!"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "presentation",
-            Text = "Celebre momentos com amigos e familiares"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "presentationDescription",
-            Text = "Compartilhe seus melhores momentos com amigos e familiares enviando convites para: viagens, festas, risadas, almoços e jantares especiais."
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureGoogleAgendaTitle",
-            Text = "Integração com Google Agenda"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureGoogleAgendaDescription",
-            Text = "Crie um perfil e publique seus eventos do Google Agenda"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureBoraTitle",
-            Text = "Visualize quem são os convidados dos eventos e participe!"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureDomainTitle",
-            Text = "Domínio customizado"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureDomainDescription",
-            Text = "Adicione seu domínio customizado (minhapagina.com) e crie um perfil com foto, links de redes sociais e eventos do Google Agenda."
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureLocationTitle",
-            Text = "Localização"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureLocationDescription",
-            Text = "Veja a localização dos eventos e navegue pelo Google Maps"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureTicketTitle",
-            Text = "Ingresso"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureTicketDescription",
-            Text = "Acesse o ingresso do evento"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureShareTitle",
-            Text = "Compartilhe"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureShareDescription",
-            Text = "Compartilhe eventos por WhatsApp"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureMediaTitle",
-            Text = "Spotify"
-        },
-        new Content
-        {
-            Collection = "home",
-            Key = "featureMediaDescription",
-            Text = "Compartilhe uma música ou playlist do Spotify no seu evento"
-        }
-    };
+		new Content
+		{
+			Collection = "home",
+			Key = "boraText",
+			Text = "Bora!"
+		}
+	};
 
     foreach (var homeContent in homeContents)
     {
