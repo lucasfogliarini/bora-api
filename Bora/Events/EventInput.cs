@@ -11,6 +11,7 @@
         public bool? Public { get; set; }
         public bool AddConference { get; set; } = true;
         public GoogleCalendarColor? Color { get; set; }
+		public string CalendarId { get; set; } = "primary";
     }
 
 	public enum GoogleCalendarColor

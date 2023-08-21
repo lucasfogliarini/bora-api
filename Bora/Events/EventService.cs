@@ -64,7 +64,7 @@ namespace Bora.Events
             ValidateEvent(eventInput);
             await InitializeCalendarServiceAsync(user);
             var @event = ToGoogleEvent(eventInput);
-            var request = _calendarService.Events.Insert(@event, "primary");
+            var request = _calendarService.Events.Insert(@event, eventInput.CalendarId);
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
             await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
