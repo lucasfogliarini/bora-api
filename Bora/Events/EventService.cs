@@ -63,9 +63,7 @@ namespace Bora.Events
         {
             ValidateEvent(eventInput);
             await InitializeCalendarServiceAsync(user);
-            var @event = ToEvent(eventInput);
-            @event.Start ??= new EventDateTime() { DateTime = DateTime.Now.AddDays(1) };
-            @event.End ??= @event.Start;
+            var @event = ToGoogleEvent(eventInput);
             var request = _calendarService.Events.Insert(@event, "primary");
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
@@ -76,7 +74,7 @@ namespace Bora.Events
         {
             ValidateEvent(eventInput);
             await InitializeCalendarServiceAsync(user);
-            var @event = ToEvent(eventInput);
+            var @event = ToGoogleEvent(eventInput);
             var request = _calendarService.Events.Patch(@event, "primary", eventId);
             request.SendUpdates = SendUpdates(@event);
             var gEvent = await request.ExecuteAsync();
@@ -248,28 +246,34 @@ namespace Bora.Events
                 HttpClientInitializer = userCredential,
             });
         }
-        private static Event ToEvent(EventInput eventInput)
+        private static Event ToGoogleEvent(EventInput eventInput)
         {
             var @event = new Event
             {
                 Location = eventInput.Location,
                 Summary = eventInput.Title,
-                Description = eventInput.Description
+                Description = eventInput.Description,
+                
             };
+
+            if (eventInput.Color.HasValue)
+			{
+                @event.ColorId = ((int)eventInput.Color).ToString();
+			}
 
             if (eventInput.Public != null)
             {
                 @event.Visibility = eventInput.Public.Value ? "public" : "private";
             }
 
-            if (eventInput.Start.HasValue)
-            {
-                var eventStart = eventInput.Start.Value;
-                @event.Start = new EventDateTime { DateTime = eventStart };
-                @event.End = new EventDateTime { DateTime = eventStart.AddHours(1) };
-            }
+			eventInput.Start ??= DateTime.Now.AddDays(1);
+			var eventStart = eventInput.Start.Value;
+			eventInput.End ??= eventStart.AddHours(1);
 
-            if (eventInput.AddConference)
+			@event.Start = new EventDateTime { DateTimeDateTimeOffset = eventStart };
+			@event.End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End };
+
+			if (eventInput.AddConference)
             {
                 AddGoogleMeet(@event);
             }
