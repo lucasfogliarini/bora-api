@@ -1,21 +1,21 @@
-﻿using Bora.Database;
-using Bora.Database.Entities;
+﻿using Bora.Entities;
+using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Accounts
 {
-    public class AccountService : IAccountService
+	public class AccountService : IAccountService
     {
-        private readonly IBoraDatabase _boraDatabase;
+		private readonly IAzureTablesRepository _boraRepository;
 
-        public AccountService(IBoraDatabase boraDatabase)
+		public AccountService(IAzureTablesRepository boraRepository)
         {
-            _boraDatabase = boraDatabase;
+            _boraRepository = boraRepository;
         }
 
         public Account GetAccount(string email)
         {
-            var account = _boraDatabase.Query<Account>().FirstOrDefault(e => e.Email == email);
+            var account = _boraRepository.Where<Account>(e => e.Email == email).FirstOrDefault();
             if (account == null)
             {
                 throw new ValidationException("Usuário não existe.");
@@ -24,7 +24,7 @@ namespace Bora.Accounts
         }
         public Account GetAccountByUsername(string username)
         {
-            var account = _boraDatabase.Query<Account>().FirstOrDefault(e => e.Username == username);
+            var account = _boraRepository.FirstOrDefault<Account>(e => e.Username == username);
             if (account == null)
             {
                 throw new ValidationException("Usuário não existe.");
@@ -33,7 +33,7 @@ namespace Bora.Accounts
         }
         public async Task CreateOrUpdateAsync(AuthenticationInput authenticationInput)
         {
-            var account = _boraDatabase.Query<Account>().FirstOrDefault(e => e.Email == authenticationInput.Email);
+            var account = _boraRepository.FirstOrDefault<Account>(e => e.Email == authenticationInput.Email);
             if (account == null)
             {
                 account = new Account(authenticationInput.Email)
@@ -42,16 +42,16 @@ namespace Bora.Accounts
                     CreatedAt = DateTime.Now,
                     Photo = authenticationInput.PhotoUrl
                 };
-                _boraDatabase.Add(account);
+                _boraRepository.Add(account);
             }
             else
             {
                 //account.Name = authenticationInput.Name;
                 //account.Photo = authenticationInput.PhotoUrl;
                 account.UpdatedAt = DateTime.Now;//last login at
-                _boraDatabase.Update(account);
+                _boraRepository.Update(account);
             }
-            await _boraDatabase.CommitAsync();
+            await _boraRepository.CommitAsync();
         }
         public async Task UpdateAsync(string email, AccountInput accountInput)
         {
@@ -78,8 +78,8 @@ namespace Bora.Accounts
                 if (accountInput.IsPartner != null)
                     account.IsPartner = accountInput.IsPartner.Value;
 
-                _boraDatabase.Update(account);
-                await _boraDatabase.CommitAsync();
+                _boraRepository.Update(account);
+                await _boraRepository.CommitAsync();
 
                 await ValidateAndUpdateUsername(account, accountInput.Username);
             }
@@ -93,14 +93,14 @@ namespace Bora.Accounts
                 {
                     throw new ValidationException($"O usuário deve ter pelo menos 1 caractere.");
                 }
-                var userNameAlreadyTaken = _boraDatabase.Query<Account>().Any(e => e.Username == newUsername && e.Email != account.Email);
+                var userNameAlreadyTaken = _boraRepository.Where<Account>(e => e.Username == newUsername && e.Email != account.Email).Any();
                 if (userNameAlreadyTaken)
                 {
                     throw new ValidationException($"O usuário '{newUsername}' já está sendo usado.");
                 }
                 account.Username = newUsername;
-                _boraDatabase.Update(account);
-                await _boraDatabase.CommitAsync();
+                _boraRepository.Update(account);
+                await _boraRepository.CommitAsync();
             }
         }
     }

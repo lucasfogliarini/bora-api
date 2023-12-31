@@ -1,4 +1,4 @@
-﻿using Bora.Database.Entities;
+﻿using Bora.Entities;
 
 namespace Bora.Accounts
 {

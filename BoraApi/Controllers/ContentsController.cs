@@ -1,17 +1,17 @@
 ﻿using Bora.Contents;
-using Bora.Database;
-using Bora.Database.Entities;
+using Bora.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class ContentsController : ODataController<Content>
     {
         private readonly IContentService _contentService;
 
-        public ContentsController(IBoraDatabase boraDatabase, IContentService contentService) : base(boraDatabase)
+        public ContentsController(IAzureTablesRepository boraRepository, IContentService contentService) : base(boraRepository)
         {
             _contentService = contentService;
         }

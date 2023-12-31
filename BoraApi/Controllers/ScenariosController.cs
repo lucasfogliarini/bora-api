@@ -1,17 +1,17 @@
 ﻿using Bora.Scenarios;
-using Bora.Database;
-using Bora.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Bora.Entities;
+using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class ScenariosController : ODataController<Scenario>
     {
         private readonly IScenarioService _scenarioService;
 
-        public ScenariosController(IScenarioService scenarioService, IBoraDatabase boraDatabase) : base(boraDatabase)
+        public ScenariosController(IAzureTablesRepository boraRepository, IScenarioService scenarioService) : base(boraRepository)
         {
             _scenarioService = scenarioService;
         }

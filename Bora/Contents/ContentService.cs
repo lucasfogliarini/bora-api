@@ -1,26 +1,25 @@
 ﻿using Bora.Accounts;
-using Bora.Database;
-using Bora.Database.Entities;
+using Bora.Entities;
+using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Contents
 {
-    public class ContentService : IContentService
+	public class ContentService : IContentService
     {
-        private readonly IBoraDatabase _boraDatabase;
-        private readonly IAccountService _accountService;
+		private readonly IAzureTablesRepository _boraRepository;
+		private readonly IAccountService _accountService;
 
-        public ContentService(IBoraDatabase boraDatabase, IAccountService accountService)
+        public ContentService(IAzureTablesRepository boraRepository, IAccountService accountService)
         {
-            _boraDatabase = boraDatabase;
+            _boraRepository = boraRepository;
             _accountService = accountService;
         }
         public async Task UpdateAsync(string email, ContentInput contentInput)
         {
             _accountService.GetAccount(email);
 
-            var content = _boraDatabase.Query<Content>()
-                            .FirstOrDefault(e => e.Account.Email == email 
+            var content = _boraRepository.FirstOrDefault<Content>(e => e.Account.Email == email 
                             && e.Collection == contentInput.Collection 
                             && e.Key == contentInput.Key);
 
@@ -31,9 +30,9 @@ namespace Bora.Contents
 
             content.Text = contentInput.Text;
             content.UpdatedAt = DateTime.Now;
-            _boraDatabase.Update(content);
+            _boraRepository.Update(content);
 
-            await _boraDatabase.CommitAsync();
+            await _boraRepository.CommitAsync();
         }
     }
 }

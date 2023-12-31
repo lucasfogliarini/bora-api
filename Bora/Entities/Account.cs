@@ -1,20 +1,22 @@
-﻿using System.Net.Mail;
+﻿using Azure;
+using Azure.Data.Tables;
+using System.Net.Mail;
 
-namespace Bora.Database.Entities
+namespace Bora.Entities
 {
-    public class Account : IEntity
+    public class Account(string email) : IEntity, ITableEntity
     {
-        public Account(string email)
-        {
-            Username = new MailAddress(email).User;
-            Email = email;
-        }
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string? Accountability { get; set; }
+		public string RowKey { get; set; }
+		public DateTimeOffset? Timestamp { get; set; }
+		public ETag ETag { get; set; }
+		public string PartitionKey { get; set; }
+
+		public int Id { get; set; }
+		public string Username { get; set; } = new MailAddress(email).User;
+		public string? Accountability { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string? Photo { get; set; }
+		public string Email { get; set; } = email;
+		public string? Photo { get; set; }
         public string? WhatsApp { get; set; }
         public string? Instagram { get; set; }
         public string? Linkedin { get; set; }
@@ -29,6 +31,6 @@ namespace Bora.Database.Entities
         public string? CalendarAccessToken { get; set; }
         public string? CalendarRefreshAccessToken { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-    }
+        public DateTime? UpdatedAt { get; set; }		
+	}
 }

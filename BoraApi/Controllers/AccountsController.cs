@@ -1,9 +1,9 @@
 ﻿using Bora.Accounts;
-using Bora.Database;
-using Bora.Database.Entities;
+using Bora.Entities;
 using Google.Apis.Auth.AspNetCore3;
 using Google.Apis.Calendar.v3;
 using Microsoft.AspNetCore.Mvc;
+using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
@@ -14,9 +14,9 @@ namespace Bora.Api.Controllers
         private readonly IAccountService _accountService;
         private readonly IAccountDataStore _accountDataStore;
 
-        public AccountsController(IBoraDatabase boraDatabase,
+        public AccountsController(IAzureTablesRepository boraRepository,
                                   IAccountService accountService,
-                                  IAccountDataStore accountDataStore) : base(boraDatabase)
+                                  IAccountDataStore accountDataStore) : base(boraRepository)
         {
             _accountDataStore = accountDataStore;
             _accountService = accountService;

@@ -1,12 +1,12 @@
-﻿using Bora.Database.Entities;
+﻿using Bora.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Database.EntityConfigurations
 {
-    internal sealed class ScenarioCofiguration : IEntityTypeConfiguration<Scenario>
+    internal sealed class LocationCofiguration : IEntityTypeConfiguration<Location>
     {
-        public void Configure(EntityTypeBuilder<Scenario> builder)
+        public void Configure(EntityTypeBuilder<Location> builder)
         {
             builder.ConfigureEntity();
         }

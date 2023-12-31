@@ -1,8 +1,6 @@
-﻿using Bora.Database.Entities;
-
-namespace Bora.Scenarios
+﻿namespace Bora.Scenarios
 {
-    public interface IScenarioService
+	public interface IScenarioService
     {
         Task UpdateAsync(int scenarioId, ScenarioInput scenarioInput);
     }

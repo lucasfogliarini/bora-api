@@ -1,20 +1,20 @@
-﻿using Bora.Database;
-using Bora.Database.Entities;
+﻿using Bora.Entities;
+using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Scenarios
 {
-    public class ScenarioService : IScenarioService
+	public class ScenarioService : IScenarioService
     {
-        private readonly IBoraDatabase _boraDatabase;
+        private readonly IAzureTablesRepository _boraRepository;
 
-        public ScenarioService(IBoraDatabase boraDatabase)
+        public ScenarioService(IAzureTablesRepository boraRepository)
         {
-            _boraDatabase = boraDatabase;
+            _boraRepository = boraRepository;
         }
         public async Task UpdateAsync(int scenarioId, ScenarioInput scenarioInput)
         {
-            var scenario = _boraDatabase.Query<Scenario>().FirstOrDefault(e=>e.Id == scenarioId);
+            var scenario = _boraRepository.FirstOrDefault<Scenario>(e=>e.Id == scenarioId);
             if (scenario == null)
             {
                 throw new ValidationException("Não existe um cenário com esse id.");
@@ -27,8 +27,8 @@ namespace Bora.Scenarios
                 if (scenarioInput.Enabled.HasValue)
                     scenario.Enabled = scenarioInput.Enabled.Value;
 
-                _boraDatabase.Update(scenario);
-                await _boraDatabase.CommitAsync();
+                _boraRepository.Update(scenario);
+                await _boraRepository.CommitAsync();
             }
         }
     }

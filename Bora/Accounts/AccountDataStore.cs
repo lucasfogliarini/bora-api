@@ -1,25 +1,25 @@
-﻿using Bora.Database;
-using Bora.Events;
+﻿using Bora.Events;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
+using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace Bora.Accounts
 {
-    internal class AccountDataStore : IAccountDataStore
+	internal class AccountDataStore : IAccountDataStore
     {
-        private readonly IBoraDatabase _boraDatabase;
+        private readonly IAzureTablesRepository _boraRepository;
         private readonly IAccountService _accountService;
         private readonly GoogleCalendarConfiguration _googleCalendarConfiguration;
 
-        public AccountDataStore(IBoraDatabase boraDatabase,
+        public AccountDataStore(IAzureTablesRepository boraRepository,
                                 IAccountService accountService,
                                 GoogleCalendarConfiguration googleCalendarConfiguration)
         {
-            _boraDatabase = boraDatabase;
+            _boraRepository = boraRepository;
             _accountService = accountService;
             _googleCalendarConfiguration = googleCalendarConfiguration;
         }
@@ -44,8 +44,8 @@ namespace Bora.Accounts
             account.CalendarAccessToken = tokenResponse.AccessToken;
             account.CalendarRefreshAccessToken = tokenResponse.RefreshToken;
 
-            _boraDatabase.Update(account);
-            await _boraDatabase.CommitAsync();
+            _boraRepository.Update(account);
+            await _boraRepository.CommitAsync();
         }
         
         public async Task UnauthorizeCalendarAsync(string email)
@@ -55,8 +55,8 @@ namespace Bora.Accounts
             account.CalendarRefreshAccessToken = null;
             account.CalendarAuthorized = false;
 
-            _boraDatabase.Update(account);
-            await _boraDatabase.CommitAsync();
+            _boraRepository.Update(account);
+            await _boraRepository.CommitAsync();
         }
 
         public async Task<TTokenResponse> GetAsync<TTokenResponse>(string email)
@@ -104,8 +104,8 @@ namespace Bora.Accounts
             account.CalendarAccessToken = tokenResponse.AccessToken;
             account.CalendarRefreshAccessToken = tokenResponse.RefreshToken;
 
-            _boraDatabase.Update(account);
-            await _boraDatabase.CommitAsync();
+            _boraRepository.Update(account);
+            await _boraRepository.CommitAsync();
         }
     }
 

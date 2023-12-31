@@ -1,22 +1,22 @@
 ﻿using Bora.Accounts;
-using Bora.Database;
-using Bora.Database.Entities;
+using Bora.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class TokenController : BaseController
     {
-        private readonly IBoraDatabase _boraDatabase;
+        private readonly IAzureTablesRepository _boraRepository;
         private readonly IAccountService _accountService;
         private readonly Jwt _jwt;
 
-        public TokenController(IBoraDatabase boraDatabase, IAccountService accountService, IOptions<Jwt> jwt)
+        public TokenController(IAzureTablesRepository boraRepository, IAccountService accountService, IOptions<Jwt> jwt)
         {
-            _boraDatabase = boraDatabase;
+			_boraRepository = boraRepository;
             _accountService = accountService;
             _jwt = jwt.Value;
         }
@@ -41,8 +41,8 @@ namespace Bora.Api.Controllers
                 ExpiresAt = tokenDescriptor.Expires.GetValueOrDefault(),
                 Provider = authenticationInput.Provider
             };
-            _boraDatabase.Add(authentication);
-            await _boraDatabase.CommitAsync();
+			_boraRepository.Add(authentication);
+            await _boraRepository.CommitAsync();
             return authentication;
         }
     }

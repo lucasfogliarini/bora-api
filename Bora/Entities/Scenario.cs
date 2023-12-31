@@ -1,8 +1,16 @@
-﻿namespace Bora.Database.Entities
+﻿using Azure;
+using Azure.Data.Tables;
+
+namespace Bora.Entities
 {
-    public class Scenario : IEntity
-    {
-        public int Id { get; set; }
+    public class Scenario : IEntity, ITableEntity
+	{
+		public string RowKey { get; set; }
+		public DateTimeOffset? Timestamp { get; set; }
+		public ETag ETag { get; set; }
+		public string PartitionKey { get; set; }
+
+		public int Id { get; set; }
         public string Title { get; set; }
         public string? Location { get; set; }
 

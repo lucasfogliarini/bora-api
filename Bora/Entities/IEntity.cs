@@ -1,4 +1,4 @@
-﻿namespace Bora.Database.Entities
+﻿namespace Bora.Entities
 {
     public interface IEntity
     {

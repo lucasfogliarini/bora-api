@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoraApi", "BoraApi\BoraApi.csproj", "{63601E68-916F-4DFC-80DD-F038B0A37A5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoraApi", "BoraApi\BoraApi.csproj", "{63601E68-916F-4DFC-80DD-F038B0A37A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora.Tests.Unit", "Bora.Tests.Unit\Bora.Tests.Unit.csproj", "{7A4B8C7B-D657-4353-B2C5-C1E58A9B200F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bora.Tests.Unit", "Bora.Tests.Unit\Bora.Tests.Unit.csproj", "{7A4B8C7B-D657-4353-B2C5-C1E58A9B200F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora", "Bora\Bora.csproj", "{E3A5A068-DA66-4453-A2EB-007764DE3301}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bora", "Bora\Bora.csproj", "{E3A5A068-DA66-4453-A2EB-007764DE3301}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify", "Spotify\Spotify.csproj", "{43228134-FCCF-4E48-B754-D735EEAF5600}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.AzureTables", "Repository.AzureTables\Repository.AzureTables.csproj", "{F2FF51F8-7ADF-4B07-AF94-C10CE47C5B45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora.Repository.MSSQL", "Bora.Repository.MSSQL\Bora.Repository.MSSQL.csproj", "{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{43228134-FCCF-4E48-B754-D735EEAF5600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43228134-FCCF-4E48-B754-D735EEAF5600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43228134-FCCF-4E48-B754-D735EEAF5600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2FF51F8-7ADF-4B07-AF94-C10CE47C5B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2FF51F8-7ADF-4B07-AF94-C10CE47C5B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2FF51F8-7ADF-4B07-AF94-C10CE47C5B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2FF51F8-7ADF-4B07-AF94-C10CE47C5B45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
