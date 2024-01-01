@@ -2,7 +2,7 @@
 
 namespace Bora.Database
 {
-    public interface IBoraDatabase
+    public interface IDatabaseRepository
     {
         IQueryable<TEntity> Query<TEntity>(bool asNoTracking = true) where TEntity : class, IEntity;
         void Add<TEntity>(TEntity entity) where TEntity : class, IEntity;

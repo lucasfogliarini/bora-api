@@ -1,4 +1,5 @@
-﻿using Bora.Entities;
+﻿using Azure.Data.Tables;
+using Bora.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -8,7 +9,7 @@ using System.Security.Claims;
 
 namespace Bora.Api.Controllers
 {
-	public abstract class ODataController<TEntity> : ODataController where TEntity: class, IEntity
+	public abstract class ODataController<TEntity> : ODataController where TEntity: class, ITableEntity
     {
         protected readonly IAzureTablesRepository _boraRepository;
 
@@ -26,8 +27,7 @@ namespace Bora.Api.Controllers
         [EnableQuery]
         public IEnumerable<TEntity> Get()
         {
-            throw new NotImplementedException();
-            //return _boraRepository.Where<TEntity>();
+            return _boraRepository.Where<TEntity>();
         }
 
         public string AuthenticatedUserEmail

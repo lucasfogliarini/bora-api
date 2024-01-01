@@ -12,10 +12,12 @@ namespace Repository.AzureTables
 		protected List<EntityEntry> EntityEntries { get; set; } = [];
 		private readonly TableServiceClient _tableServiceClient = tableServiceClient;
 
-		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : class, ITableEntity
+		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : class, ITableEntity
 		{
 			var tableClient = GetTableClient<TEntity>();
-			string filter = new ExpressionTranslator().Translate(where.Body);
+			string? filter = null;
+			if(where != null) 
+				filter = new ExpressionTranslator().Translate(where.Body);
 			Pageable<TEntity> entityPageable = tableClient.Query<TEntity>(filter: filter);
 			return entityPageable.ToList().AsQueryable();
 		}

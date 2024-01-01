@@ -23,7 +23,7 @@ var applicationBuilder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var app = AddServices(applicationBuilder).Build();
 
-MigrateAndSeed(app);
+Seed(app);
 
 Run(app);
 
@@ -151,11 +151,70 @@ static void AddGoogleCalendar(WebApplicationBuilder builder)
         });
 }
 
-static async void MigrateAndSeed(WebApplication app)
+static void Seed(WebApplication app)
 {
-    //using var scope = app.Services.CreateScope();
-	//var boraDbContext = scope.ServiceProvider.GetService<BoraDbContext>();
-	//Bora.Repository.MSSQL.Seed.MigrateAndSeed(boraDbContext);
+	var accounts = new List<Account>
+	{
+		new("lucasfogliarini@gmail.com")
+		{
+			Name = "Lucas Fogliarini",
+			Photo = "https://lh3.googleusercontent.com/a-/AOh14Ggingx4m5A-dFGLwEJv-acJ-KEDtApHCAO0NxfUig=s96-c",
+			WhatsApp = "51992364249",
+			Instagram = "lucasfogliarini",
+			Spotify = "12145833562",
+			CreatedAt = new DateTime(2022, 04, 01),
+		},
+		new("luanaleticiabueno@gmail.com")
+		{
+			Name = "Luana Bueno",
+			WhatsApp = "5193840006",
+			Instagram = "luanabuenoflores",
+			Spotify = "224juavirzfsjsxt5yva6fvly",
+			Photo= "https://lh3.googleusercontent.com/a-/AOh14GhWN-zhlu_93Me88oT9v8554pdaJQdNYKpUp-i__c0=s340-p-k-rw-no",
+			CreatedAt = new DateTime(2022, 04, 01),
+		},
+		new("gui_staub@hotmail.com")
+		{
+			Name = "Guilherme Staub",
+			Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi14cQFSeyn5q6u3ZB_derhI7yIcA9dgX27OkBl=s96-c",
+			CreatedAt = new DateTime(2022, 04, 30),
+		},
+		new("varreira.adv@gmail.com")
+		{
+			Name = "Anderson Varreira",
+			Photo= "https://lh3.googleusercontent.com/a/AATXAJw-6J_C5vAh-d9Gp3ssN_ziJrOkzp6HMWXE6Ubm=s96-c",
+			CreatedAt = new DateTime(2022, 05, 03),
+		},
+		new("lucasbuenomagalhaes@gmail.com")
+		{
+			Name = "Lucas Bueno",
+			Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggfyxso7uuqWxLMqvI3JTDOcKDRKkOgsz0oOwLWPw=s96-c",
+			CreatedAt = new DateTime(2022, 05, 08),
+		}
+	};
+    app.Services.Seed(accounts);
+
+	//var homeContents = new List<Content>
+	//{
+	//	new() {
+	//		Collection = "home",
+	//		Key = "boraLink",
+	//		Text = "/lucasfogliarini"
+	//	},
+	//	new() {
+	//		Collection = "home",
+	//		Key = "boraText",
+	//		Text = "Bora!"
+	//	}
+	//};
+
+	//foreach (var homeContent in homeContents)
+	//{
+	//	homeContent.CreatedAt = DateTime.Now;
+	//	homeContent.AccountId = 1;//lucasfogliarini
+	//}
+
+	//app.Services.Seed(homeContents);
 }
 
 static string? TryGetConnectionString(WebApplicationBuilder builder)

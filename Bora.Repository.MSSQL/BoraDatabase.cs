@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Database
 {
-    internal class BoraDatabase : IBoraDatabase
+    internal class BoraDatabase : IDatabaseRepository
     {
         readonly DbContext _dbContext;
         public BoraDatabase(BoraDbContext dbContext)
