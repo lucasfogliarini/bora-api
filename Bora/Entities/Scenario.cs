@@ -1,16 +1,7 @@
-﻿using Azure;
-using Azure.Data.Tables;
-
-namespace Bora.Entities
+﻿namespace Bora.Entities
 {
-    public class Scenario : IEntity, ITableEntity
+	public class Scenario : Entity
 	{
-		public string RowKey { get; set; }
-		public DateTimeOffset? Timestamp { get; set; }
-		public ETag ETag { get; set; }
-		public string PartitionKey { get; set; }
-
-		public int Id { get; set; }
         public string Title { get; set; }
         public string? Location { get; set; }
 
@@ -20,7 +11,5 @@ namespace Bora.Entities
         public bool Enabled { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
     }
 }

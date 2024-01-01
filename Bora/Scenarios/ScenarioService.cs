@@ -21,7 +21,6 @@ namespace Bora.Scenarios
             }
             else
             {
-                scenario.UpdatedAt = DateTime.Now;
                 if (scenarioInput.Title != null)
                     scenario.Title = scenarioInput.Title!;
                 if (scenarioInput.Enabled.HasValue)

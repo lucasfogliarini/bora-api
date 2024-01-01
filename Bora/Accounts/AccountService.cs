@@ -48,7 +48,6 @@ namespace Bora.Accounts
             {
                 //account.Name = authenticationInput.Name;
                 //account.Photo = authenticationInput.PhotoUrl;
-                account.UpdatedAt = DateTime.Now;//last login at
                 _boraRepository.Update(account);
             }
             await _boraRepository.CommitAsync();
@@ -58,7 +57,6 @@ namespace Bora.Accounts
             var account = GetAccount(email);
             if (account != null)
             {
-                account.UpdatedAt = DateTime.Now;
                 if (accountInput.Accountability != null)
                     account.Accountability = accountInput.Accountability;
                 if (accountInput.Name != null)

@@ -29,7 +29,6 @@ namespace Bora.Contents
             }
 
             content.Text = contentInput.Text;
-            content.UpdatedAt = DateTime.Now;
             _boraRepository.Update(content);
 
             await _boraRepository.CommitAsync();
