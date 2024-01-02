@@ -153,43 +153,38 @@ static void AddGoogleCalendar(WebApplicationBuilder builder)
 
 static void Seed(WebApplication app)
 {
-	var accounts = new List<Account>
-	{
-		new("lucasfogliarini@gmail.com")
+    var accounts = new List<Account>
+    {
+        new("lucasfogliarini@gmail.com", 1, new DateTime(2024, 01, 01, 23, 47, 1))
+        {
+            Name = "Lucas Fogliarini Pedroso",
+            Photo = "https://lh3.googleusercontent.com/a-/AOh14Ggingx4m5A-dFGLwEJv-acJ-KEDtApHCAO0NxfUig=s96-c",
+            WhatsApp = "51992364249",
+            Instagram = "lucasfogliarini",
+            Spotify = "12145833562",
+        },
+        new("luanaleticiabueno@gmail.com", 2, new DateTime(2024, 01, 01, 23, 47, 2))
 		{
-			Name = "Lucas Fogliarini",
-			Photo = "https://lh3.googleusercontent.com/a-/AOh14Ggingx4m5A-dFGLwEJv-acJ-KEDtApHCAO0NxfUig=s96-c",
-			WhatsApp = "51992364249",
-			Instagram = "lucasfogliarini",
-			Spotify = "12145833562",
-			CreatedAt = new DateTime(2022, 04, 01),
+            Name = "Luana Bueno",
+            WhatsApp = "5193840006",
+            Instagram = "luanabuenoflores",
+            Spotify = "224juavirzfsjsxt5yva6fvly",
+            Photo= "https://lh3.googleusercontent.com/a-/AOh14GhWN-zhlu_93Me88oT9v8554pdaJQdNYKpUp-i__c0=s340-p-k-rw-no",
 		},
-		new("luanaleticiabueno@gmail.com")
+        new("gui_staub@hotmail.com", 3, new DateTime(2024, 01, 01, 23, 47, 3))
 		{
-			Name = "Luana Bueno",
-			WhatsApp = "5193840006",
-			Instagram = "luanabuenoflores",
-			Spotify = "224juavirzfsjsxt5yva6fvly",
-			Photo= "https://lh3.googleusercontent.com/a-/AOh14GhWN-zhlu_93Me88oT9v8554pdaJQdNYKpUp-i__c0=s340-p-k-rw-no",
-			CreatedAt = new DateTime(2022, 04, 01),
+            Name = "Guilherme Staub",
+            Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi14cQFSeyn5q6u3ZB_derhI7yIcA9dgX27OkBl=s96-c",
 		},
-		new("gui_staub@hotmail.com")
-		{
-			Name = "Guilherme Staub",
-			Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi14cQFSeyn5q6u3ZB_derhI7yIcA9dgX27OkBl=s96-c",
-			CreatedAt = new DateTime(2022, 04, 30),
+        new("varreira.adv@gmail.com", 4, new DateTime(2024, 01, 01, 23, 47, 4))
+        {
+            Name = "Anderson Varreira",
+            Photo= "https://lh3.googleusercontent.com/a/AATXAJw-6J_C5vAh-d9Gp3ssN_ziJrOkzp6HMWXE6Ubm=s96-c",
 		},
-		new("varreira.adv@gmail.com")
-		{
-			Name = "Anderson Varreira",
-			Photo= "https://lh3.googleusercontent.com/a/AATXAJw-6J_C5vAh-d9Gp3ssN_ziJrOkzp6HMWXE6Ubm=s96-c",
-			CreatedAt = new DateTime(2022, 05, 03),
-		},
-		new("lucasbuenomagalhaes@gmail.com")
+        new("lucasbuenomagalhaes@gmail.com", 5, new DateTime(2024, 01, 01, 23, 47, 5))
 		{
 			Name = "Lucas Bueno",
 			Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggfyxso7uuqWxLMqvI3JTDOcKDRKkOgsz0oOwLWPw=s96-c",
-			CreatedAt = new DateTime(2022, 05, 08),
 		}
 	};
     app.Services.Seed(accounts);

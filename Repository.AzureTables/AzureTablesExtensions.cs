@@ -18,11 +18,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			serviceCollection.AddScoped<IAzureTablesRepository, AzureTablesRepository>();
 		}
 
-		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : class, ITableEntity
+		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : Entity
 		{
 			using var scope = serviceProvider.CreateScope();
 			var azureTablesRepository = scope.ServiceProvider.GetService<IAzureTablesRepository>();
-			azureTablesRepository!.AddRange(entities);
+			azureTablesRepository!.UpdateRange(entities);
 
 			await azureTablesRepository.CommitAsync();
 		}

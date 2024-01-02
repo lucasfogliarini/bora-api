@@ -12,33 +12,40 @@ namespace Repository.AzureTables
 		protected List<EntityEntry> EntityEntries { get; set; } = [];
 		private readonly TableServiceClient _tableServiceClient = tableServiceClient;
 
-		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : class, ITableEntity
+		public async Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity
 		{
 			var tableClient = GetTableClient<TEntity>();
-			string? filter = null;
-			if(where != null) 
-				filter = new ExpressionTranslator().Translate(where.Body);
-			Pageable<TEntity> entityPageable = tableClient.Query<TEntity>(filter: filter);
-			return entityPageable.ToList().AsQueryable();
+			List<TEntity> entities = [];
+			await foreach (var entity in tableClient.QueryAsync(where))
+            {
+				entities.Add(entity);
+			}
+			return entities.AsQueryable();
 		}
-		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : class, ITableEntity
+		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity
+		{
+			var tableClient = GetTableClient<TEntity>();
+			var filteredEntities = tableClient.Query(where).ToList();
+			return filteredEntities.AsQueryable();
+		}
+		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
 		{
 			return Where(where).FirstOrDefault();
 		}
-		public void Add<TEntity>(TEntity entity) where TEntity : class, ITableEntity
+		public void Add<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			entity.PartitionKey = PARTITION_KEY;
-			entity.RowKey = Guid.NewGuid().ToString();
 			var entityEntry = new EntityEntry(entity, EntityState.Added);
 			EntityEntries.Add(entityEntry);
 		}
-		public void Update<TEntity>(TEntity entity) where TEntity : class, ITableEntity
+		public void Update<TEntity>(TEntity entity) where TEntity : Entity
 		{
+			entity.PartitionKey = PARTITION_KEY;
 			var entityState = entity.ETag == default ? EntityState.Upsert : EntityState.Update;
 			var entityEntry = new EntityEntry(entity, entityState);
 			EntityEntries.Add(entityEntry);
 		}
-		public void Remove<TEntity>(TEntity entity) where TEntity : class, ITableEntity
+		public void Remove<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			var entityEntry = new EntityEntry(entity, EntityState.Deleted);
 			EntityEntries.Add(entityEntry);
@@ -49,9 +56,15 @@ namespace Repository.AzureTables
 			foreach (var entityEntries in entityEntriesByTable)
 			{
 				var tableClient = _tableServiceClient.GetTableClient(entityEntries.Key);
-				foreach (EntityEntry entityEntry in EntityEntries.Where(e=>e.EntityState == EntityState.Added))
+				var addeds = EntityEntries.Where(e => e.EntityState == EntityState.Added);
+				if (addeds.Any())
 				{
-					await tableClient.AddEntityAsync(entityEntry.TableEntity);
+					var lastId = tableClient.Query<Entity>().OrderByDescending(e=>e.Id).FirstOrDefault()?.Id;
+					foreach (EntityEntry entityEntry in addeds)
+					{
+						lastId = entityEntry.TableEntity.IncrementId(lastId);
+						await tableClient.AddEntityAsync(entityEntry.TableEntity);
+					}
 				}
 				foreach (EntityEntry entityEntry in EntityEntries.Where(e => e.EntityState == EntityState.Deleted))
 				{
@@ -63,7 +76,7 @@ namespace Repository.AzureTables
 				}
 				foreach (EntityEntry entityEntry in EntityEntries.Where(e => e.EntityState == EntityState.Upsert))
 				{
-					await tableClient.UpsertEntityAsync(entityEntry.TableEntity, TableUpdateMode.Replace);
+					await tableClient.UpsertEntityAsync(entityEntry.TableEntity, TableUpdateMode.Merge);
 				}
 			}
 
@@ -71,11 +84,11 @@ namespace Repository.AzureTables
 			EntityEntries.Clear();
 			return count;
 		}
-		public void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class, ITableEntity
+		public void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity
 		{
 			foreach (var entity in entities)
 			{
-				Add(entity);
+				Update(entity);
 			}
 		}
 		private TableClient GetTableClient<TEntity>() where TEntity : class

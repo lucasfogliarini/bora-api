@@ -37,7 +37,7 @@ namespace Bora.Events
 
             var eventItems = events.Items.AsEnumerable();
             var account = _accountService.GetAccountByUsername(user);
-            if (account.OnlySelfOrganizer)
+            if (account.OnlySelfOrganizer.GetValueOrDefault())
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
             var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
             return eventsOutput;
@@ -175,7 +175,7 @@ namespace Bora.Events
                     Instagram = e.Instagram,
                     WhatsApp = e.WhatsApp,
                     Spotify = e.Spotify,
-                    IsPartner = e.IsPartner && e.CalendarAuthorized
+                    IsPartner = e.IsPartner.GetValueOrDefault() && e.CalendarAuthorized.GetValueOrDefault()
                 }).ToList();
                 var attendeesWithComment = @event.Attendees.Where(e => e.Comment != null);
                 foreach (var attendee in attendeesWithComment)

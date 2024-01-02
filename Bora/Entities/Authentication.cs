@@ -1,4 +1,6 @@
-﻿namespace Bora.Entities
+﻿using Repository.AzureTables;
+
+namespace Bora.Entities
 {
 	public class Authentication : Entity
 	{

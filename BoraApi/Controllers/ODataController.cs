@@ -1,6 +1,4 @@
-﻿using Azure.Data.Tables;
-using Bora.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Repository.AzureTables;
@@ -9,7 +7,7 @@ using System.Security.Claims;
 
 namespace Bora.Api.Controllers
 {
-	public abstract class ODataController<TEntity> : ODataController where TEntity: class, ITableEntity
+	public abstract class ODataController<TEntity> : ODataController where TEntity: Entity
     {
         protected readonly IAzureTablesRepository _boraRepository;
 

@@ -1,10 +1,8 @@
-﻿using Azure.Data.Tables;
-
-namespace Repository.AzureTables
+﻿namespace Repository.AzureTables
 {
-	public class EntityEntry(ITableEntity tableEntity, EntityState entityState)
+	public class EntityEntry(Entity tableEntity, EntityState entityState)
 	{
-		public ITableEntity TableEntity { get; set; } = tableEntity;
+		public Entity TableEntity { get; set; } = tableEntity;
 		public EntityState EntityState { get; set; } = entityState;
 	}
 
