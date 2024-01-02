@@ -4,8 +4,9 @@ namespace Repository.AzureTables
 {
 	public interface IAzureTablesRepository
 	{
-		Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity;
-		IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity;
+		Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity;
+		IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where) where TEntity : Entity;
+		IQueryable<TEntity> All<TEntity>() where TEntity : Entity;
 		TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity;
 		void Add<TEntity>(TEntity entity) where TEntity : Entity;
 		void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity;

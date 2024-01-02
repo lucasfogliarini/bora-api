@@ -12,7 +12,7 @@ namespace Repository.AzureTables
 		protected List<EntityEntry> EntityEntries { get; set; } = [];
 		private readonly TableServiceClient _tableServiceClient = tableServiceClient;
 
-		public async Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity
+		public async Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
 		{
 			var tableClient = GetTableClient<TEntity>();
 			List<TEntity> entities = [];
@@ -26,6 +26,12 @@ namespace Repository.AzureTables
 		{
 			var tableClient = GetTableClient<TEntity>();
 			var filteredEntities = tableClient.Query(where).ToList();
+			return filteredEntities.AsQueryable();
+		}
+		public IQueryable<TEntity> All<TEntity>() where TEntity : Entity
+		{
+			var tableClient = GetTableClient<TEntity>();
+			var filteredEntities = tableClient.Query<TEntity>(filter: string.Empty).ToList();
 			return filteredEntities.AsQueryable();
 		}
 		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity

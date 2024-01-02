@@ -164,8 +164,8 @@ namespace Bora.Events
         {
             if (@event.Attendees != null)
             {
-                var attendeeAccounts = _boraRepository.Where<Account>(e => @event.Attendees.Select(e => e.Email)
-                                        .Contains(e.Email));
+                var emails = @event.Attendees.Select(e => e.Email);
+				var attendeeAccounts = _boraRepository.All<Account>().Where(e => emails.Contains(e.Email));
                 var attendeeOutputs = attendeeAccounts.Select(e => new AttendeeOutput
                 {
                     Email = e.Email,
@@ -295,8 +295,9 @@ namespace Bora.Events
         }
         private EventOutput ToEventOutput(Event @event, EventsCountOutput? eventsCountOutput = null)
         {
-            var attendeeOutputs = GetAttendees(@event);
-            if(attendeeOutputs != null)
+            //bad performance with azure tables
+            IEnumerable<AttendeeOutput> attendeeOutputs = null;// GetAttendees(@event);
+            if (attendeeOutputs != null)
             {
                 OrderAttendeesByProximityRate(attendeeOutputs, eventsCountOutput);
 

@@ -25,7 +25,7 @@ namespace Bora.Api.Controllers
         [EnableQuery]
         public IEnumerable<TEntity> Get()
         {
-            return _boraRepository.Where<TEntity>();
+            return _boraRepository.All<TEntity>();
         }
 
         public string AuthenticatedUserEmail
