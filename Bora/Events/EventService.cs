@@ -1,6 +1,7 @@
 ﻿using Bora.Accounts;
 using Bora.Entities;
 using Google.Apis.Calendar.v3;
+using Google.Apis.Tasks.v1;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Repository.AzureTables;
@@ -13,6 +14,7 @@ namespace Bora.Events
     public class EventService : IEventService
     {
         CalendarService _calendarService;
+        TasksService _tasksService;
 		private readonly IAzureTablesRepository _boraRepository;
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
@@ -68,7 +70,17 @@ namespace Bora.Events
             var request = _calendarService.Events.Insert(@event, eventInput.CalendarId);
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
-            await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
+			if (eventInput.CreateReminderTask)
+			{
+				var taskList = "MDExMTAxNTQ4OTU1MzE4NzMxMDI6MDow";//Tarefas
+				var reminderTask = new Google.Apis.Tasks.v1.Data.Task
+				{
+					Due = DateTime.Now.ToString("O"),
+					Title = $"{eventInput.Title} - {eventInput.Start.Value.ToShortDateString()}"
+				};
+				await _tasksService.Tasks.Insert(reminderTask, taskList).ExecuteAsync();
+			}
+			await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
             return ToEventOutput(gEvent);
         }
         public async Task<EventOutput> UpdateAsync(string user, string eventId, EventInput eventInput)
@@ -245,7 +257,12 @@ namespace Bora.Events
             {
                 HttpClientInitializer = userCredential,
             });
-        }
+
+			_tasksService = new TasksService(new BaseClientService.Initializer()
+			{
+				HttpClientInitializer = userCredential
+			});
+		}
         private static Event ToGoogleEvent(EventInput eventInput)
         {
             var @event = new Event
