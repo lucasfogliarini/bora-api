@@ -100,13 +100,18 @@ namespace Bora.Accounts
         private async Task RefreshCalendarAsync(string email, TokenResponse tokenResponse)
         {
             var account = _accountService.GetAccount(email);
-            account.CalendarAuthorized = true;
-            account.CalendarAccessToken = tokenResponse.AccessToken;
-            account.CalendarRefreshAccessToken = tokenResponse.RefreshToken;
+            if (account.UpdatedAt != null && account.UpdatedAt.Value.Date == DateTime.Today)
+            {
+                //avoid conccurrency
+                return;
+			}
+			account.CalendarAuthorized = true;
+			account.CalendarAccessToken = tokenResponse.AccessToken;
+			account.CalendarRefreshAccessToken = tokenResponse.RefreshToken;
 
-            _boraRepository.Update(account);
-            await _boraRepository.CommitAsync();
-        }
+			_boraRepository.Update(account);
+			await _boraRepository.CommitAsync();
+		}
     }
 
     public interface IAccountDataStore : IDataStore
