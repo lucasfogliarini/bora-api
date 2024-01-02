@@ -27,9 +27,10 @@ namespace Bora.Events
         public async Task<IEnumerable<EventOutput>> EventsAsync(string user, EventsFilterInput eventsFilter)
         {
             await InitializeCalendarServiceAsync(user);
-            var request = _calendarService.Events.List("primary");
-            request.TimeMin = eventsFilter.TimeMin ?? DateTime.Now;
-            request.TimeMax = eventsFilter.TimeMax ?? DateTime.Now.AddMonths(6);
+            var request = _calendarService.Events.List(eventsFilter.CalendarId);
+            request.TimeMinDateTimeOffset = eventsFilter.TimeMin ?? DateTime.Now;
+            request.TimeMaxDateTimeOffset = eventsFilter.TimeMax ?? DateTime.Now.AddMonths(6);
+            request.Q = eventsFilter.Query;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
             var eventsCount = eventsFilter.FavoritesCount ? await EventsCountAsync(user) : null;
@@ -42,7 +43,7 @@ namespace Bora.Events
             var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
             return eventsOutput;
         }
-        public async Task<EventsCountOutput> EventsCountAsync(string user)
+		public async Task<EventsCountOutput> EventsCountAsync(string user)
         {
             await InitializeCalendarServiceAsync(user);
             var request = _calendarService.Events.List("primary");
