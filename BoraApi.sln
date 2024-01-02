@@ -15,6 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.AzureTables", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora.Repository.MSSQL", "Bora.Repository.MSSQL\Bora.Repository.MSSQL.csproj", "{FC7B71BA-1AEC-4D1D-BFF2-C132F8E30B69}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2FA9FAF1-5F0E-4ECF-8AF4-044A515F78C9}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main_bora.yml = .github\workflows\main_bora.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
