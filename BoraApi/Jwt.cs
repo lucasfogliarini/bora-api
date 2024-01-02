@@ -43,11 +43,11 @@ namespace Bora.Api
                 //more info in https://balta.io/artigos/aspnet-5-autenticacao-autorizacao-bearer-jwt#autorizando
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Name, name)
+                    new(ClaimTypes.Email, email),
+                    new(ClaimTypes.Name, name)
                 }),
                 Expires = DateTime.UtcNow.AddMonths(6),
-                SigningCredentials = new SigningCredentials(GetSymmetricSecurityKey(SecurityKey), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(GetSymmetricSecurityKey(SecurityKey!), SecurityAlgorithms.HmacSha256Signature)
             };
 
             return tokenDescriptor;

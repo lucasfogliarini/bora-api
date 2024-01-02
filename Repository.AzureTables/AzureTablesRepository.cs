@@ -62,6 +62,7 @@ namespace Repository.AzureTables
 			foreach (var entityEntries in entityEntriesByTable)
 			{
 				var tableClient = _tableServiceClient.GetTableClient(entityEntries.Key);
+				await tableClient.CreateIfNotExistsAsync();
 				var addeds = EntityEntries.Where(e => e.EntityState == EntityState.Added);
 				if (addeds.Any())
 				{
