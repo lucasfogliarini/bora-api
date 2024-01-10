@@ -2,7 +2,7 @@
 
 namespace Repository.AzureTables
 {
-	public interface IAzureTablesRepository
+	public interface IRepository
 	{
 		Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity;
 		IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where) where TEntity : Entity;
@@ -14,6 +14,4 @@ namespace Repository.AzureTables
 		void Remove<TEntity>(TEntity entity) where TEntity : Entity;
 		Task<int> CommitAsync();
 	}
-
-	
 }

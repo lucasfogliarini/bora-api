@@ -7,10 +7,10 @@ namespace Bora.Contents
 {
 	public class ContentService : IContentService
     {
-		private readonly IAzureTablesRepository _boraRepository;
+		private readonly IRepository _boraRepository;
 		private readonly IAccountService _accountService;
 
-        public ContentService(IAzureTablesRepository boraRepository, IAccountService accountService)
+        public ContentService(IRepository boraRepository, IAccountService accountService)
         {
             _boraRepository = boraRepository;
             _accountService = accountService;

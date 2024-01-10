@@ -6,9 +6,9 @@ namespace Bora.Accounts
 {
 	public class AccountService : IAccountService
     {
-		private readonly IAzureTablesRepository _boraRepository;
+		private readonly IRepository _boraRepository;
 
-		public AccountService(IAzureTablesRepository boraRepository)
+		public AccountService(IRepository boraRepository)
         {
             _boraRepository = boraRepository;
         }

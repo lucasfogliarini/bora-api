@@ -1,9 +1,9 @@
-﻿using Bora.Entities;
+﻿using Bora.Repository;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Microsoft.EntityFrameworkCore
 {
-    public static class EntityConfigurationExtensions
+	public static class EntityConfigurationExtensions
     {
         public static PropertyBuilder<TProperty> PricePrecision<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
         {
@@ -15,7 +15,7 @@ namespace Microsoft.EntityFrameworkCore
             return propertyBuilder.HasPrecision(5, 4);
         }
 
-        public static void ConfigureEntity<TEntity>(this EntityTypeBuilder<TEntity> builder) where TEntity : class, IEntity
+        public static void ConfigureEntity<TEntity>(this EntityTypeBuilder<TEntity> builder) where TEntity : Entity
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.CreatedAt).IsRequired();

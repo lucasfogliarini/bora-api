@@ -1,10 +1,9 @@
-﻿using Bora.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Database.EntityConfigurations
 {
-    internal sealed class AccountCofiguration : IEntityTypeConfiguration<Account>
+	internal sealed class AccountCofiguration : IEntityTypeConfiguration<Account>
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {

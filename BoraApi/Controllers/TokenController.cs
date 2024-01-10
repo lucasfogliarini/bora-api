@@ -10,11 +10,11 @@ namespace Bora.Api.Controllers
     [Route("[controller]")]
     public class TokenController : BaseController
     {
-        private readonly IAzureTablesRepository _boraRepository;
+        private readonly IRepository _boraRepository;
         private readonly IAccountService _accountService;
         private readonly Jwt _jwt;
 
-        public TokenController(IAzureTablesRepository boraRepository, IAccountService accountService, IOptions<Jwt> jwt)
+        public TokenController(IRepository boraRepository, IAccountService accountService, IOptions<Jwt> jwt)
         {
 			_boraRepository = boraRepository;
             _accountService = accountService;

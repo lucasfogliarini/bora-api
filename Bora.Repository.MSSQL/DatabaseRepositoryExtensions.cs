@@ -1,8 +1,6 @@
-﻿using Azure.Data.Tables;
-using Bora.Database;
-using Bora.Entities;
+﻿using Bora.Database;
+using Bora.Repository;
 using Microsoft.EntityFrameworkCore;
-using Repository.AzureTables;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -18,11 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			}
 		}
 
-		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : class, IEntity
+		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : Entity
 		{
 			using var scope = serviceProvider.CreateScope();
-			var databaseRepository = scope.ServiceProvider.GetService<IDatabaseRepository>();
-			databaseRepository!.AddRange(entities);
+			var databaseRepository = scope.ServiceProvider.GetService<IRepository>();
+			databaseRepository!.UpdateRange(entities);
 
 			await databaseRepository.CommitAsync();
 		}

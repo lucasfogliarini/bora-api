@@ -11,11 +11,11 @@ namespace Bora.Accounts
 {
 	internal class AccountDataStore : IAccountDataStore
     {
-        private readonly IAzureTablesRepository _boraRepository;
+        private readonly IRepository _boraRepository;
         private readonly IAccountService _accountService;
         private readonly GoogleCalendarConfiguration _googleCalendarConfiguration;
 
-        public AccountDataStore(IAzureTablesRepository boraRepository,
+        public AccountDataStore(IRepository boraRepository,
                                 IAccountService accountService,
                                 GoogleCalendarConfiguration googleCalendarConfiguration)
         {

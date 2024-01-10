@@ -15,11 +15,11 @@ namespace Bora.Events
     {
         CalendarService _calendarService;
         TasksService _tasksService;
-		private readonly IAzureTablesRepository _boraRepository;
+		private readonly IRepository _boraRepository;
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
 
-        public EventService(IAzureTablesRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
+        public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
             _boraRepository = boraRepository;
             _accountDataStore = accountDataStore;

@@ -9,9 +9,9 @@ namespace Bora.Api.Controllers
 {
 	public abstract class ODataController<TEntity> : ODataController where TEntity: Entity
     {
-        protected readonly IAzureTablesRepository _boraRepository;
+        protected readonly IRepository _boraRepository;
 
-        public ODataController(IAzureTablesRepository boraRepository)
+        public ODataController(IRepository boraRepository)
         {
             _boraRepository = boraRepository;
         }

@@ -8,7 +8,7 @@ namespace Bora.Api.Controllers
     [Route("[controller]")]
     public class LocationsController : ODataController<Location>
     {
-        public LocationsController(IAzureTablesRepository boraRepository) : base(boraRepository)
+        public LocationsController(IRepository boraRepository) : base(boraRepository)
         {
         }
     }

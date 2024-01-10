@@ -15,13 +15,13 @@ namespace Microsoft.Extensions.DependencyInjection
 			var tableServiceClient = new TableServiceClient(storageConnectionString);
 			Console.WriteLine("Adding AzureTablesRepository ...");
 			serviceCollection.AddSingleton(tableServiceClient);
-			serviceCollection.AddScoped<IAzureTablesRepository, AzureTablesRepository>();
+			serviceCollection.AddScoped<IRepository, AzureTablesRepository>();
 		}
 
 		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : Entity
 		{
 			using var scope = serviceProvider.CreateScope();
-			var azureTablesRepository = scope.ServiceProvider.GetService<IAzureTablesRepository>();
+			var azureTablesRepository = scope.ServiceProvider.GetService<IRepository>();
 			azureTablesRepository!.UpdateRange(entities);
 
 			await azureTablesRepository.CommitAsync();

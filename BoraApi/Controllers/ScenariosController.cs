@@ -11,7 +11,7 @@ namespace Bora.Api.Controllers
     {
         private readonly IScenarioService _scenarioService;
 
-        public ScenariosController(IAzureTablesRepository boraRepository, IScenarioService scenarioService) : base(boraRepository)
+        public ScenariosController(IRepository boraRepository, IScenarioService scenarioService) : base(boraRepository)
         {
             _scenarioService = scenarioService;
         }

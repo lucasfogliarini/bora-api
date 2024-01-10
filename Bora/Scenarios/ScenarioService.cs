@@ -6,9 +6,9 @@ namespace Bora.Scenarios
 {
 	public class ScenarioService : IScenarioService
     {
-        private readonly IAzureTablesRepository _boraRepository;
+        private readonly IRepository _boraRepository;
 
-        public ScenarioService(IAzureTablesRepository boraRepository)
+        public ScenarioService(IRepository boraRepository)
         {
             _boraRepository = boraRepository;
         }

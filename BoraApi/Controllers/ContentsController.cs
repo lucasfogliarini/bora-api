@@ -11,7 +11,7 @@ namespace Bora.Api.Controllers
     {
         private readonly IContentService _contentService;
 
-        public ContentsController(IAzureTablesRepository boraRepository, IContentService contentService) : base(boraRepository)
+        public ContentsController(IRepository boraRepository, IContentService contentService) : base(boraRepository)
         {
             _contentService = contentService;
         }

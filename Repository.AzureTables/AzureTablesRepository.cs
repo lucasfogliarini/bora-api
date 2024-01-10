@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Repository.AzureTables
 {
-	public class AzureTablesRepository(TableServiceClient tableServiceClient) : IAzureTablesRepository
+	public class AzureTablesRepository(TableServiceClient tableServiceClient) : IRepository
 	{
 		const string PARTITION_KEY = "1";
 		protected List<EntityEntry> EntityEntries { get; set; } = [];

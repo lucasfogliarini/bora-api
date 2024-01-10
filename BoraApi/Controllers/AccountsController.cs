@@ -14,7 +14,7 @@ namespace Bora.Api.Controllers
         private readonly IAccountService _accountService;
         private readonly IAccountDataStore _accountDataStore;
 
-        public AccountsController(IAzureTablesRepository boraRepository,
+        public AccountsController(IRepository boraRepository,
                                   IAccountService accountService,
                                   IAccountDataStore accountDataStore) : base(boraRepository)
         {
