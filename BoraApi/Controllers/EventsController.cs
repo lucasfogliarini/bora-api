@@ -14,9 +14,10 @@ namespace Bora.Api.Controllers
             _eventService = eventService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync(string user, [FromBody] EventsFilterInput eventsFilter)
+		[HttpGet]
+        public async Task<IActionResult> GetAsync(string user, [FromBody] EventsFilterInput? eventsFilter = null)
         {
+			eventsFilter ??= new EventsFilterInput();
             var events = await _eventService.EventsAsync(user, eventsFilter);
             return Ok(events);
         }
