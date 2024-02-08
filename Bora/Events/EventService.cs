@@ -18,6 +18,7 @@ namespace Bora.Events
 		private readonly IRepository _boraRepository;
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
+        private IEnumerable<Account> _accounts;
 
         public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
@@ -42,7 +43,9 @@ namespace Bora.Events
             var account = _accountService.GetAccountByUsername(user);
             if (account.OnlySelfOrganizer.GetValueOrDefault())
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
-            var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
+
+			_accounts = _boraRepository.All<Account>();
+			var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
             return eventsOutput;
         }
 		public async Task<EventsCountOutput> EventsCountAsync(string user)
@@ -178,7 +181,7 @@ namespace Bora.Events
             if (@event.Attendees != null)
             {
                 var emails = @event.Attendees.Select(e => e.Email);
-				var attendeeAccounts = _boraRepository.All<Account>().Where(e => emails.Contains(e.Email));
+				var attendeeAccounts = _accounts.Where(e => emails.Contains(e.Email));
                 var attendeeOutputs = attendeeAccounts.Select(e => new AttendeeOutput
                 {
                     Email = e.Email,
@@ -313,8 +316,7 @@ namespace Bora.Events
         }
         private EventOutput ToEventOutput(Event @event, EventsCountOutput? eventsCountOutput = null)
         {
-            //bad performance with azure tables
-            IEnumerable<AttendeeOutput> attendeeOutputs = null;// GetAttendees(@event);
+            IEnumerable<AttendeeOutput> attendeeOutputs = GetAttendees(@event);
             if (attendeeOutputs != null)
             {
                 OrderAttendeesByProximityRate(attendeeOutputs, eventsCountOutput);
