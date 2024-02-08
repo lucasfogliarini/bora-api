@@ -19,8 +19,9 @@ namespace Bora.Events
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
         private IEnumerable<Account> _accounts;
+		private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();
 
-        public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
+		public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
             _boraRepository = boraRepository;
             _accountDataStore = accountDataStore;
@@ -44,7 +45,6 @@ namespace Bora.Events
             if (account.OnlySelfOrganizer.GetValueOrDefault())
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
 
-			_accounts = _boraRepository.All<Account>();
 			var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
             return eventsOutput;
         }
@@ -181,7 +181,7 @@ namespace Bora.Events
             if (@event.Attendees != null)
             {
                 var emails = @event.Attendees.Select(e => e.Email);
-				var attendeeAccounts = _accounts.Where(e => emails.Contains(e.Email));
+				var attendeeAccounts = Accounts.Where(e => emails.Contains(e.Email));
                 var attendeeOutputs = attendeeAccounts.Select(e => new AttendeeOutput
                 {
                     Email = e.Email,
