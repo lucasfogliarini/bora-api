@@ -1,4 +1,4 @@
-**/appsettings.Development
+**/appsettings.Development.json
 
 **/.classpath
 **/.dockerignore

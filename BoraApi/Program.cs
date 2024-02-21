@@ -29,7 +29,7 @@ Run(app);
 
 static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 {
-    var mvcBuilder = builder.Services.AddControllers();
+	var mvcBuilder = builder.Services.AddControllers();
     mvcBuilder.AddNewtonsoftJson(options =>
        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
     );
@@ -214,14 +214,11 @@ static void Seed(WebApplication app)
 
 static string? TryGetConnectionString(WebApplicationBuilder builder)
 {
-	var connectionStringName = "boraRepository";
-	Console.WriteLine($"Trying to get a database connectionString '{connectionStringName}' from appsettings");
-	var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+	var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
+	Console.WriteLine($"Trying to get a database connectionString '{boraRepositoryConnectionStringKey}' from Configuration.");
+    var connectionString = builder.Configuration[boraRepositoryConnectionStringKey];
 	if (connectionString == null)
-		Console.WriteLine("ConnectionString was not found.");
-	else
-	{
-		Console.WriteLine($"ConnectionString was found.");
-	}
+        throw new Exception($"{boraRepositoryConnectionStringKey} was not found! From builder.Configuration[{boraRepositoryConnectionStringKey}]");
+
     return connectionString;
 }

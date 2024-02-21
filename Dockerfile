@@ -1,6 +1,3 @@
-#docker build -t lucasfogliarini/boraapi:latest .
-#docker run -d boraapi --name BoraApi -p 8888:80 -e "ConnectionStrings__boraRepository"=""
-
 # Usa a imagem oficial do SDK do .NET 8 como base
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
@@ -24,7 +21,8 @@ WORKDIR /app
 COPY --from=build /app/build .
 
 # Exponha a porta que sua aplicação será executada
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
 
 # Inicia a aplicação
 ENTRYPOINT ["dotnet", "BoraApi.dll"]
