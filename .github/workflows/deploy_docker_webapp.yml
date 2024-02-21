@@ -14,8 +14,8 @@ jobs:
     - name: Docker Hub Login
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        username: ${{ secrets.BORAPI_REGISTRY_USERNAME }}
+        password: ${{ secrets.BORAPI_REGISTRY_PASSWORD }}
 
     - name: Build and Push Docker image
       run: |
