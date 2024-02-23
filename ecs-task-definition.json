@@ -1,0 +1,60 @@
+{
+  "family": "boraapi-task",
+  "networkMode": "awsvpc",
+  "memory": "3 GB",
+  "cpu": "1 vCPU",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "executionRoleArn": "arn:aws:iam::590183939113:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "boraapi",
+      "image": "590183939113.dkr.ecr.sa-east-1.amazonaws.com/boraapi",
+      "cpu": 256,
+      "memoryReservation": 512,
+      "portMappings": [
+        {
+          "name": "boraapi-8080-tcp",
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "secrets": [
+        {
+          "name": "ConnectionStrings__BoraRepository",
+          "valueFrom": "arn:aws:secretsmanager:sa-east-1:590183939113:secret:bora-secrets-iCSjuM:ConnectionStrings_BoraRepository::"
+        },
+        {
+          "name": "GoogleCalendar__ClientId",
+          "valueFrom": "arn:aws:secretsmanager:sa-east-1:590183939113:secret:bora-secrets-iCSjuM:GoogleCalendar_ClientId::"
+        },
+        {
+          "name": "GoogleCalendar__ClientSecret",
+          "valueFrom": "arn:aws:secretsmanager:sa-east-1:590183939113:secret:bora-secrets-iCSjuM:GoogleCalendar_ClientSecret::"
+        }
+      ],
+      "environment": [
+        {
+          "name": "GoogleCalendar__ApplicationName",
+          "value": "Bora"
+        },
+        {
+          "name": "GoogleCalendar__TokenFolder",
+          "value": "token.json"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/boraapi-task",
+          "awslogs-region": "sa-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
