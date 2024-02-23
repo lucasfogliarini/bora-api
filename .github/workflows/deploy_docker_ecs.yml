@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   build-and-deploy:
-    name: Deploy
+    name: Build and Deploy to Amazon ECS
     runs-on: ubuntu-latest
     environment: production
 

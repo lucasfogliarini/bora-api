@@ -23,6 +23,7 @@ jobs:
         docker push lucasfogliarini/boraapi:latest
 
   deploy:
+    name: Deploy to Azure Web App
     runs-on: windows-latest
     needs: build
     environment:
