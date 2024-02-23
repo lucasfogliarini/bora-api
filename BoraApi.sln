@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		.github\workflows\deploy_docker_containerapp.yml = .github\workflows\deploy_docker_containerapp.yml
+		.github\workflows\deploy_docker_ecs.yml = .github\workflows\deploy_docker_ecs.yml
 		.github\workflows\deploy_docker_webapp.yml = .github\workflows\deploy_docker_webapp.yml
 		.github\workflows\deploy_dotnet_webapp.yml = .github\workflows\deploy_dotnet_webapp.yml
 		docker.env = docker.env
