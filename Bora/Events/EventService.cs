@@ -73,17 +73,8 @@ namespace Bora.Events
             var request = _calendarService.Events.Insert(@event, eventInput.CalendarId);
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
-			if (eventInput.CreateReminderTask)
-			{
-				var taskList = "MDExMTAxNTQ4OTU1MzE4NzMxMDI6MDow";//Tarefas
-				var reminderTask = new Google.Apis.Tasks.v1.Data.Task
-				{
-					Due = DateTime.Now.ToString("O"),
-					Title = $"{eventInput.Title} - {eventInput.Start.Value.ToShortDateString()}"
-				};
-				await _tasksService.Tasks.Insert(reminderTask, taskList).ExecuteAsync();
-			}
-			await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
+            CreateReminderTask(eventInput);
+            await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
             return ToEventOutput(gEvent);
         }
         public async Task<EventOutput> UpdateAsync(string user, string eventId, EventInput eventInput)
@@ -91,7 +82,7 @@ namespace Bora.Events
             ValidateEvent(eventInput);
             await InitializeCalendarServiceAsync(user);
             var @event = ToGoogleEvent(eventInput);
-            var request = _calendarService.Events.Patch(@event, "primary", eventId);
+            var request = _calendarService.Events.Patch(@event, eventInput.CalendarId, eventId);
             request.SendUpdates = SendUpdates(@event);
             var gEvent = await request.ExecuteAsync();
             return ToEventOutput(gEvent);
@@ -100,10 +91,7 @@ namespace Bora.Events
         {
             await InitializeCalendarServiceAsync(user);
 
-            var @event = await GetAsync(eventId);
-            if (@event == null)
-                throw new ValidationException($"Não existe um evento com id {eventId}.");
-
+            var @event = await GetAsync(eventId) ?? throw new ValidationException($"Não existe um evento com id {eventId}.");
             await AddOrUpdateAttendeeAsync(@event, attendeeInput);
 
             return ToEventOutput(@event);
@@ -148,15 +136,15 @@ namespace Bora.Events
             if(@event.Creator?.Email == null || @event.Id == null)
                 throw new ValidationException($"O evento deve ter um Creator e um Id para adicionar um novo Attendee.");
 
-            @event.Attendees ??= new List<EventAttendee>()
-            {
+            @event.Attendees ??=
+            [
                 new EventAttendee
                 {
                     Email = @event.Creator.Email,
                     ResponseStatus = AttendeeResponseExtensions.ToResponseStatus(AttendeeResponse.Tentative),
                     Organizer = true
                 }
-            };
+            ];
             var eventAttendee = @event.Attendees.FirstOrDefault(e => e.Email == attendeeInput.Email);
             if (eventAttendee == null)
             {
@@ -172,7 +160,7 @@ namespace Bora.Events
 
             @event.GuestsCanModify = true; // @event.Attendees.Count <= 2;
 
-            var request = _calendarService.Events.Patch(@event, "primary", @event.Id);
+            var request = _calendarService.Events.Patch(@event, @event.Organizer.Email, @event.Id);
             request.SendUpdates = SendUpdates(@event);
             await request.ExecuteAsync();
         }
@@ -266,6 +254,19 @@ namespace Bora.Events
 				HttpClientInitializer = userCredential
 			});
 		}
+        private async Task CreateReminderTask(EventInput eventInput)
+        {
+            if (eventInput.CreateReminderTask)
+            {
+                var taskList = "MDExMTAxNTQ4OTU1MzE4NzMxMDI6MDow";//Tarefas
+                var reminderTask = new Google.Apis.Tasks.v1.Data.Task
+                {
+                    Due = DateTime.Now.ToString("O"),
+                    Title = $"{eventInput.Title} - {eventInput.Start.Value.ToShortDateString()}"
+                };
+                await _tasksService.Tasks.Insert(reminderTask, taskList).ExecuteAsync();
+            }
+        }
         private static Event ToGoogleEvent(EventInput eventInput)
         {
             var @event = new Event
