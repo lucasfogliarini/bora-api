@@ -108,7 +108,13 @@ static void Run(WebApplication app)
         await context.Response.WriteAsync(VERSION);
     });
 
-    app.Run();
+	app.MapGet("/loaderio-bb899ee09dc2c7596f6f3333be0b05af.txt", async context =>
+	{
+		string loaderVerificationToken = "loaderio-bb899ee09dc2c7596f6f3333be0b05af";
+		await context.Response.WriteAsync(loaderVerificationToken);
+	});
+
+	app.Run();
 }
 
 static void AddGoogleCalendar(WebApplicationBuilder builder)
