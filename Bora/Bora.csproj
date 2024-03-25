@@ -7,10 +7,10 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.66.0.3297" />
-		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.66.0.3015" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Repository.AzureTables" Version="20240129.2.0" />
+		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.67.0.3297" />
+		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.67.0.3358" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+		<PackageReference Include="Repository.AzureTables" Version="20240325.2.0" />
 	</ItemGroup>
 
 </Project>
