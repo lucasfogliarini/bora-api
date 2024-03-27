@@ -22,12 +22,12 @@ namespace Bora.Entities
         public string? Linkedin { get; set; }
         public string? Spotify { get; set; }
         public string? YouTube { get; set; }
-        public bool? CalendarAuthorized { get; set; }
-        public bool? IsPartner { get; set; }
-        public bool? PartnerCommentsEnabled { get; set; }
-        public bool? PartnerCallsOpen { get; set; }
-        public EventVisibility? EventVisibility { get; set; }
-        public bool? OnlySelfOrganizer { get; set; }
+        public bool CalendarAuthorized { get; set; }
+        public bool IsPartner { get; set; }
+        public bool PartnerCommentsEnabled { get; set; }
+        public bool PartnerCallsOpen { get; set; }
+        public EventVisibility EventVisibility { get; set; }
+        public bool OnlySelfOrganizer { get; set; }
         public string? CalendarAccessToken { get; set; }
         public string? CalendarRefreshAccessToken { get; set; }
 	}

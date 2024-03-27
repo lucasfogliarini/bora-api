@@ -1,5 +1,4 @@
 ﻿using Bora.Entities;
-using Bora.Repository;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Microsoft.EntityFrameworkCore
@@ -20,6 +19,7 @@ namespace Microsoft.EntityFrameworkCore
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.CreatedAt).IsRequired();
-        }
+            builder.Property(e => e.UpdatedAt);
+		}
     }
 }

@@ -22,8 +22,8 @@ namespace Bora.Repository
         {
             try
             {
-                var changes = _dbContext.SaveChangesAsync();
-                return await changes;
+                var changes = await _dbContext.SaveChangesAsync();
+                return changes;
             }
             catch (DbUpdateException ex)
             {
@@ -38,10 +38,6 @@ namespace Bora.Repository
         {
             _dbContext.Remove(entity);
         }
-		public Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
-		{
-			throw new NotImplementedException();
-		}
 		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where) where TEntity : Entity
 		{
 			return Query<TEntity>().Where(where);
@@ -49,6 +45,10 @@ namespace Bora.Repository
 		public IQueryable<TEntity> All<TEntity>() where TEntity : Entity
 		{
             return Query<TEntity>().ToList().AsQueryable();
+		}
+		public bool Any<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity
+		{
+			return where == null ? Query<TEntity>().Any() : Query<TEntity>().Any(where);
 		}
 		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
 		{

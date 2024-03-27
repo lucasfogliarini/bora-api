@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			Console.ResetColor();
 			Console.WriteLine();
 
-			serviceCollection.AddSingleton<IRepository, EFCoreRepository>();
+			serviceCollection.AddScoped<IRepository, EFCoreRepository>();
 		}
 
 		public static void Migrate(this IServiceProvider serviceProvider)
@@ -36,15 +36,6 @@ namespace Microsoft.Extensions.DependencyInjection
 			{
 				boraDbContext.Database.Migrate();
 			}
-		}
-
-		public static async Task SeedAsync<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : Entity
-		{
-			using var scope = serviceProvider.CreateScope();
-			var databaseRepository = scope.ServiceProvider.GetService<IRepository>();
-			databaseRepository!.UpdateRange(entities);
-
-			await databaseRepository.CommitAsync();
 		}
 	}
 }
