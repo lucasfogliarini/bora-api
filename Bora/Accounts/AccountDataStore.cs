@@ -104,6 +104,7 @@ namespace Bora.Accounts
                 //avoid conccurrency
                 return;
 			}
+            account.UpdatedAt = DateTime.Now;
 			account.CalendarAuthorized = true;
 			account.CalendarAccessToken = tokenResponse.AccessToken;
 			account.CalendarRefreshAccessToken = tokenResponse.RefreshToken;

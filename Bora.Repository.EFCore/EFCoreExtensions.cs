@@ -1,5 +1,4 @@
 ﻿using Bora;
-using Bora.Entities;
 using Bora.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			using var scope = serviceProvider.CreateScope();
 			var boraDbContext = scope.ServiceProvider.GetService<BoraDbContext>();
-			if (boraDbContext!.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+			if (boraDbContext != null && boraDbContext!.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
 			{
 				boraDbContext.Database.Migrate();
 			}

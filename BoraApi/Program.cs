@@ -61,7 +61,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 
 	var repositoryConnectionString = TryGetConnectionString(builder);
 
-	builder.Services.AddEFCoreRepository(repositoryConnectionString);
+	builder.Services.AddDapperRepository(repositoryConnectionString);
 	builder.Services.AddServices();
 	builder.Services.AddSpotifyService();
 
