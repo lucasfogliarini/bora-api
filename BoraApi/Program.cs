@@ -23,9 +23,11 @@ var applicationBuilder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var app = AddServices(applicationBuilder).Build();
 
-Seed(app);
+app.Services.Migrate();
 
 Run(app);
+
+SeedAsync(app);
 
 static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 {
@@ -57,9 +59,9 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 
     AddGoogleCalendar(builder);
 
-    var storageConnectionString = TryGetConnectionString(builder);
+    var repositoryConnectionString = TryGetConnectionString(builder);
 
-	builder.Services.AddBoraAzureTablesRepository(storageConnectionString);
+	builder.Services.AddEFCoreRepository(repositoryConnectionString);
     builder.Services.AddServices();
     builder.Services.AddSpotifyService();
 
@@ -157,7 +159,7 @@ static void AddGoogleCalendar(WebApplicationBuilder builder)
         });
 }
 
-static void Seed(WebApplication app)
+static async Task SeedAsync(WebApplication app)
 {
     var accounts = new List<Account>
     {
@@ -193,7 +195,7 @@ static void Seed(WebApplication app)
 			Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggfyxso7uuqWxLMqvI3JTDOcKDRKkOgsz0oOwLWPw=s96-c",
 		}
 	};
-    app.Services.Seed(accounts);
+    await app.Services.SeedAsync(accounts);
 
 	//var homeContents = new List<Content>
 	//{

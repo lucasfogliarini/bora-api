@@ -1,5 +1,4 @@
-﻿using Repository.AzureTables;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 
 namespace Bora.Entities
 {

@@ -1,7 +1,6 @@
 ﻿using Bora.Contents;
 using Bora.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {

@@ -1,5 +1,4 @@
 ﻿using Bora.Entities;
-using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Scenarios

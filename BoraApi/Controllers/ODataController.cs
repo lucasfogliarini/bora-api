@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bora.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
@@ -25,7 +25,7 @@ namespace Bora.Api.Controllers
         [EnableQuery]
         public IEnumerable<TEntity> Get()
         {
-            return _boraRepository.All<TEntity>();
+            return _boraRepository.Query<TEntity>();
         }
 
         public string AuthenticatedUserEmail

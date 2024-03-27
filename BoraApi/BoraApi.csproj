@@ -16,6 +16,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bora.Repository.EFCore\Bora.Repository.EFCore.csproj" />
     <ProjectReference Include="..\Bora\Bora.csproj" />
     <ProjectReference Include="..\Spotify\Spotify.csproj" />
   </ItemGroup>

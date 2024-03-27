@@ -1,6 +1,4 @@
-﻿using Repository.AzureTables;
-
-namespace Bora.Entities
+﻿namespace Bora.Entities
 {
 	public class Scenario : Entity
 	{

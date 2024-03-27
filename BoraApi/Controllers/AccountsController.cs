@@ -3,11 +3,10 @@ using Bora.Entities;
 using Google.Apis.Auth.AspNetCore3;
 using Google.Apis.Calendar.v3;
 using Microsoft.AspNetCore.Mvc;
-using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class AccountsController : ODataController<Account>
     {

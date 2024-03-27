@@ -1,6 +1,5 @@
 ﻿using Bora.Accounts;
 using Bora.Entities;
-using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Contents

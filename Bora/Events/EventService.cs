@@ -4,7 +4,6 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Tasks.v1;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using SendUpdatesEnum = Google.Apis.Calendar.v3.EventsResource.PatchRequest.SendUpdatesEnum;
@@ -18,8 +17,8 @@ namespace Bora.Events
 		private readonly IRepository _boraRepository;
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
-        private IEnumerable<Account> _accounts;
-		private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();
+        //private IEnumerable<Account> _accounts;
+		//private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();//for azure tables
 
 		public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
@@ -169,7 +168,7 @@ namespace Bora.Events
             if (@event.Attendees != null)
             {
                 var emails = @event.Attendees.Select(e => e.Email);
-				var attendeeAccounts = Accounts.Where(e => emails.Contains(e.Email));
+				var attendeeAccounts = _boraRepository.Where<Account>(e => emails.Contains(e.Email));
                 var attendeeOutputs = attendeeAccounts.Select(e => new AttendeeOutput
                 {
                     Email = e.Email,

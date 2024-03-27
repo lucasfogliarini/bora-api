@@ -1,25 +1,17 @@
 ﻿using Bora.Scenarios;
 using Microsoft.AspNetCore.Mvc;
 using Bora.Entities;
-using Repository.AzureTables;
 
 namespace Bora.Api.Controllers
 {
 	[ApiController]
     [Route("[controller]")]
-    public class ScenariosController : ODataController<Scenario>
+    public class ScenariosController(IRepository boraRepository, IScenarioService scenarioService) : ODataController<Scenario>(boraRepository)
     {
-        private readonly IScenarioService _scenarioService;
-
-        public ScenariosController(IRepository boraRepository, IScenarioService scenarioService) : base(boraRepository)
-        {
-            _scenarioService = scenarioService;
-        }
-
-        [HttpPatch("{scenarioId}")]
+		[HttpPatch("{scenarioId}")]
         public async Task<IActionResult> UpdateAsync(int scenarioId, ScenarioInput scenarioInput)
         {
-            await _scenarioService.UpdateAsync(scenarioId, scenarioInput);
+            await scenarioService.UpdateAsync(scenarioId, scenarioInput);
             return Ok();
         }
     }

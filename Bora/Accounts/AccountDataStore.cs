@@ -3,7 +3,6 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Util.Store;
-using Repository.AzureTables;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
@@ -29,7 +28,7 @@ namespace Bora.Accounts
             var account = _accountService.GetAccountByUsername(username);
             UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     _googleCalendarConfiguration.GoogleClientSecrets(),
-                    new[] { CalendarService.Scope.CalendarEvents },
+                    [CalendarService.Scope.CalendarEvents],
                     account.Email,
                     CancellationToken.None,
                     this);

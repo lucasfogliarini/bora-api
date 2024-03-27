@@ -9,16 +9,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IEventService, EventService>();
-            serviceCollection.AddTransient<IAccountService, AccountService>();
-            serviceCollection.AddTransient<IScenarioService, ScenarioService>();
-            serviceCollection.AddTransient<IContentService, ContentService>();
-            serviceCollection.AddTransient<IAccountDataStore, AccountDataStore>();
-        }
-
-        public static void AddBoraAzureTablesRepository(this IServiceCollection serviceCollection, string storageConnectionString)
-        {
-            serviceCollection.AddAzureTablesRepository(storageConnectionString);
+            serviceCollection.AddScoped<IEventService, EventService>();
+            serviceCollection.AddScoped<IAccountService, AccountService>();
+            serviceCollection.AddScoped<IScenarioService, ScenarioService>();
+            serviceCollection.AddScoped<IContentService, ContentService>();
+            serviceCollection.AddScoped<IAccountDataStore, AccountDataStore>();
         }
     }
 }
