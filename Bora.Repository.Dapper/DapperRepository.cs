@@ -2,11 +2,10 @@
 using System.Linq.Expressions;
 using Bora.Entities;
 using Dapper;
-using Microsoft.Data.SqlClient;
 
 namespace Bora.Repository.Dapper
 {
-	public class DapperRepository(IDbConnection dbConnection) : IRepository
+    public class DapperRepository(IDbConnection dbConnection) : IRepository
 	{
 		public IQueryable<TEntity> Query<TEntity>() where TEntity : Entity
 		{

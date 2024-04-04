@@ -59,10 +59,8 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 
 	AddGoogleCalendar(builder);
 
-	var repositoryConnectionString = TryGetConnectionString(builder);
-
-	builder.Services.AddDapperRepository(repositoryConnectionString);
-	builder.Services.AddServices();
+	AddRepository(builder);
+    builder.Services.AddServices();
 	builder.Services.AddSpotifyService();
 
 	builder.Services.AddProblemDetails(x =>
@@ -117,6 +115,13 @@ static void Run(WebApplication app)
 	});
 
 	app.Run();
+}
+
+static void AddRepository(WebApplicationBuilder builder)
+{
+    var repositoryConnectionString = TryGetConnectionString(builder);
+    builder.Services.AddEFCoreRepository(repositoryConnectionString);
+    //builder.Services.AddDapperRepository(repositoryConnectionString);
 }
 
 static void AddGoogleCalendar(WebApplicationBuilder builder)

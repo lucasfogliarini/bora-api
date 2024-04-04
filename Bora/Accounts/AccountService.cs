@@ -15,20 +15,12 @@ namespace Bora.Accounts
         public Account GetAccount(string email)
         {
             var account = _boraRepository.Where<Account>(e => e.Email == email).FirstOrDefault();
-            if (account == null)
-            {
-                throw new ValidationException("Usuário não existe.");
-            }
-            return account;
+            return account ?? throw new ValidationException("Usuário não existe.");
         }
         public Account GetAccountByUsername(string username)
         {
             var account = _boraRepository.FirstOrDefault<Account>(e => e.Username == username);
-            if (account == null)
-            {
-                throw new ValidationException("Usuário não existe.");
-            }
-            return account;
+            return account ?? throw new ValidationException("Usuário não existe.");
         }
         public async Task CreateOrUpdateAsync(AuthenticationInput authenticationInput)
         {
