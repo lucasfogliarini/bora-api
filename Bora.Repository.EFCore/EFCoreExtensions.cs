@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
 	public static class EFCoreExtensions
 	{
-		public static void AddEFCoreRepository(this IServiceCollection serviceCollection, string boraDatabaseConnString)
+		public static void AddEFCoreRepository(this IServiceCollection serviceCollection, string? boraDatabaseConnString)
 		{
 			Console.WriteLine("Adding DbConext ...");
 			Console.ForegroundColor = ConsoleColor.Green;

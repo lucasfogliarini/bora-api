@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 using Bora.Entities;
 using Dapper;
+using static Dapper.SqlMapper;
 
 namespace Bora.Repository.Dapper
 {
@@ -37,17 +39,37 @@ namespace Bora.Repository.Dapper
 		{
 			dbConnection.Execute($"DELETE FROM {typeof(TEntity).Name} WHERE Id = @Id", entity.Id);
 		}
-
-		//TODO
+		
 		public void Update<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			var setValuesCollection = entity.GetType().GetProperties()
 			.Where(prop => prop.Name != "Id" && prop.GetValue(entity) != null)
-			.Select(prop => $"{prop.Name} = '{prop.GetValue(entity)}'");
+			.Select(p=> ToSetValue(p, entity));
 			string setValues = string.Join(",", setValuesCollection);
 			dbConnection.Execute($"UPDATE {typeof(TEntity).Name} SET {setValues} WHERE Id = {entity.Id}");
 		}
-		public void Add<TEntity>(TEntity entity) where TEntity : Entity
+
+		private string ToSetValue(PropertyInfo property, Entity entity)
+        {
+            if (property.PropertyType.IsEnum)
+            {
+                int enumIntValue = (int)property.GetValue(entity);
+                return $"{property.Name} = {enumIntValue}";
+            }
+            //else if (property.PropertyType == typeof(bool))
+            //{
+            //    bool boolValue = (bool)property.GetValue(entity);
+            //    int boolIntValue = boolValue ? 1 : 0;
+            //    return $"{property.Name} = {boolValue}";
+            //}
+            else
+            {
+                return $"{property.Name} = '{property.GetValue(entity)}'";
+            }
+        }
+
+        //TODO
+        public void Add<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			throw new NotImplementedException();
 			dbConnection.Execute($"INSERT INTO {typeof(TEntity).Name} VALUES (@Id, @Name, @OtherProperties)", entity);

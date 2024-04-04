@@ -61,7 +61,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 
 	AddRepository(builder);
     builder.Services.AddServices();
-	builder.Services.AddSpotifyService();
+	//builder.Services.AddSpotifyService();
 
 	builder.Services.AddProblemDetails(x =>
 	{
