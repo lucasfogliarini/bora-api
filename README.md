@@ -1,11 +1,11 @@
-[![Deploy Bora Api to Azure Web App](https://github.com/lucasfogliarini/bora-api/actions/workflows/main_bora.yml/badge.svg)](https://github.com/lucasfogliarini/bora-api/actions/workflows/main_bora.yml)
+[![Deploy Bora Api to Azure Web App](https://github.com/lucasfogliarini/bora-api/actions/workflows/deploy_docker_containerapp.yml/badge.svg)](https://github.com/lucasfogliarini/bora-api/actions/workflows/deploy_docker_containerapp.yml)
 
 # Bora Api
 
-A API da [Bora](https://bora.work/) é uma aplicação desenvolvida para facilitar a organização de encontros e eventos, integrando-se perfeitamente com o Google Agenda para oferecer uma experiência de usuário simplificada e eficiente.
+A API da [Bora](https://bora.work/) Ã© uma aplicaÃ§Ã£o desenvolvida para facilitar a organizaÃ§Ã£o de encontros e eventos, integrando-se perfeitamente com o Google Agenda para oferecer uma experiÃªncia de usuÃ¡rio simplificada e eficiente.
 
-Essa plataforma permite que os usuários criem, gerenciem e compartilhem eventos com facilidade, tudo diretamente através da interface da Web. A integração com o Google Agenda permite sincronizar automaticamente os eventos criados na Bora com o calendário pessoal do usuário, garantindo que nunca se esqueçam de um compromisso importante.
+Essa plataforma permite que os usuÃ¡rios criem, gerenciem e compartilhem eventos com facilidade, tudo diretamente atravÃ©s da interface da Web. A integraÃ§Ã£o com o Google Agenda permite sincronizar automaticamente os eventos criados na Bora com o calendÃ¡rio pessoal do usuÃ¡rio, garantindo que nunca se esqueÃ§am de um compromisso importante.
 
-Além disso, a Web API da Bora oferece uma variedade de recursos úteis, como a capacidade de enviar convites personalizados aos participantes, configurar lembretes automáticos e até mesmo definir preferências de localização para facilitar a escolha de um local adequado para o evento.
+AlÃ©m disso, a Web API da Bora oferece uma variedade de recursos Ãºteis, como a capacidade de enviar convites personalizados aos participantes, configurar lembretes automÃ¡ticos e atÃ© mesmo definir preferÃªncias de localizaÃ§Ã£o para facilitar a escolha de um local adequado para o evento.
 
-Com uma interface amigável e intuitiva, a Bora torna a organização de encontros uma tarefa simples e sem complicações, permitindo que os usuários se concentrem no que realmente importa: aproveitar o tempo com amigos, familiares ou colegas, sem se preocupar com os detalhes logísticos.
+Com uma interface amigÃ¡vel e intuitiva, a Bora torna a organizaÃ§Ã£o de encontros uma tarefa simples e sem complicaÃ§Ãµes, permitindo que os usuÃ¡rios se concentrem no que realmente importa: aproveitar o tempo com amigos, familiares ou colegas, sem se preocupar com os detalhes logÃ­sticos.
