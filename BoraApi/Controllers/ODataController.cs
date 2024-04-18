@@ -22,7 +22,7 @@ namespace Bora.Api.Controllers
             return null;
         }
 
-        [EnableQuery]
+        [EnableQuery, HttpGet]
         public IEnumerable<TEntity> Get()
         {
             return _boraRepository.Query<TEntity>();

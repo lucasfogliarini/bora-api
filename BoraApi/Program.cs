@@ -42,10 +42,8 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	});
 
 	builder.Services.AddEndpointsApiExplorer();
-	builder.Services.AddSwaggerGen(c =>
-	{
-		c.SwaggerDoc(APP_NAME, new OpenApiInfo { Title = "Bora.Api", Version = VERSION });
-	});
+	builder.Services.AddSwaggerGen();
+
 	Console.WriteLine($"Starting {APP_NAME} version: {VERSION}");
 	Console.WriteLine();
 
@@ -78,14 +76,10 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 
 static void Run(WebApplication app)
 {
-	// Configure the HTTP request pipeline.
-	if (app.Environment.IsDevelopment())
-	{
-		app.UseSwagger();
-		app.UseSwaggerUI();
-	}
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
-	app.UseCors(x => x
+    app.UseCors(x => x
 		.AllowAnyMethod()
 		.AllowAnyHeader()
 		.AllowAnyOrigin());
