@@ -1,11 +1,12 @@
 ﻿using Bora.Accounts;
 using Bora.Entities;
+using BoraApi.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Bora.Api.Controllers
 {
-	[ApiController]
+    [ApiController]
     [Route("[controller]")]
     public class TokenController(IRepository boraRepository, IAccountService accountService, IOptions<Jwt> jwt) : BaseController
     {
@@ -21,16 +22,10 @@ namespace Bora.Api.Controllers
 
         private async Task<Authentication> CreateAuthenticationAsync(AuthenticationInput authenticationInput)
         {
-            var tokenDescriptor = _jwt.CreateTokenDescriptor(authenticationInput.Email, authenticationInput.Name);
+            var authentication = _jwt.CreateAuthenticationToken(authenticationInput.Email, authenticationInput.Name);
+            authentication.CreatedAt = DateTime.Now;
+            authentication.Provider = authenticationInput.Provider;
 
-            var authentication = new Authentication
-            {
-                Email = authenticationInput.Email,
-                JwToken = _jwt.GenerateToken(tokenDescriptor),
-                CreatedAt = DateTime.Now,
-                ExpiresAt = tokenDescriptor.Expires.GetValueOrDefault(),
-                Provider = authenticationInput.Provider
-            };
 			boraRepository.Add(authentication);
             await boraRepository.CommitAsync();
             return authentication;

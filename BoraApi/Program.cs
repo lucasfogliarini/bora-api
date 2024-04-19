@@ -1,4 +1,3 @@
-using Bora.Api;
 using Bora.Events;
 using Google.Apis.Auth.AspNetCore3;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -13,6 +12,7 @@ using System.Security.Authentication;
 using Bora.Entities;
 using Bora;
 using BoraApi.OData;
+using BoraApi.Jwt;
 
 const string VERSION = "1.0.0";
 const string APP_NAME = "BoraApi";
@@ -44,6 +44,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	builder.Services.AddSwaggerGen((o) =>
 	{
         o.OperationFilter<ODataOperationFilter>();
+		o.AddSwaggerAuthentication();
     });
 
 	Console.WriteLine($"Starting {APP_NAME} version: {VERSION}");
@@ -55,7 +56,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 		loggingBuilder.AddDebug();
 	});
 
-	Jwt.AddJwtAuthentication(builder.Services, builder.Configuration);
+	builder.AddJwtAuthentication();
 
 	AddGoogleCalendar(builder);
 
