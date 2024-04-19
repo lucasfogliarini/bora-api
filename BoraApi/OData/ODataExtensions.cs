@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.OData
 {
     public static class ODataExtensions
     {
-        public static void AddRouteComponentsODataControllers(this ODataOptions oDataOptions, string routePrefix = "odata")
+        public static void AddRouteComponentsUsingODataControllers(this ODataOptions oDataOptions, string routePrefix = "odata")
         {
             oDataOptions.AddRouteComponents(routePrefix, GetEdmModelODataControllers());
         }

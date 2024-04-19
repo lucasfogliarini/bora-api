@@ -21,6 +21,13 @@ namespace Bora.Api.Controllers
             _accountService = accountService;
         }
 
+        /// <summary>
+        /// Inicia o processo de autorização usando OAuth, permitindo que sua aplicação obtenha as permissões necessárias para acessar o serviço do Google Calendar com o seu usuário.
+        ///  
+        /// Permissões:
+        /// See, edit, share, and permanently delete all the calendars you can access using Google Calendar
+        /// scope: https://www.googleapis.com/auth/calendar
+        /// </summary>
         [HttpGet("authorizeCalendar")]
         [GoogleScopedAuthorize(CalendarService.ScopeConstants.Calendar)]
         public IActionResult AuthorizeCalendarAsync(string? redirectUrl)
@@ -32,6 +39,13 @@ namespace Bora.Api.Controllers
             return Redirect(redirectUrl);
         }
 
+        /// <summary>
+        /// Inicia o processo de autorização usando OAuth, permitindo que sua aplicação obtenha as permissões necessárias para acessar o serviço do Google Calendar.
+        ///  
+        /// Permissões:
+        /// View events on all your calendars
+        /// scope: https://www.googleapis.com/auth/calendar.events.readonly
+        /// </summary>
         [HttpGet("authorizeEvents")]
         [GoogleScopedAuthorize(CalendarService.ScopeConstants.CalendarEventsReadonly)]
         public IActionResult AuthorizeEventsAsync()

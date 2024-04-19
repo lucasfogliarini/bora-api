@@ -5,15 +5,14 @@ using Google.Apis.Auth.OAuth2.Responses;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
-using Microsoft.OpenApi.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.HttpOverrides;
 using Bora.Accounts;
 using System.Security.Authentication;
-using Spotify;
 using Bora.Entities;
 using Bora;
+using BoraApi.OData;
 
 const string VERSION = "1.0.0";
 const string APP_NAME = "BoraApi";
@@ -38,11 +37,14 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	mvcBuilder.AddOData(opt =>
 	{
 		opt.EnableQueryFeatures(50);
-		opt.AddRouteComponentsODataControllers();
+		opt.AddRouteComponentsUsingODataControllers();
 	});
 
 	builder.Services.AddEndpointsApiExplorer();
-	builder.Services.AddSwaggerGen();
+	builder.Services.AddSwaggerGen((o) =>
+	{
+        o.OperationFilter<ODataOperationFilter>();
+    });
 
 	Console.WriteLine($"Starting {APP_NAME} version: {VERSION}");
 	Console.WriteLine();
