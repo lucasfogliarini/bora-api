@@ -117,7 +117,7 @@ static void Run(WebApplication app)
 static void AddRepository(WebApplicationBuilder builder)
 {
     var repositoryConnectionString = TryGetConnectionString(builder);
-    builder.Services.AddEFCoreRepository(repositoryConnectionString);
+    builder.Services.AddEFCoreRepository(EFCoreProvider.InMemory, repositoryConnectionString);
     //builder.Services.AddDapperRepository(repositoryConnectionString);
 }
 

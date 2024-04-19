@@ -6,28 +6,28 @@ namespace Microsoft.Extensions.DependencyInjection
 {
 	public static class EFCoreExtensions
 	{
-		public static void AddEFCoreRepository(this IServiceCollection serviceCollection, string? boraDatabaseConnString)
-		{
-			Console.WriteLine("Adding DbConext ...");
-			Console.ForegroundColor = ConsoleColor.Green;
-			if (boraDatabaseConnString == null)
-			{
-				Console.WriteLine("Using InMemoryDatabase Provider");
-				serviceCollection.AddDbContext<BoraDbContext>(options => options.UseInMemoryDatabase("boraDatabase"));
-			}
-			else
-			{
-				Console.WriteLine($"Using SqlServer Provider with {boraDatabaseConnString}");
-				serviceCollection.AddDbContext<BoraDbContext>(options => options.UseSqlServer(boraDatabaseConnString));
-				Console.WriteLine($"For use InMemory Database, remove the connectionString from the appsettings.");
-			}
-			Console.ResetColor();
-			Console.WriteLine();
+        public static void AddEFCoreRepository(this IServiceCollection serviceCollection, EFCoreProvider efCoreProvider, string? boraDatabaseConnString = null)
+        {
+            Console.WriteLine("Adding DbConext ...");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Using {efCoreProvider} Provider with {boraDatabaseConnString}");
+            switch (efCoreProvider)
+            {
+                case EFCoreProvider.SqlServer:
+                    serviceCollection.AddDbContext<BoraDbContext>(options => options.UseSqlServer(boraDatabaseConnString));
+                    break;
+                case EFCoreProvider.InMemory:
+                    serviceCollection.AddDbContext<BoraDbContext>(options => options.UseInMemoryDatabase("boraDatabase"));
+                    break;
+            }
 
-			serviceCollection.AddScoped<IRepository, EFCoreRepository>();
-		}
+            Console.ResetColor();
+            Console.WriteLine();
 
-		public static void Migrate(this IServiceProvider serviceProvider)
+            serviceCollection.AddScoped<IRepository, EFCoreRepository>();
+        }
+
+        public static void Migrate(this IServiceProvider serviceProvider)
 		{
 			using var scope = serviceProvider.CreateScope();
 			var boraDbContext = scope.ServiceProvider.GetService<BoraDbContext>();
@@ -37,4 +37,10 @@ namespace Microsoft.Extensions.DependencyInjection
 			}
 		}
 	}
+
+    public enum EFCoreProvider
+    {
+        SqlServer,
+        InMemory,
+    }
 }
