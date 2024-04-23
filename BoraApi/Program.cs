@@ -116,9 +116,16 @@ static void Run(WebApplication app)
 
 static void AddRepository(WebApplicationBuilder builder)
 {
-    var repositoryConnectionString = TryGetConnectionString(builder);
-    builder.Services.AddEFCoreRepository(EFCoreProvider.InMemory, repositoryConnectionString);
-    //builder.Services.AddDapperRepository(repositoryConnectionString);
+	try
+	{
+        var repositoryConnectionString = TryGetConnectionString(builder);
+        builder.Services.AddEFCoreRepository(EFCoreProvider.SqlServer, repositoryConnectionString);
+        //builder.Services.AddDapperRepository(repositoryConnectionString);
+    }
+    catch (Exception)
+	{
+        builder.Services.AddEFCoreRepository(EFCoreProvider.InMemory);
+    }
 }
 
 static void AddGoogleCalendar(WebApplicationBuilder builder)
@@ -241,8 +248,9 @@ static string? TryGetConnectionString(WebApplicationBuilder builder)
 	var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
 	Console.WriteLine($"Trying to get a database connectionString '{boraRepositoryConnectionStringKey}' from Configuration.");
 	var connectionString = builder.Configuration[boraRepositoryConnectionStringKey];
-	if (connectionString == null)
+    if (connectionString == null)
 		throw new Exception($"{boraRepositoryConnectionStringKey} was not found! From builder.Configuration[{boraRepositoryConnectionStringKey}]");
 
-	return connectionString;
+    Console.WriteLine();
+    return connectionString;
 }

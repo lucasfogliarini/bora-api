@@ -1,16 +1,43 @@
 ﻿using Bora;
 using Bora.Repository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class EFCoreExtensions
+    public static class EFCoreExtensions
 	{
         public static void AddEFCoreRepository(this IServiceCollection serviceCollection, EFCoreProvider efCoreProvider, string? boraDatabaseConnString = null)
         {
-            Console.WriteLine("Adding DbConext ...");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Using {efCoreProvider} Provider with {boraDatabaseConnString}");
+            try
+            {
+                Console.WriteLine("Adding BoraDbContext ...");
+                Console.WriteLine($"Using {efCoreProvider} Provider with {boraDatabaseConnString}");
+
+                TryConnect(efCoreProvider, boraDatabaseConnString);
+
+                serviceCollection.AddBoraDbContext(efCoreProvider, boraDatabaseConnString);
+
+                serviceCollection.AddScoped<IRepository, EFCoreRepository>();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Successful connecting to the provider!");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error connecting to the provider! ({ex.Message})");
+                throw;
+            }
+            finally
+            {
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+        }
+
+        private static void AddBoraDbContext(this IServiceCollection serviceCollection, EFCoreProvider efCoreProvider, string? boraDatabaseConnString = null)
+        {
             switch (efCoreProvider)
             {
                 case EFCoreProvider.SqlServer:
@@ -20,11 +47,16 @@ namespace Microsoft.Extensions.DependencyInjection
                     serviceCollection.AddDbContext<BoraDbContext>(options => options.UseInMemoryDatabase("boraDatabase"));
                     break;
             }
+        }
 
-            Console.ResetColor();
-            Console.WriteLine();
-
-            serviceCollection.AddScoped<IRepository, EFCoreRepository>();
+        public static void TryConnect(EFCoreProvider efCoreProvider, string? boraDatabaseConnString = null)
+        {
+            switch (efCoreProvider)
+            {
+                case EFCoreProvider.SqlServer:
+                    new SqlConnection(boraDatabaseConnString).Open();
+                    break;
+            }
         }
 
         public static void Migrate(this IServiceProvider serviceProvider)
