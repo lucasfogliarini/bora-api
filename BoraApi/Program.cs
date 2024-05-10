@@ -219,28 +219,32 @@ static async Task SeedAsync(WebApplication app)
 		await databaseRepository.CommitAsync();
 	}
 
+    var hasContent = databaseRepository.Any<Content>();
+	if (!hasContent)
+	{
+        var homeContents = new List<Content>
+		{
+			new() {
+				Collection = "home",
+				Key = "boraLink",
+				Text = "/lucasfogliarini"
+			},
+			new() {
+				Collection = "home",
+				Key = "boraText",
+				Text = "Bora!"
+			}
+		};
 
-	//var homeContents = new List<Content>
-	//{
-	//	new() {
-	//		Collection = "home",
-	//		Key = "boraLink",
-	//		Text = "/lucasfogliarini"
-	//	},
-	//	new() {
-	//		Collection = "home",
-	//		Key = "boraText",
-	//		Text = "Bora!"
-	//	}
-	//};
+        foreach (var homeContent in homeContents)
+        {
+            homeContent.CreatedAt = DateTime.Now;
+            homeContent.AccountId = 1;//lucasfogliarini
+            databaseRepository.Add(homeContent);
+        }
 
-	//foreach (var homeContent in homeContents)
-	//{
-	//	homeContent.CreatedAt = DateTime.Now;
-	//	homeContent.AccountId = 1;//lucasfogliarini
-	//}
-
-	//app.Services.Seed(homeContents);
+        await databaseRepository.CommitAsync();
+    }
 }
 
 static string? TryGetConnectionString(WebApplicationBuilder builder)
