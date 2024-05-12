@@ -1,8 +1,5 @@
 using Bora.Events;
-using Xunit;
 using Google.Apis.Calendar.v3.Data;
-using System.Collections.Generic;
-using System;
 
 namespace Bora.Tests.Unit
 {
@@ -11,16 +8,18 @@ namespace Bora.Tests.Unit
         [Theory]
         [InlineData(null, null)]
         [InlineData("https://anyurl.com", null)]
-        [InlineData("aa https://www.ingressonacional.com.br/evento/1 bb", "https://www.ingressonacional.com.br/evento/1")]
         [InlineData("aa https://www.sympla.com.br/evento/1 bb", "https://www.sympla.com.br/evento/1")]
-        [InlineData("aa https://www.ingressorapido.com.br/event/34693-1/d/74625 bb", "https://www.ingressorapido.com.br/event/34693-1/d/74625")]
-        [InlineData("aa https://vamoapp.com/events/11706/1 bb", "https://vamoapp.com/events/11706/1")]
         [InlineData("aa https://uhuu.com/evento/evento1 bb", "https://uhuu.com/evento/evento1")]
         [InlineData("aa https://www.eventbrite.com.br/e/evento1 bb", "https://www.eventbrite.com.br/e/evento1")]
+        [InlineData("aa https://minhaentrada.com.br/evento/evento1 bb", "https://minhaentrada.com.br/evento/evento1")]
+        [InlineData("aa https://www.ingressonacional.com.br/evento/1 bb", "https://www.ingressonacional.com.br/evento/1")]
+        [InlineData("aa https://www.ingressorapido.com.br/event/34693-1/d/74625 bb", "https://www.ingressorapido.com.br/event/34693-1/d/74625")]
+        [InlineData("aa https://vamoapp.com/events/11706/1 bb", "https://vamoapp.com/events/11706/1")]
         [InlineData("aa https://lets.events/e/evento1 bb", "https://lets.events/e/evento1")]
         [InlineData("aa https://appticket.com.br/evento1 bb", "https://appticket.com.br/evento1")]
         [InlineData("aa https://www.ticketswap.com.br/event/evento1 bb", "https://www.ticketswap.com.br/event/evento1")]
         [InlineData("aa https://www.ingresse.com/evento1 bb", "https://www.ingresse.com/evento1")]
+        [InlineData("aa https://www.eventim.com.br/event/evento1 bb", "https://www.eventim.com.br/event/evento1")]
         public void GetTicketUrl(string description, string expectedTicketUrl)
         {
             var @event = new Event

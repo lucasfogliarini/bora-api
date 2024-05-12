@@ -105,7 +105,7 @@ namespace Bora.Events
         }
         public static string? GetTicketUrl(Event @event)
         {
-            var ticketDomains = new[] { "sympla", "ingresse", "ticketswap", "vamoapp", "ingressorapido", "uhuu", "eventbrite", "lets.events", "appticket", "ingressonacional", "minhaentrada.com.br" };
+            var ticketDomains = new[] { "sympla", "ingresse", "ticketswap", "vamoapp", "ingressorapido", "uhuu", "eventbrite", "lets.events", "appticket", "ingressonacional", "minhaentrada", "eventim" };
             return GetUrl(@event, ticketDomains);
         }
         public static string? GetSpotifyUrl(Event @event)
