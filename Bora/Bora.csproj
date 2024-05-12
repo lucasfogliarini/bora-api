@@ -7,8 +7,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.67.0.3297" />
-		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.67.0.3358" />
+		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.68.0.3402" />
+		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.68.0.3400" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 	</ItemGroup>
 
