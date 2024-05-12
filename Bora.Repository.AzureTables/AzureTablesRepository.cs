@@ -5,18 +5,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Bora.Repository.AzureTables
 {
-	public class AzureTablesRepository(TableServiceClient tableServiceClient) : IRepository
-	{
+	public class AzureTablesRepository(TableServiceClient tableServiceClient) : IAzureTablesRepository
+    {
 		const string PARTITION_KEY = "1";
 		protected List<EntityEntry> EntityEntries { get; set; } = [];
 		private readonly TableServiceClient _tableServiceClient = tableServiceClient;
 
-		public IQueryable<TEntity> Query<TEntity>() where TEntity : Entity
+		public IQueryable<TEntity> Query<TEntity>() where TEntity : AzTableEntity
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
+		public async Task<IQueryable<TEntity>> WhereAsync<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : AzTableEntity
 		{
 			var whereTable = where.ConvertToTableEntity(); 
 			var tableClient = GetTableClient<TEntity>();
@@ -27,36 +27,36 @@ namespace Bora.Repository.AzureTables
 			}
 			return entities.AsQueryable();
 		}
-		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : Entity
+		public IQueryable<TEntity> Where<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : AzTableEntity
 		{
 			var tableClient = GetTableClient<TEntity>();
 			var filteredEntities = tableClient.Query(where).ToList();
 			return filteredEntities.AsQueryable();
 		}
-		public IQueryable<TEntity> All<TEntity>() where TEntity : Entity
+		public IQueryable<TEntity> All<TEntity>() where TEntity : AzTableEntity
 		{
 			var tableClient = GetTableClient<TEntity>();
 			var filteredEntities = tableClient.Query<TEntity>(filter: string.Empty).ToList();
 			return filteredEntities.AsQueryable();
 		}
-		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : Entity
-		{
+		public TEntity? FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> where) where TEntity : AzTableEntity
+        {
 			return Where(where).FirstOrDefault();
 		}
-		public void Add<TEntity>(TEntity entity) where TEntity : Entity
+		public void Add<TEntity>(TEntity entity) where TEntity : AzTableEntity
 		{
 			entity.PartitionKey = PARTITION_KEY;
 			var entityEntry = new EntityEntry(entity, EntityState.Added);
 			EntityEntries.Add(entityEntry);
 		}
-		public void Update<TEntity>(TEntity entity) where TEntity : Entity
-		{
+		public void Update<TEntity>(TEntity entity) where TEntity : AzTableEntity
+        {
 			entity.PartitionKey = PARTITION_KEY;
 			var entityState = entity.ETag == default ? EntityState.Upsert : EntityState.Update;
 			var entityEntry = new EntityEntry(entity, entityState);
 			EntityEntries.Add(entityEntry);
 		}
-		public void Remove<TEntity>(TEntity entity) where TEntity : Entity
+		public void Remove<TEntity>(TEntity entity) where TEntity : AzTableEntity
 		{
 			var entityEntry = new EntityEntry(entity, EntityState.Deleted);
 			EntityEntries.Add(entityEntry);
@@ -71,7 +71,7 @@ namespace Bora.Repository.AzureTables
 				var addeds = EntityEntries.Where(e => e.EntityState == EntityState.Added);
 				if (addeds.Any())
 				{
-					var lastId = tableClient.Query<Entity>().OrderByDescending(e=>e.Id).FirstOrDefault()?.Id;
+					var lastId = tableClient.Query<AzTableEntity>().OrderByDescending(e=>e.Id).FirstOrDefault()?.Id;
 					foreach (EntityEntry entityEntry in addeds)
 					{
 						lastId = entityEntry.TableEntity.IncrementId(lastId);
@@ -96,7 +96,7 @@ namespace Bora.Repository.AzureTables
 			EntityEntries.Clear();
 			return count;
 		}
-		public void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity
+		public void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : AzTableEntity
 		{
 			foreach (var entity in entities)
 			{
@@ -109,7 +109,9 @@ namespace Bora.Repository.AzureTables
 			var tableClient = _tableServiceClient.GetTableClient(tableName);
 			return tableClient;
 		}
-
-		
-	}
+        public bool Any<TEntity>(Expression<Func<TEntity, bool>>? where = null) where TEntity : AzTableEntity
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -3,13 +3,13 @@ using Azure.Data.Tables;
 
 namespace Bora.Repository.AzureTables
 {
-	public class TableEntity : ITableEntity
+	public class AzTableEntity : ITableEntity
 	{
-        public TableEntity()
+        public AzTableEntity()
         {
 			InitCreatedAt(default);
 		}
-        public TableEntity(int? id, DateTimeOffset? createdAt = default)
+        public AzTableEntity(int? id, DateTimeOffset? createdAt = default)
 		{
 			Id = id;
 			RowKey = id.ToString();

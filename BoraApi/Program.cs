@@ -119,7 +119,8 @@ static void AddRepository(WebApplicationBuilder builder)
 	try
 	{
         var repositoryConnectionString = TryGetConnectionString(builder);
-        builder.Services.AddEFCoreRepository(EFCoreProvider.SqlServer, repositoryConnectionString);
+		builder.Services.AddAzureTablesRepository(repositoryConnectionString);
+        //builder.Services.AddEFCoreRepository(EFCoreProvider.SqlServer, repositoryConnectionString);
         //builder.Services.AddDapperRepository(repositoryConnectionString);
     }
     catch (Exception)

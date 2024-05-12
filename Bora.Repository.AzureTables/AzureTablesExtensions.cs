@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			var tableServiceClient = new TableServiceClient(storageConnectionString);
 			Console.WriteLine("Adding AzureTablesRepository ...");
 			serviceCollection.AddSingleton(tableServiceClient);
-			serviceCollection.AddSingleton<IRepository, AzureTablesRepository>();
+			serviceCollection.AddSingleton<IAzureTablesRepository, AzureTablesRepository>();
 		}
 
 		public static async void Seed<TEntity>(this IServiceProvider serviceProvider, IEnumerable<TEntity> entities) where TEntity : Entity
@@ -31,8 +31,8 @@ namespace Microsoft.Extensions.DependencyInjection
 		}
 		public static Expression<Func<ITableEntity, bool>> ConvertToTableEntity<TEntity>(
 			this Expression<Func<TEntity, bool>> where)
-			where TEntity : Entity
-		{
+			where TEntity : AzTableEntity
+        {
 			var parameter = Expression.Parameter(typeof(ITableEntity), "x");
 
 			var body = new ParameterReplacer(where.Parameters[0], parameter).Visit(where.Body);

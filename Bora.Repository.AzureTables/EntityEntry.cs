@@ -1,8 +1,8 @@
 ﻿namespace Bora.Repository.AzureTables
 {
-	public class EntityEntry(TableEntity tableEntity, EntityState entityState)
+	public class EntityEntry(AzTableEntity tableEntity, EntityState entityState)
 	{
-		public TableEntity TableEntity { get; set; } = tableEntity;
+		public AzTableEntity TableEntity { get; set; } = tableEntity;
 		public EntityState EntityState { get; set; } = entityState;
 	}
 
