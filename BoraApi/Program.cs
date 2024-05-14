@@ -177,7 +177,17 @@ static async Task SeedAsync(WebApplication app)
 	{
 		var accounts = new List<Account>
 		{
-			new("lucasfogliarini@gmail.com", 1, new DateTime(2024, 01, 01, 23, 47, 1))
+            new("bora.reunir@gmail.com", 1, new DateTime(2024, 5, 14))
+            {
+				Username = "bora",
+                Name = "Bora!",
+                Photo = "https://lh3.googleusercontent.com/a/ACg8ocLnDADC73MLqQGSXles9WknoIIjN1KHizpqjfsLd2DBi_Em_Xw=s360-c-no",
+                WhatsApp = "51992364249",
+                Instagram = "lucasfogliarini",
+                Spotify = "12145833562",
+                Linkedin = "lucasfogliarini"
+            },
+            new("lucasfogliarini@gmail.com", 2, new DateTime(2024, 5, 14))
 			{
 				Name = "Lucas Fogliarini Pedroso",
 				Photo = "https://lh3.googleusercontent.com/a-/AOh14Ggingx4m5A-dFGLwEJv-acJ-KEDtApHCAO0NxfUig=s96-c",
@@ -186,7 +196,7 @@ static async Task SeedAsync(WebApplication app)
 				Spotify = "12145833562",
 				Linkedin = "lucasfogliarini"
 			},
-			new("luanaleticiabueno@gmail.com", 2, new DateTime(2024, 01, 01, 23, 47, 2))
+			new("luanaleticiabueno@gmail.com", 3, new DateTime(2024, 5, 14))
 			{
 				Name = "Luana Bueno",
 				WhatsApp = "5193840006",
@@ -194,17 +204,17 @@ static async Task SeedAsync(WebApplication app)
 				Spotify = "224juavirzfsjsxt5yva6fvly",
 				Photo= "https://lh3.googleusercontent.com/a-/AOh14GhWN-zhlu_93Me88oT9v8554pdaJQdNYKpUp-i__c0=s340-p-k-rw-no",
 			},
-			new("gui_staub@hotmail.com", 3, new DateTime(2024, 01, 01, 23, 47, 3))
+			new("gui_staub@hotmail.com", 4, new DateTime(2024, 5, 14))
 			{
 				Name = "Guilherme Staub",
 				Photo= "https://lh3.googleusercontent.com/a-/AOh14Gi14cQFSeyn5q6u3ZB_derhI7yIcA9dgX27OkBl=s96-c",
 			},
-			new("varreira.adv@gmail.com", 4, new DateTime(2024, 01, 01, 23, 47, 4))
+			new("varreira.adv@gmail.com", 5, new DateTime(2024, 5, 14))
 			{
 				Name = "Anderson Varreira",
 				Photo= "https://lh3.googleusercontent.com/a/AATXAJw-6J_C5vAh-d9Gp3ssN_ziJrOkzp6HMWXE6Ubm=s96-c",
 			},
-			new("lucasbuenomagalhaes@gmail.com", 5, new DateTime(2024, 01, 01, 23, 47, 5))
+			new("lucasbuenomagalhaes@gmail.com", 6, new DateTime(2024, 5, 14))
 			{
 				Name = "Lucas Bueno",
 				Photo= "https://lh3.googleusercontent.com/a-/AOh14Ggfyxso7uuqWxLMqvI3JTDOcKDRKkOgsz0oOwLWPw=s96-c",
@@ -227,7 +237,7 @@ static async Task SeedAsync(WebApplication app)
 			new() {
 				Collection = "home",
 				Key = "boraLink",
-				Text = "/lucasfogliarini"
+				Text = "/bora"
 			},
 			new() {
 				Collection = "home",
