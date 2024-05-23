@@ -108,6 +108,16 @@ namespace Bora.Events
             var ticketDomains = new[] { "sympla", "ingresse", "ticketswap", "vamoapp", "ingressorapido", "uhuu", "eventbrite", "lets.events", "appticket", "ingressonacional", "minhaentrada", "eventim" };
             return GetUrl(@event, ticketDomains);
         }
+        public static string? GetTicketDomain(Event @event)
+        {
+            if (@event?.Description != null)
+            {
+                var urlPattern = @"(?:https?:\/\/)?(?:www\.)?([^\/]+)";
+                var matches = Regex.Matches(@event.Description, urlPattern);
+                return matches?.ElementAtOrDefault(1)?.Value;
+            }
+            return null;
+        }
         public static string? GetSpotifyUrl(Event @event)
         {
             return GetUrl(@event, "spotify");
@@ -342,6 +352,7 @@ namespace Bora.Events
                 ConferenceUrl = GetDiscordChannel(@event) ?? @event.HangoutLink,
                 Attendees = attendeeOutputs,
                 TicketUrl = GetTicketUrl(@event),
+                TicketDomain = GetTicketDomain(@event),
                 SpotifyUrl = GetSpotifyUrl(@event),
                 InstagramUrl = GetInstagramUrl(@event),
                 YouTubeUrl = GetYouTubeUrl(@event),

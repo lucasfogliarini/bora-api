@@ -6,29 +6,31 @@ namespace Bora.Tests.Unit
     public class EventServiceTests
     {
         [Theory]
-        [InlineData(null, null)]
-        [InlineData("https://anyurl.com", null)]
-        [InlineData("aa https://www.sympla.com.br/evento/1 bb", "https://www.sympla.com.br/evento/1")]
-        [InlineData("aa https://uhuu.com/evento/evento1 bb", "https://uhuu.com/evento/evento1")]
-        [InlineData("aa https://www.eventbrite.com.br/e/evento1 bb", "https://www.eventbrite.com.br/e/evento1")]
-        [InlineData("aa https://minhaentrada.com.br/evento/evento1 bb", "https://minhaentrada.com.br/evento/evento1")]
-        [InlineData("aa https://www.ingressonacional.com.br/evento/1 bb", "https://www.ingressonacional.com.br/evento/1")]
-        [InlineData("aa https://www.ingressorapido.com.br/event/34693-1/d/74625 bb", "https://www.ingressorapido.com.br/event/34693-1/d/74625")]
-        [InlineData("aa https://vamoapp.com/events/11706/1 bb", "https://vamoapp.com/events/11706/1")]
-        [InlineData("aa https://lets.events/e/evento1 bb", "https://lets.events/e/evento1")]
-        [InlineData("aa https://appticket.com.br/evento1 bb", "https://appticket.com.br/evento1")]
-        [InlineData("aa https://www.ticketswap.com.br/event/evento1 bb", "https://www.ticketswap.com.br/event/evento1")]
-        [InlineData("aa https://www.ingresse.com/evento1 bb", "https://www.ingresse.com/evento1")]
-        [InlineData("aa https://www.eventim.com.br/event/evento1 bb", "https://www.eventim.com.br/event/evento1")]
-        public void GetTicketUrl(string description, string expectedTicketUrl)
+        [InlineData(null, null, null)]
+        [InlineData("https://anyurl.com", null, null)]
+        [InlineData("aa https://www.sympla.com.br/evento/1 bb", "https://www.sympla.com.br/evento/1", "www.sympla.com.br")]
+        [InlineData("aa https://uhuu.com/evento/evento1 bb", "https://uhuu.com/evento/evento1", "uhuu.com")]
+        [InlineData("aa https://www.eventbrite.com.br/e/evento1 bb", "https://www.eventbrite.com.br/e/evento1", "www.eventbrite.com.br")]
+        [InlineData("aa https://minhaentrada.com.br/evento/evento1 bb", "https://minhaentrada.com.br/evento/evento1", "minhaentrada.com.br")]
+        [InlineData("aa https://www.ingressonacional.com.br/evento/1 bb", "https://www.ingressonacional.com.br/evento/1", "www.ingressonacional.com.br")]
+        [InlineData("aa https://www.ingressorapido.com.br/event/34693-1/d/74625 bb", "https://www.ingressorapido.com.br/event/34693-1/d/74625", "www.ingressorapido.com.br")]
+        [InlineData("aa https://vamoapp.com/events/11706/1 bb", "https://vamoapp.com/events/11706/1", "vamoapp.com")]
+        [InlineData("aa https://lets.events/e/evento1 bb", "https://lets.events/e/evento1", "lets.events")]
+        [InlineData("aa https://appticket.com.br/evento1 bb", "https://appticket.com.br/evento1", "appticket.com.br")]
+        [InlineData("aa https://www.ticketswap.com.br/event/evento1 bb", "https://www.ticketswap.com.br/event/evento1", "www.ticketswap.com.br")]
+        [InlineData("aa https://www.ingresse.com/evento1 bb", "https://www.ingresse.com/evento1", "www.ingresse.com")]
+        [InlineData("aa https://www.eventim.com.br/event/evento1 bb", "https://www.eventim.com.br/event/evento1", "www.eventim.com.br")]
+        public void GetTicketUrl(string description, string expectedTicketUrl, string expectedTicketDomain)
         {
             var @event = new Event
             {
                 Description = description
             };
             var ticketUrl = EventService.GetTicketUrl(@event);
+            var ticketDomain = EventService.GetTicketDomain(@event);
 
             Assert.Equal(expectedTicketUrl, ticketUrl);
+            Assert.Equal(expectedTicketDomain, ticketDomain);
         }
 
         [Theory]
