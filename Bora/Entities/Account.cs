@@ -27,6 +27,9 @@ namespace Bora.Entities
         public bool PartnerCommentsEnabled { get; set; }
         public bool PartnerCallsOpen { get; set; }
         public EventVisibility EventVisibility { get; set; }
+        /// <summary>
+        /// Returns only events organized by the account owner.
+        /// </summary>
         public bool OnlySelfOrganizer { get; set; }
         public string? CalendarAccessToken { get; set; }
         public string? CalendarRefreshAccessToken { get; set; }
