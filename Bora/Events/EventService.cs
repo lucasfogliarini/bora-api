@@ -106,7 +106,7 @@ namespace Bora.Events
         public static string? GetTicketUrl(Event @event)
         {
             var ticketDomains = new[] { "sympla", "ingresse", "ticketswap", "vamoapp", "ingressorapido", "uhuu", "eventbrite", "lets.events", "appticket", "ingressonacional", "minhaentrada", "eventim" };
-            return GetUrl(@event, ticketDomains);
+            return GetUrl(@event.Description, ticketDomains);
         }
         public static string? GetTicketDomain(Event @event)
         {
@@ -120,23 +120,29 @@ namespace Bora.Events
         }
         public static string? GetSpotifyUrl(Event @event)
         {
-            return GetUrl(@event, "spotify");
+            return GetUrl(@event.Description, "spotify");
         }
         public static string? GetInstagramUrl(Event @event)
         {
-            return GetUrl(@event, "instagram");
+            return GetUrl(@event.Description, "instagram");
         }
         public static string? GetYouTubeUrl(Event @event)
         {
-            return GetUrl(@event, "youtube", "youtu.be");
+            return GetUrl(@event.Description, "youtube", "youtu.be");
         }
         public static string? GetWhatsAppChat(Event @event)
         {
-            return GetUrl(@event, "chat.whatsapp.com");
+            return GetUrl(@event.Description, "chat.whatsapp.com");
         }
         public static string? GetDiscordChannel(Event @event)
         {
-            return GetUrl(@event, "discord.gg");
+            bool hasDiscord = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("discord.gg");
+            return hasDiscord ? GetUrl(@event.Location, "discord.gg") : null;
+        }
+        public static string GetConferenceUrl(Event @event)
+        {
+            var conferenceUrl = GetDiscordChannel(@event) ?? @event.HangoutLink;
+            return conferenceUrl;
         }
 
         private static void ValidateEvent(EventInput eventInput)
@@ -349,7 +355,7 @@ namespace Bora.Events
                 GoogleEventUrl = @event.HtmlLink,
                 Public = @event.Visibility == "public",
                 Chat = GetWhatsAppChat(@event),
-                ConferenceUrl = GetDiscordChannel(@event) ?? @event.HangoutLink,
+                ConferenceUrl = GetConferenceUrl(@event),
                 Attendees = attendeeOutputs,
                 TicketUrl = GetTicketUrl(@event),
                 TicketDomain = GetTicketDomain(@event),
@@ -360,12 +366,12 @@ namespace Bora.Events
                 Deadline = GetDeadLine(@event)
             };
         }
-        private static string? GetUrl(Event @event, params string[] domains)
+        private static string? GetUrl(string description, params string[] domains)
         {
-            if (@event?.Description != null)
+            if (description != null)
             {
                 var urlPattern = @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
-                var matches = Regex.Matches(@event.Description, urlPattern);
+                var matches = Regex.Matches(description, urlPattern);
                 foreach (Match match in matches.Where(m=>m.Success))
                 {
                     bool urlHasDomain = domains.Any(domain => match.Value.Contains(domain));

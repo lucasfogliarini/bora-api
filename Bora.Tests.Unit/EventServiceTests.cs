@@ -119,18 +119,20 @@ namespace Bora.Tests.Unit
         }
 
         [Theory]
-        [InlineData(null, null)]
-        [InlineData("https://anyurl.com", null)]
-        [InlineData("adfhudsha https://discord.gg/GR7g82QB5U hasufhsdauf", "https://discord.gg/GR7g82QB5U")]
-        public void GetDiscordChannel(string description, string expectedDiscordChannel)
+        [InlineData(null, null, null)]
+        [InlineData("https://anyurl.com", null, null)]
+        [InlineData(" https://discord.gg/GR7g82QB5U ", "https://meet.google.com/gpp-qisy-hpi", "https://discord.gg/GR7g82QB5U")]
+        [InlineData(" ", "https://meet.google.com/gpp-qisy-hpi", "https://meet.google.com/gpp-qisy-hpi")]
+        public void GetConferenceUrl(string location, string hangoutLink, string expectedConferenceUrl)
         {
             var @event = new Event
             {
-                Description = description
+                Location = location,
+                HangoutLink = hangoutLink
             };
-            var discordChannel = EventService.GetDiscordChannel(@event);
+            var conferenceUrl = EventService.GetConferenceUrl(@event);
 
-            Assert.Equal(expectedDiscordChannel, discordChannel);
+            Assert.Equal(expectedConferenceUrl, conferenceUrl);
         }
     }
 }
