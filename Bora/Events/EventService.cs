@@ -124,6 +124,10 @@ namespace Bora.Events
         {
             return GetUrl(@event, "chat.whatsapp.com");
         }
+        public static string? GetDiscordChannel(Event @event)
+        {
+            return GetUrl(@event, "discord.gg");
+        }
 
         private static void ValidateEvent(EventInput eventInput)
         {
@@ -335,7 +339,7 @@ namespace Bora.Events
                 GoogleEventUrl = @event.HtmlLink,
                 Public = @event.Visibility == "public",
                 Chat = GetWhatsAppChat(@event),
-                ConferenceUrl = @event.HangoutLink,
+                ConferenceUrl = GetDiscordChannel(@event) ?? @event.HangoutLink,
                 Attendees = attendeeOutputs,
                 TicketUrl = GetTicketUrl(@event),
                 SpotifyUrl = GetSpotifyUrl(@event),

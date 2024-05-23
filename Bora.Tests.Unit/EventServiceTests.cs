@@ -115,5 +115,20 @@ namespace Bora.Tests.Unit
 
             Assert.Equal(expectedWhatsAppChat, whatsAppChatUrl);
         }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("https://anyurl.com", null)]
+        [InlineData("adfhudsha https://discord.gg/GR7g82QB5U hasufhsdauf", "https://discord.gg/GR7g82QB5U")]
+        public void GetDiscordChannel(string description, string expectedDiscordChannel)
+        {
+            var @event = new Event
+            {
+                Description = description
+            };
+            var discordChannel = EventService.GetDiscordChannel(@event);
+
+            Assert.Equal(expectedDiscordChannel, discordChannel);
+        }
     }
 }
