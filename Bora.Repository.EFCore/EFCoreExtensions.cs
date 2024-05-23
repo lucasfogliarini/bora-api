@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Successful connecting to the provider!");
+                    return;
                 }
                 catch (Exception ex)
                 {
@@ -34,7 +35,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     Thread.Sleep(waitInSeconds * 1000);
                     if(retries == 3)
                         throw;
-
                 }
                 finally
                 {
