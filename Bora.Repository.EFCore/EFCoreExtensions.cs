@@ -9,30 +9,38 @@ namespace Microsoft.Extensions.DependencyInjection
 	{
         public static void AddEFCoreRepository(this IServiceCollection serviceCollection, EFCoreProvider efCoreProvider, string? boraDatabaseConnString = null)
         {
-            try
+            int retries = 3;
+            int waitInSeconds = 1;
+            for (int i = 1; i <= retries; i++)
             {
-                Console.WriteLine("Adding BoraDbContext ...");
-                Console.WriteLine($"Using {efCoreProvider} Provider with {boraDatabaseConnString}");
+                try
+                {
+                    Console.WriteLine("Adding BoraDbContext ...");
+                    Console.WriteLine($"Using {efCoreProvider} Provider with {boraDatabaseConnString}");
 
-                TryConnect(efCoreProvider, boraDatabaseConnString);
+                    TryConnect(efCoreProvider, boraDatabaseConnString);
 
-                serviceCollection.AddBoraDbContext(efCoreProvider, boraDatabaseConnString);
+                    serviceCollection.AddBoraDbContext(efCoreProvider, boraDatabaseConnString);
 
-                serviceCollection.AddScoped<IRepository, EFCoreRepository>();
+                    serviceCollection.AddScoped<IRepository, EFCoreRepository>();
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Successful connecting to the provider!");
-            }
-            catch (Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Error connecting to the provider! ({ex.Message})");
-                throw;
-            }
-            finally
-            {
-                Console.ResetColor();
-                Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Successful connecting to the provider!");
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error connecting to the provider! ({ex.Message})");
+                    Thread.Sleep(waitInSeconds * 1000);
+                    if(retries == 3)
+                        throw;
+
+                }
+                finally
+                {
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
             }
         }
 
