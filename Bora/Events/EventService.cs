@@ -18,9 +18,11 @@ namespace Bora.Events
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
         //private IEnumerable<Account> _accounts;
-		//private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();//for azure tables
+        //private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();//for azure tables
+        const string BORA_ADMIN_EMAIL = "bora.reunir@gmail.com";
+        const string BORA_ALWAYS_PRESENT_EMAIL = "lucasfogliarini@gmail.com";
 
-		public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
+        public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
             _boraRepository = boraRepository;
             _accountDataStore = accountDataStore;
@@ -40,6 +42,8 @@ namespace Bora.Events
             var events = await request.ExecuteAsync();
 
             var eventItems = events.Items.AsEnumerable();
+            AlwaysPresent(eventItems);
+
             var account = _accountService.GetAccountByUsername(user);
             if (account.OnlySelfOrganizer)
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
@@ -160,7 +164,7 @@ namespace Bora.Events
                 new EventAttendee
                 {
                     Email = @event.Creator.Email,
-                    ResponseStatus = AttendeeResponseExtensions.ToResponseStatus(AttendeeResponse.Tentative),
+                    ResponseStatus = AttendeeResponseExtensions.ToResponseStatus(attendeeInput.Response),
                     Organizer = true
                 }
             ];
@@ -170,7 +174,6 @@ namespace Bora.Events
                 eventAttendee = new EventAttendee
                 {
                     Email = attendeeInput.Email,
-                    Organizer = true,
                 };
                 @event.Attendees.Add(eventAttendee);
             }
@@ -389,6 +392,26 @@ namespace Bora.Events
                 return @event.Start.DateTime.Value.AddMinutes(-reminderMinutes.Value);
             }
             return null;
+        }
+        private async Task AlwaysPresent(IEnumerable<Event> eventItems)
+        {
+            var boraAloneEvents = eventItems
+                                .Where(e => e.Organizer.Email == BORA_ADMIN_EMAIL
+                                    && e.Attendees != null
+                                    && !e.Attendees.Any(a => a.Email == BORA_ALWAYS_PRESENT_EMAIL))
+                                .ToList();
+
+            if (boraAloneEvents.Any())
+            {
+                var alwaysPresentAttendee = new AttendeeInput
+                {
+                    Email = BORA_ALWAYS_PRESENT_EMAIL,
+                    Response = AttendeeResponse.Accepted,
+                    Comment = "Bora!"
+                };
+
+                await Task.WhenAll(boraAloneEvents.Select(async e => await AddOrUpdateAttendeeAsync(e, alwaysPresentAttendee)));
+            }
         }
     }
 }
