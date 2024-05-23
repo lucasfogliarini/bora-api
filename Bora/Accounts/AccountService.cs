@@ -25,22 +25,24 @@ namespace Bora.Accounts
         public async Task CreateOrUpdateAsync(AuthenticationInput authenticationInput)
         {
             var account = _boraRepository.FirstOrDefault<Account>(e => e.Email == authenticationInput.Email);
+            
             if (account == null)
             {
                 account = new Account(authenticationInput.Email)
                 {
-                    Name = authenticationInput.Name,
                     CreatedAt = DateTime.Now,
-                    Photo = authenticationInput.PhotoUrl
                 };
                 _boraRepository.Add(account);
             }
             else
             {
-                //account.Name = authenticationInput.Name;
-                //account.Photo = authenticationInput.PhotoUrl;
                 _boraRepository.Update(account);
             }
+
+            account.Name = authenticationInput.Name;
+            account.Photo = authenticationInput.PhotoUrl;
+            account.UpdatedAt = DateTime.Now;
+
             await _boraRepository.CommitAsync();
         }
         public async Task UpdateAsync(string email, AccountInput accountInput)
