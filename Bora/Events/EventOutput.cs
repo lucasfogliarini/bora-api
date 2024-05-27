@@ -19,6 +19,7 @@
         public string? YouTubeUrl { get; set; }
         public string[]? Attachments { get; set; }
         public string? GoogleEventUrl { get; set; }
+        public IList<string>? Recurrence { get; set; }
         public bool Public { get; set; }
     }
 }

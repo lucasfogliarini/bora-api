@@ -353,7 +353,7 @@ namespace Bora.Events
 
             return new EventOutput
             {
-                Id = @event.Id,
+                Id = @event.Id,  
                 Title = @event.Summary,
                 Description = @event.Description,
                 Location = @event.Location,
@@ -370,7 +370,8 @@ namespace Bora.Events
                 InstagramUrl = GetInstagramUrl(@event),
                 YouTubeUrl = GetYouTubeUrl(@event),
                 Attachments = GetAttachments(@event),
-                Deadline = GetDeadLine(@event)
+                Deadline = GetDeadLine(@event),
+                Recurrence = @event.Recurrence,
             };
         }
         private static string? GetUrl(string description, params string[] domains)
