@@ -138,6 +138,10 @@ namespace Bora.Events
         {
             return GetUrl(@event.Description, "chat.whatsapp.com");
         }
+        public static string? GetSpotifyJam(Event @event)
+        {
+            return GetUrl(@event.Description, "spotify.link", "open.spotify.com");
+        }
         public static string? GetDiscordChannel(Event @event)
         {
             bool hasDiscord = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("discord.gg");
@@ -145,7 +149,7 @@ namespace Bora.Events
         }
         public static string GetConferenceUrl(Event @event)
         {
-            var conferenceUrl = GetDiscordChannel(@event) ?? @event.HangoutLink;
+            var conferenceUrl = GetDiscordChannel(@event) ?? GetSpotifyJam(@event) ?? @event.HangoutLink;
             return conferenceUrl;
         }
 

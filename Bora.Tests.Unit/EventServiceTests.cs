@@ -120,16 +120,19 @@ namespace Bora.Tests.Unit
         }
 
         [Theory]
-        [InlineData(null, null, null)]
-        [InlineData("https://anyurl.com", null, null)]
-        [InlineData(" https://discord.gg/GR7g82QB5U ", "https://meet.google.com/gpp-qisy-hpi", "https://discord.gg/GR7g82QB5U")]
-        [InlineData(" ", "https://meet.google.com/gpp-qisy-hpi", "https://meet.google.com/gpp-qisy-hpi")]
-        public void GetConferenceUrl(string location, string hangoutLink, string expectedConferenceUrl)
+        [InlineData(null, null, null, null)]
+        [InlineData("https://anyurl.com", null, null, null)]
+        [InlineData(" https://discord.gg/GR7g82QB5U ", "https://meet.google.com/gpp-qisy-hpi", "", "https://discord.gg/GR7g82QB5U")]
+        [InlineData("location", "https://meet.google.com/gpp-qisy-hpi", "", "https://meet.google.com/gpp-qisy-hpi")]
+        [InlineData("location","hangoutLink", "aa https://spotify.link/DeJLQwssWJb aa", "https://spotify.link/DeJLQwssWJb")]
+        [InlineData("location", "hangoutLink", "aa https://open.spotify.com/playlist/07BYjFAmOPfj8kLdVbMgfK?si=85272cfd42d34d4e aa", "https://open.spotify.com/playlist/07BYjFAmOPfj8kLdVbMgfK?si=85272cfd42d34d4e")]
+        public void GetConferenceUrl(string location, string hangoutLink, string? description, string expectedConferenceUrl)
         {
             var @event = new Event
             {
                 Location = location,
-                HangoutLink = hangoutLink
+                HangoutLink = hangoutLink,
+                Description = description
             };
             var conferenceUrl = EventService.GetConferenceUrl(@event);
 
