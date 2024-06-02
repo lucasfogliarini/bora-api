@@ -1,0 +1,21 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Jwt": {
+    "SecurityKey": "{SecurityKey}"
+  },
+  "ConnectionStrings": {
+    "BoraRepository": "{BoraRepository}"
+  },
+  "GoogleCalendar": {
+    "ApplicationName": "Bora",
+    "ClientId": "{ClientId}",
+    "ClientSecret": "{ClientSecret}",
+    "TokenFolder": "token.json"
+  }
+}

@@ -364,3 +364,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /BoraApi/appsettings.Development.json
 /BoraApi/appsettings.Development.json
+/Bora.Tests.Unit/appsettings.Test.json

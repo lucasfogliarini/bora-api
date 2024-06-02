@@ -38,8 +38,7 @@ namespace Bora.Repository.Dapper
 		public void Remove<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			dbConnection.Execute($"DELETE FROM {typeof(TEntity).Name} WHERE Id = @Id", entity.Id);
-		}
-		
+		}		
 		public void Update<TEntity>(TEntity entity) where TEntity : Entity
 		{
 			var setValuesCollection = entity.GetType().GetProperties()
@@ -48,7 +47,6 @@ namespace Bora.Repository.Dapper
 			string setValues = string.Join(",", setValuesCollection);
 			dbConnection.Execute($"UPDATE {typeof(TEntity).Name} SET {setValues} WHERE Id = {entity.Id}");
 		}
-
 		private string ToSetValue(PropertyInfo property, Entity entity)
         {
             if (property.PropertyType.IsEnum)
@@ -67,7 +65,6 @@ namespace Bora.Repository.Dapper
                 return $"{property.Name} = '{property.GetValue(entity)}'";
             }
         }
-
         //TODO
         public void Add<TEntity>(TEntity entity) where TEntity : Entity
 		{
@@ -81,11 +78,14 @@ namespace Bora.Repository.Dapper
 			{
 				dbConnection.Execute($"UPDATE {typeof(TEntity).Name} SET Name = @Name, OtherProperties = @OtherProperties WHERE Id = @Id", entity);
 			}
-		}
-		
+		}		
 		public async Task<int> CommitAsync()
 		{
 			throw new NotImplementedException();
 		}
-	}
+        public Task SeedAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -15,5 +15,6 @@ namespace Bora
 		void Update<TEntity>(TEntity entity) where TEntity : Entity;
 		void Remove<TEntity>(TEntity entity) where TEntity : Entity;
 		Task<int> CommitAsync();
-	}
+        Task SeedAsync();
+    }
 }

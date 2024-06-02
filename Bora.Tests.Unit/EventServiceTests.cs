@@ -1,10 +1,92 @@
 using Bora.Events;
 using Google.Apis.Calendar.v3.Data;
+using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Tests.Unit
 {
-    public class EventServiceTests
+    public class EventServiceTests : TestsBase
     {
+        [Theory]
+        [InlineData(null, null, typeof(ValidationException), "Usuário não existe.")]
+        [InlineData("bora.work", -1, typeof(ValidationException), "O encontro precisa ser maior que agora ...")]
+        [InlineData("bora.work", null, null, "Start and end times must either not null.")]
+        [InlineData("bora.work", 1, null, null)]
+        public async void CreateAsync(string? user, int? startAddMinutes, Type? exactExceptionType, string? expectedMessage)
+        {
+            DateTimeOffset? startDateTimeOffset = startAddMinutes == null ? null : DateTimeOffset.Now.AddMinutes(startAddMinutes.Value);
+            var eventInput = new EventInput
+            {
+                Title = $"{nameof(CreateAsync)} test",
+                Public = false,
+                Start = startDateTimeOffset,
+                End = startDateTimeOffset
+            };
+
+            var attendeeInput = new AttendeeInput
+            {
+                Email = ADMIN_EMAIL,
+                Response = AttendeeResponse.Accepted
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var actualException = await Record.ExceptionAsync(async () =>
+            {
+                await eventService.CreateAsync(user, eventInput, attendeeInput);
+            });
+
+            if(exactExceptionType == null)
+            {
+                Assert.Null(actualException);
+            }
+            else
+            {
+                Assert.IsType(exactExceptionType, actualException);
+                Assert.Equal(expectedMessage, actualException.Message);
+            }
+        }
+
+        [Theory]
+        [InlineData(null, null, typeof(ValidationException), "Usuário não existe.")]
+        [InlineData("bora.work", -1, typeof(ValidationException), "O encontro precisa ser maior que agora ...")]
+        [InlineData("bora.work", null, null, null)]
+        public async void UpdateAsync(string? user, int? startAddDays, Type? exactExceptionType, string? expectedMessage)
+        {
+            DateTimeOffset? startDateTimeOffset = startAddDays == null ? null : DateTimeOffset.Now.AddDays(startAddDays.Value);
+            string? eventId = "nqt67u3429s96rei4njaiuu1p8";
+            var eventInput = new EventInput
+            {
+                Title = $"{nameof(UpdateAsync)} test",
+                Public = false,
+                Start = startDateTimeOffset,
+                End = startDateTimeOffset
+            };
+
+            var attendeeInput = new AttendeeInput
+            {
+                Email = ADMIN_EMAIL,
+                Response = AttendeeResponse.Accepted
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var actualException = await Record.ExceptionAsync(async () =>
+            {
+                await eventService.UpdateAsync(user, eventId, eventInput);
+            });
+
+            if (exactExceptionType == null)
+            {
+                Assert.Null(actualException);
+            }
+            else
+            {
+                Assert.IsType(exactExceptionType, actualException);
+                Assert.Equal(expectedMessage, actualException.Message);
+            }
+        }
+
         [Theory]
         [InlineData(null, null, null)]
         [InlineData("https://anyurl.com", null, null)]

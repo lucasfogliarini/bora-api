@@ -2,6 +2,7 @@
 {
     public class EventInput
     {
+        public bool Create { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTimeOffset? Start { get; set; }

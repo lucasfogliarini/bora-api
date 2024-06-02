@@ -72,6 +72,7 @@ namespace Bora.Events
         {
             ValidateEvent(eventInput);
             await InitializeCalendarServiceAsync(user);
+            eventInput.Create = true;
             var @event = ToGoogleEvent(eventInput);
             var request = _calendarService.Events.Insert(@event, eventInput.CalendarId);
             request.ConferenceDataVersion = 1;
@@ -300,12 +301,23 @@ namespace Bora.Events
         }
         private static Event ToGoogleEvent(EventInput eventInput)
         {
+            if (eventInput.Create)
+            {
+                if(eventInput.Start == null) eventInput.Start = DateTimeOffset.Now.AddMinutes(10);
+                if (eventInput.End == null) eventInput.End = eventInput.Start.Value.AddMinutes(30);
+                if (eventInput.Start == null || eventInput.End == null)
+                {
+                    throw new ValidationException("Start and end times must either not null.");
+                }
+            }
+
             var @event = new Event
             {
                 Location = eventInput.Location,
                 Summary = eventInput.Title,
                 Description = eventInput.Description,
-                
+                Start = new EventDateTime { DateTimeDateTimeOffset = eventInput.Start },
+                End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End },
             };
 
             if (eventInput.Color.HasValue)
@@ -316,14 +328,7 @@ namespace Bora.Events
             if (eventInput.Public != null)
             {
                 @event.Visibility = eventInput.Public.Value ? "public" : "private";
-            }
-
-			//eventInput.Start ??= DateTime.Now.AddDays(1);
-			//var eventStart = eventInput.Start.Value;
-			//eventInput.End ??= eventStart.AddHours(1);
-
-			@event.Start = new EventDateTime { DateTimeDateTimeOffset = eventInput.Start };
-			@event.End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End };
+            }			
 
 			if (eventInput.AddConference)
             {
