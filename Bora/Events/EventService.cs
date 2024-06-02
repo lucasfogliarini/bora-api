@@ -134,7 +134,7 @@ namespace Bora.Events
         {
             return GetUrl(@event.Description, "youtube", "youtu.be");
         }
-        public static string? GetWhatsAppChat(Event @event)
+        public static string? GetWhatsAppGroupChat(Event @event)
         {
             return GetUrl(@event.Description, "chat.whatsapp.com");
         }
@@ -147,9 +147,14 @@ namespace Bora.Events
             bool hasDiscord = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("discord.gg");
             return hasDiscord ? GetUrl(@event.Location, "discord.gg") : null;
         }
+        public static string? GetWhatsAppMe(Event @event)
+        {
+            bool hasWaMe = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("wa.me");
+            return hasWaMe ? GetUrl(@event.Location, "wa.me") : null;
+        }
         public static string GetConferenceUrl(Event @event)
         {
-            var conferenceUrl = GetDiscordChannel(@event) ?? GetSpotifyJam(@event) ?? @event.HangoutLink;
+            var conferenceUrl = GetDiscordChannel(@event) ?? GetWhatsAppMe(@event) ?? GetSpotifyJam(@event) ?? @event.HangoutLink;
             return conferenceUrl;
         }
 
@@ -361,7 +366,7 @@ namespace Bora.Events
                 End = @event.End.DateTime ?? DateTime.Parse(@event.End.Date),
                 GoogleEventUrl = @event.HtmlLink,
                 Public = @event.Visibility == "public",
-                Chat = GetWhatsAppChat(@event),
+                Chat = GetWhatsAppGroupChat(@event),
                 ConferenceUrl = GetConferenceUrl(@event),
                 Attendees = attendeeOutputs,
                 TicketUrl = GetTicketUrl(@event),

@@ -108,13 +108,13 @@ namespace Bora.Tests.Unit
         [InlineData(null, null)]
         [InlineData("https://anyurl.com", null)]
         [InlineData("adfhudsha https://chat.whatsapp.com/BVoLGzZTQYKFpCyzUYJnPu hasufhsdauf", "https://chat.whatsapp.com/BVoLGzZTQYKFpCyzUYJnPu")]
-        public void GetWhatsAppChat(string description, string expectedWhatsAppChat)
+        public void GetWhatsAppGroupChat(string description, string expectedWhatsAppChat)
         {
             var @event = new Event
             {
                 Description = description
             };
-            var whatsAppChatUrl = EventService.GetWhatsAppChat(@event);
+            var whatsAppChatUrl = EventService.GetWhatsAppGroupChat(@event);
 
             Assert.Equal(expectedWhatsAppChat, whatsAppChatUrl);
         }
@@ -123,6 +123,7 @@ namespace Bora.Tests.Unit
         [InlineData(null, null, null, null)]
         [InlineData("https://anyurl.com", null, null, null)]
         [InlineData(" https://discord.gg/GR7g82QB5U ", "https://meet.google.com/gpp-qisy-hpi", "", "https://discord.gg/GR7g82QB5U")]
+        [InlineData(" https://wa.me/51992364249 ", "hangoutLink", "", "https://wa.me/51992364249")]
         [InlineData("location", "https://meet.google.com/gpp-qisy-hpi", "", "https://meet.google.com/gpp-qisy-hpi")]
         [InlineData("location","hangoutLink", "aa https://spotify.link/DeJLQwssWJb aa", "https://spotify.link/DeJLQwssWJb")]
         [InlineData("location", "hangoutLink", "aa https://open.spotify.com/playlist/07BYjFAmOPfj8kLdVbMgfK?si=85272cfd42d34d4e aa", "https://open.spotify.com/playlist/07BYjFAmOPfj8kLdVbMgfK?si=85272cfd42d34d4e")]
