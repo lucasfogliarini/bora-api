@@ -301,15 +301,11 @@ namespace Bora.Events
         }
         private static Event ToGoogleEvent(EventInput eventInput)
         {
-            if (eventInput.Create)
-            {
-                if(eventInput.Start == null) eventInput.Start = DateTimeOffset.Now.AddMinutes(10);
-                if (eventInput.End == null) eventInput.End = eventInput.Start.Value.AddMinutes(30);
-                if (eventInput.Start == null || eventInput.End == null)
-                {
-                    throw new ValidationException("Start and end times must either not null.");
-                }
-            }
+            if (eventInput.Create && eventInput.Start == null)
+                eventInput.Start = DateTimeOffset.Now.AddMinutes(10);
+
+            if (eventInput.Start != null && eventInput.End == null)
+                eventInput.End = eventInput.Start.Value.AddMinutes(30);
 
             var @event = new Event
             {
@@ -319,6 +315,11 @@ namespace Bora.Events
                 Start = new EventDateTime { DateTimeDateTimeOffset = eventInput.Start },
                 End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End },
             };
+
+            if (eventInput.Create && (eventInput.Start == null || eventInput.End == null))
+            {
+                throw new ValidationException("Start and end times must either not null.");
+            }
 
             if (eventInput.Color.HasValue)
 			{

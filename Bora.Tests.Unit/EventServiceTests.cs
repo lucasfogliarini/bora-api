@@ -51,6 +51,7 @@ namespace Bora.Tests.Unit
         [InlineData(null, null, typeof(ValidationException), "Usuário não existe.")]
         [InlineData("bora.work", -1, typeof(ValidationException), "O encontro precisa ser maior que agora ...")]
         [InlineData("bora.work", null, null, null)]
+        [InlineData("bora.work", 1, null, null)]
         public async void UpdateAsync(string? user, int? startAddDays, Type? exactExceptionType, string? expectedMessage)
         {
             DateTimeOffset? startDateTimeOffset = startAddDays == null ? null : DateTimeOffset.Now.AddDays(startAddDays.Value);
@@ -60,7 +61,7 @@ namespace Bora.Tests.Unit
                 Title = $"{nameof(UpdateAsync)} test",
                 Public = false,
                 Start = startDateTimeOffset,
-                End = startDateTimeOffset
+                End = null
             };
 
             var attendeeInput = new AttendeeInput
