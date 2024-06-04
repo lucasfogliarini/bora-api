@@ -1,8 +1,11 @@
-﻿using System.Net.Mail;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Bora.Entities
 {
-	public class Account : Entity
+    public class Account : Entity
     {
         public Account()
         {
@@ -31,7 +34,9 @@ namespace Bora.Entities
         /// Returns only events organized by the account owner.
         /// </summary>
         public bool OnlySelfOrganizer { get; set; }
+        [IgnoreDataMember]
         public string? CalendarAccessToken { get; set; }
+        [IgnoreDataMember]
         public string? CalendarRefreshAccessToken { get; set; }
 	}
 }

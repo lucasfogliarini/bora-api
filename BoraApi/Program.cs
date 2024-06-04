@@ -9,7 +9,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.HttpOverrides;
 using Bora.Accounts;
 using System.Security.Authentication;
-using Bora.Entities;
 using Bora;
 using BoraApi.OData;
 using BoraApi.Jwt;
