@@ -15,6 +15,15 @@ namespace Bora.Entities
             Email = email;
             Username = new MailAddress(email).User;
 		}
+        public DateTimeOffset? PartnerSince { get; set; }
+        public bool IsPartner { get; set; }
+        public bool PartnerCommentsEnabled { get; set; }
+        public bool PartnerCallsOpen { get; set; }
+        public bool CalendarAuthorized { get; set; }
+        [IgnoreDataMember]
+        public string? CalendarAccessToken { get; set; }
+        [IgnoreDataMember]
+        public string? CalendarRefreshAccessToken { get; set; }
         public string Username { get; set; }
 		public string? Accountability { get; set; }
         public string Name { get; set; }
@@ -25,18 +34,11 @@ namespace Bora.Entities
         public string? Linkedin { get; set; }
         public string? Spotify { get; set; }
         public string? YouTube { get; set; }
-        public bool CalendarAuthorized { get; set; }
-        public bool IsPartner { get; set; }
-        public bool PartnerCommentsEnabled { get; set; }
-        public bool PartnerCallsOpen { get; set; }
         public EventVisibility EventVisibility { get; set; }
         /// <summary>
         /// Returns only events organized by the account owner.
         /// </summary>
         public bool OnlySelfOrganizer { get; set; }
-        [IgnoreDataMember]
-        public string? CalendarAccessToken { get; set; }
-        [IgnoreDataMember]
-        public string? CalendarRefreshAccessToken { get; set; }
+        
 	}
 }
