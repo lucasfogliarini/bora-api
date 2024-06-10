@@ -49,6 +49,8 @@ namespace Bora.Events
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
 
 			var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
+            if(eventsFilter.HasTicket.GetValueOrDefault())
+                eventsOutput = eventsOutput.Where(e => e.TicketUrl != null);
             return eventsOutput;
         }
 		public async Task<EventsCountOutput> EventsCountAsync(string user)

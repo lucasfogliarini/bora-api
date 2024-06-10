@@ -18,5 +18,6 @@
         ///  Optional.
 		/// </summary>
 		public string? Query { get; set; }
+        public bool? HasTicket { get; set; }
     }
 }

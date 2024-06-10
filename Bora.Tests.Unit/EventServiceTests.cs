@@ -8,6 +8,25 @@ namespace Bora.Tests.Unit
     public class EventServiceTests : TestsBase
     {
         [Theory]
+        [InlineData("bora.work", true)]
+        [InlineData("bora.work", false)]
+        [InlineData("bora.work", null)]
+        public async void EventsAsync_ShouldFilter_Tickets(string? user, bool? hasTicket)
+        {
+            var eventsFilterInput = new EventsFilterInput
+            {
+                HasTicket = hasTicket,
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var events = await eventService.EventsAsync(user, eventsFilterInput);
+
+            var allHasTickets = events.All(e => e.TicketUrl != null);
+            Assert.Equal(hasTicket ?? false, allHasTickets);
+        }
+
+        [Theory]
         [InlineData(null, null, typeof(ValidationException), "Usuário não existe.")]
         [InlineData("bora.work", -1, typeof(ValidationException), "O encontro precisa ser maior que agora ...")]
         [InlineData("bora.work", null, null, "Start and end times must either not null.")]
