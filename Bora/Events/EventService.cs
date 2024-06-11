@@ -160,6 +160,18 @@ namespace Bora.Events
             var conferenceUrl = GetDiscordChannel(@event) ?? GetWhatsAppMe(@event) ?? GetSpotifyJam(@event) ?? @event.HangoutLink;
             return conferenceUrl;
         }
+        public static decimal GetDiscount(Event @event)
+        {
+            if (@event.Summary != null)
+            {
+                Regex regex = new(@"\b(\d{1,3})%\$");
+                Match match = regex.Match(@event.Summary);
+
+                if (match.Success)
+                    return decimal.Parse(match.Groups[1].Value);
+            }
+            return 0;
+        }
 
         private static void ValidateEvent(EventInput eventInput)
         {
@@ -380,6 +392,7 @@ namespace Bora.Events
                 TicketUrl = GetTicketUrl(@event),
                 TicketDomain = GetTicketDomain(@event),
                 SpotifyUrl = GetSpotifyUrl(@event),
+                Discount = GetDiscount(@event),
                 InstagramUrl = GetInstagramUrl(@event),
                 YouTubeUrl = GetYouTubeUrl(@event),
                 Attachments = GetAttachments(@event),

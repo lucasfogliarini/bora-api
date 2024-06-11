@@ -8,6 +8,23 @@ namespace Bora.Tests.Unit
     public class EventServiceTests : TestsBase
     {
         [Theory]
+        [InlineData("bora.work")]
+        public async void EventsAsync(string? user)
+        {
+            var eventsFilterInput = new EventsFilterInput
+            {
+                //FavoritesCount = true,
+                //HasTicket = true,
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var events = await eventService.EventsAsync(user, eventsFilterInput);
+
+            Assert.True(true);//apenas pra debugar
+        }
+
+        [Theory]
         [InlineData("bora.work", true)]
         [InlineData("bora.work", false)]
         [InlineData("bora.work", null)]
@@ -240,6 +257,22 @@ namespace Bora.Tests.Unit
             var conferenceUrl = EventService.GetConferenceUrl(@event);
 
             Assert.Equal(expectedConferenceUrl, conferenceUrl);
+        }
+
+        [Theory]
+        [InlineData(null, 0)]
+        [InlineData("", 0)]
+        [InlineData("sem desconto", 0)]
+        [InlineData("titulo tal com 20%$", 20)]
+        public void GetDiscount(string summary, decimal expectedDiscount)
+        {
+            var @event = new Event
+            {
+                 Summary = summary
+            };
+            var discount = EventService.GetDiscount(@event);
+
+            Assert.Equal(expectedDiscount, discount);
         }
     }
 }
