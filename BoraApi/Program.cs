@@ -117,8 +117,9 @@ static void AddRepository(WebApplicationBuilder builder)
 {
 	try
 	{
+		var efCoreProvider = builder.Environment.IsProduction() ? EFCoreProvider.SqlServer: EFCoreProvider.InMemory;
         var repositoryConnectionString = TryGetConnectionString(builder);
-        builder.Services.AddEFCoreRepository(EFCoreProvider.SqlServer, repositoryConnectionString);
+        builder.Services.AddEFCoreRepository(efCoreProvider, repositoryConnectionString);
         //builder.Services.AddDapperRepository(repositoryConnectionString);
     }
     catch (Exception)
