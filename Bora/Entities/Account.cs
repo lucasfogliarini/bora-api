@@ -35,6 +35,7 @@ namespace Bora.Entities
         public string? Linkedin { get; set; }
         public string? Spotify { get; set; }
         public string? YouTube { get; set; }
+        public string? Chess { get; set; }
         public EventVisibility EventVisibility { get; set; }
         /// <summary>
         /// Returns only events organized by the account owner.
