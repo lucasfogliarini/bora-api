@@ -34,7 +34,7 @@ namespace Bora.Events
             await InitializeCalendarServiceAsync(user);
             var request = _calendarService.Events.List(eventsFilter.CalendarId);
             request.TimeMinDateTimeOffset = eventsFilter.TimeMin ?? DateTime.Now;
-            request.TimeMaxDateTimeOffset = eventsFilter.TimeMax ?? DateTime.Now.AddMonths(6);
+            request.TimeMaxDateTimeOffset = eventsFilter.TimeMax ?? DateTime.Now.AddYears(1);
             request.Q = eventsFilter.Query;
             request.SingleEvents = true;
             request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
