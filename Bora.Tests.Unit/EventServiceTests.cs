@@ -61,8 +61,8 @@ namespace Bora.Tests.Unit
 
             var attendeeInput = new AttendeeInput
             {
-                Email = ADMIN_EMAIL,
-                Response = AttendeeResponse.Accepted
+                Email = ARQUITETO_EMAIL,
+                Response = AttendeeResponse.accepted
             };
 
             var eventService = _serviceProvider.GetService<IEventService>()!;
@@ -72,7 +72,7 @@ namespace Bora.Tests.Unit
                 await eventService.CreateAsync(user, eventInput, attendeeInput);
             });
 
-            if(exactExceptionType == null)
+            if(exactExceptionType == null)//when works
             {
                 Assert.Null(actualException);
             }
@@ -102,8 +102,8 @@ namespace Bora.Tests.Unit
 
             var attendeeInput = new AttendeeInput
             {
-                Email = ADMIN_EMAIL,
-                Response = AttendeeResponse.Accepted
+                Email = ARQUITETO_EMAIL,
+                Response = AttendeeResponse.accepted
             };
 
             var eventService = _serviceProvider.GetService<IEventService>()!;

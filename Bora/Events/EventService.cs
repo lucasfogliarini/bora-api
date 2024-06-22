@@ -188,7 +188,7 @@ namespace Bora.Events
                 new EventAttendee
                 {
                     Email = @event.Creator.Email,
-                    ResponseStatus = AttendeeResponseExtensions.ToResponseStatus(attendeeInput.Response),
+                    ResponseStatus = AttendeeResponse.tentative.ToString(),
                     Organizer = true
                 }
             ];
@@ -201,7 +201,7 @@ namespace Bora.Events
                 };
                 @event.Attendees.Add(eventAttendee);
             }
-            eventAttendee.ResponseStatus =  attendeeInput.Response.ToResponseStatus() ?? eventAttendee.ResponseStatus;
+            eventAttendee.ResponseStatus =  attendeeInput.Response.ToString() ?? eventAttendee.ResponseStatus;
             eventAttendee.Comment = attendeeInput.Comment ?? eventAttendee.Comment;
 
             @event.GuestsCanModify = true; // @event.Attendees.Count <= 2;
@@ -437,7 +437,7 @@ namespace Bora.Events
                 var alwaysPresentAttendee = new AttendeeInput
                 {
                     Email = BORA_ALWAYS_PRESENT_EMAIL,
-                    Response = AttendeeResponse.Accepted,
+                    Response = AttendeeResponse.accepted,
                     Comment = "Bora!"
                 };
 

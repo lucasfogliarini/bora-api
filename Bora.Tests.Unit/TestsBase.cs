@@ -7,7 +7,7 @@ namespace Bora.Tests.Unit
     public abstract class TestsBase
     {
         protected readonly ServiceProvider _serviceProvider;
-        protected const string ADMIN_EMAIL = "lucasfogliarini@gmail.com";
+        protected const string ARQUITETO_EMAIL = "lucasfogliarini@gmail.com";
         public TestsBase()
         {
             var builder = new ConfigurationBuilder()

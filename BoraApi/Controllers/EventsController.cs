@@ -35,7 +35,7 @@ namespace Bora.Api.Controllers
             var attendeeInput = new AttendeeInput
             {
                 Email = AuthenticatedUserEmail!,
-                Response = AttendeeResponse.Accepted
+                Response = AttendeeResponse.accepted
             };
             var @event = await _eventService.CreateAsync(user, eventInput, attendeeInput);
             return Ok(@event);
