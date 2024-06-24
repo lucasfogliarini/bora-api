@@ -7,6 +7,7 @@ using Google.Apis.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using SendUpdatesEnum = Google.Apis.Calendar.v3.EventsResource.PatchRequest.SendUpdatesEnum;
+using System.Net.Mail;
 
 namespace Bora.Events
 {
@@ -80,7 +81,7 @@ namespace Bora.Events
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
             CreateReminderTask(eventInput);
-            await AddOrUpdateAttendeeAsync(gEvent, attendeeInput);
+            await AddOrUpdateAttendeesAsync(gEvent, attendeeInput);
             return ToEventOutput(gEvent);
         }
         public async Task<EventOutput> UpdateAsync(string user, string eventId, EventInput eventInput)
@@ -98,7 +99,7 @@ namespace Bora.Events
             await InitializeCalendarServiceAsync(user);
 
             var @event = await GetAsync(eventId) ?? throw new ValidationException($"Não existe um evento com id {eventId}.");
-            await AddOrUpdateAttendeeAsync(@event, attendeeInput);
+            await AddOrUpdateAttendeesAsync(@event, attendeeInput);
 
             return ToEventOutput(@event);
         }
@@ -178,7 +179,7 @@ namespace Bora.Events
             if (eventInput.Start.HasValue && eventInput.Start.Value < DateTime.Now)
                 throw new ValidationException("O encontro precisa ser maior que agora ...");
         }
-        private async Task AddOrUpdateAttendeeAsync(Event @event, AttendeeInput attendeeInput)
+        private async Task AddOrUpdateAttendeesAsync(Event @event, AttendeeInput attendeeInput)
         {
             if(@event.Creator?.Email == null || @event.Id == null)
                 throw new ValidationException($"O evento deve ter um Creator e um Id para adicionar um novo Attendee.");
@@ -208,6 +209,11 @@ namespace Bora.Events
 
             var request = _calendarService.Events.Patch(@event, @event.Organizer.Email, @event.Id);
             request.SendUpdates = SendUpdates(@event);
+
+            var attendeeGoogleUser = new MailAddress(eventAttendee.Email!).User;
+            var eventCreatorGoogleUser = new MailAddress(@event.Creator.Email).User;
+            @event.Summary ??= $"{attendeeGoogleUser} + {eventCreatorGoogleUser}";
+
             await request.ExecuteAsync();
         }
         private IEnumerable<AttendeeOutput>? GetAttendees(Event @event)
@@ -321,10 +327,11 @@ namespace Bora.Events
             if (eventInput.Start != null && eventInput.End == null)
                 eventInput.End = eventInput.Start.Value.AddMinutes(30);
 
+            var title = eventInput.Title ?? $"";
             var @event = new Event
             {
                 Location = eventInput.Location,
-                Summary = eventInput.Title,
+                Summary = title,
                 Description = eventInput.Description,
                 Start = new EventDateTime { DateTimeDateTimeOffset = eventInput.Start },
                 End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End },
@@ -441,7 +448,7 @@ namespace Bora.Events
                     Comment = "Bora!"
                 };
 
-                await Task.WhenAll(boraAloneEvents.Select(async e => await AddOrUpdateAttendeeAsync(e, alwaysPresentAttendee)));
+                await Task.WhenAll(boraAloneEvents.Select(async e => await AddOrUpdateAttendeesAsync(e, alwaysPresentAttendee)));
             }
         }
     }

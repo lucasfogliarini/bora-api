@@ -53,7 +53,6 @@ namespace Bora.Tests.Unit
             DateTimeOffset? startDateTimeOffset = startAddMinutes == null ? null : DateTimeOffset.Now.AddMinutes(startAddMinutes.Value);
             var eventInput = new EventInput
             {
-                Title = $"{nameof(CreateAsync)} test",
                 Public = false,
                 Start = startDateTimeOffset,
                 End = startDateTimeOffset
