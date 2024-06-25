@@ -327,11 +327,10 @@ namespace Bora.Events
             if (eventInput.Start != null && eventInput.End == null)
                 eventInput.End = eventInput.Start.Value.AddMinutes(30);
 
-            var title = eventInput.Title ?? $"";
             var @event = new Event
             {
                 Location = eventInput.Location,
-                Summary = title,
+                Summary = eventInput.Title,
                 Description = eventInput.Description,
                 Start = new EventDateTime { DateTimeDateTimeOffset = eventInput.Start },
                 End = new EventDateTime { DateTimeDateTimeOffset = eventInput.End },
