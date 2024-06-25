@@ -67,7 +67,11 @@ namespace Bora.Accounts
                 if (accountInput.YouTube != null)
                     account.YouTube = accountInput.YouTube;
                 if (accountInput.IsPartner != null)
+                {
                     account.IsPartner = accountInput.IsPartner.Value;
+                    if (account.IsPartner && account.PartnerSince == null)
+                        account.PartnerSince = DateTime.Now;
+                }   
 
                 _boraRepository.Update(account);
                 await _boraRepository.CommitAsync();
