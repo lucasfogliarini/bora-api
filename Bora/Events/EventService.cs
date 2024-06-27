@@ -156,9 +156,18 @@ namespace Bora.Events
             bool hasWaMe = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("wa.me");
             return hasWaMe ? GetUrl(@event.Location, "wa.me") : null;
         }
+        public static string? GetMetaChannel(Event @event)
+        {
+            bool hasMetaChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("horizon.meta.com");
+            return hasMetaChannel ? GetUrl(@event.Location, "horizon.meta.com") : null;
+        }
         public static string GetConferenceUrl(Event @event)
         {
-            var conferenceUrl = GetDiscordChannel(@event) ?? GetWhatsAppMe(@event) ?? GetSpotifyJam(@event) ?? @event.HangoutLink;
+            var conferenceUrl = GetDiscordChannel(@event) ?? 
+                                GetMetaChannel(@event) ??
+                                GetWhatsAppMe(@event) ??
+                                GetSpotifyJam(@event) ??
+                                @event.HangoutLink;
             return conferenceUrl;
         }
         public static decimal GetDiscount(Event @event)
