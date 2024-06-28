@@ -240,6 +240,7 @@ namespace Bora.Tests.Unit
         [Theory]
         [InlineData(null, null, null, null)]
         [InlineData("https://anyurl.com", null, null, null)]
+        [InlineData(" https://live.tribexr.com/lucasfogliarini ", "https://meet.google.com/gpp-qisy-hpi", "", "https://live.tribexr.com/lucasfogliarini")]
         [InlineData(" https://horizon.meta.com/lucasfogliarini ", "https://meet.google.com/gpp-qisy-hpi", "", "https://horizon.meta.com/lucasfogliarini")]
         [InlineData(" https://discord.gg/GR7g82QB5U ", "https://meet.google.com/gpp-qisy-hpi", "", "https://discord.gg/GR7g82QB5U")]
         [InlineData(" https://wa.me/51992364249 ", "https://meet.google.com/gpp-qisy-hpi", "", "https://wa.me/51992364249")]

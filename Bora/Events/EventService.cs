@@ -161,12 +161,18 @@ namespace Bora.Events
             bool hasMetaChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("horizon.meta.com");
             return hasMetaChannel ? GetUrl(@event.Location, "horizon.meta.com") : null;
         }
+        public static string? GetTribeChannel(Event @event)
+        {
+            bool hasTribeChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("live.tribexr.com");
+            return hasTribeChannel ? GetUrl(@event.Location, "live.tribexr.com") : null;
+        }
         public static string GetConferenceUrl(Event @event)
         {
             var conferenceUrl = GetDiscordChannel(@event) ?? 
                                 GetMetaChannel(@event) ??
                                 GetWhatsAppMe(@event) ??
                                 GetSpotifyJam(@event) ??
+                                GetTribeChannel(@event) ??
                                 @event.HangoutLink;
             return conferenceUrl;
         }
