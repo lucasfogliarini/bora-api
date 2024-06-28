@@ -363,7 +363,10 @@ namespace Bora.Events
 
             if (eventInput.Public != null)
             {
-                @event.Visibility = eventInput.Public.Value ? "public" : "private";
+                if(eventInput.Public.Value)//não funciona ainda
+                    @event.Description = @event.Description?.Replace(EventOutput.PRIVADO, "").Replace(EventOutput.PRIVATE, "");
+                else
+                    @event.Description += EventOutput.PRIVADO;
             }			
 
 			if (eventInput.AddConference)

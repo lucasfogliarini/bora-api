@@ -31,7 +31,7 @@ namespace Bora.Tests.Unit
         [InlineData("lucasfogliarini", EventOutput.PRIVADO, false)]
         [InlineData("lucasfogliarini", "", true)]
         [InlineData("lucasfogliarini", null, true)]
-        public async void EventsAsync_ShouldPublicOrPrivate_When(string? user, string description, bool expectedPublic)
+        public async void EventsAsync_ShouldPublicOrPrivate_When(string user, string description, bool expectedPublic)
         {
             var eventsFilterInput = new EventsFilterInput
             {
@@ -154,6 +154,23 @@ namespace Bora.Tests.Unit
                 Assert.IsType(exactExceptionType, actualException);
                 Assert.Equal(expectedMessage, actualException.Message);
             }
+        }
+
+        [Theory]
+        [InlineData("lucasfogliarini", "cqv67d4ckva8e6ks4smulescuk", true)]//precisa buscar o evento pra tirar o #private
+        [InlineData("lucasfogliarini", "cqv67d4ckva8e6ks4smulescuk", false)]
+        public async void UpdateAsync_ShouldPublicOrPrivate_When(string user, string eventId, bool expectedPublic)
+        {
+            var eventInput = new EventInput
+            {
+                Public = expectedPublic,
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var @event = await eventService.UpdateAsync(user, eventId, eventInput);
+
+            Assert.Equal(expectedPublic, @event.Public);
         }
 
         [Theory]
