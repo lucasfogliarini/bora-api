@@ -406,7 +406,7 @@ namespace Bora.Events
                 Start = @event.Start.DateTime ?? DateTime.Parse(@event.Start.Date),
                 End = @event.End.DateTime ?? DateTime.Parse(@event.End.Date),
                 GoogleEventUrl = @event.HtmlLink,
-                Public = @event.Visibility == "public",
+                Public = !IsPrivate(@event),
                 Chat = GetWhatsAppGroupChat(@event),
                 ConferenceUrl = GetConferenceUrl(@event),
                 Attendees = attendeeOutputs,
@@ -435,6 +435,13 @@ namespace Bora.Events
                 }
             }
             return null;
+        }
+        private static bool IsPrivate(Event @event)
+        {
+            if (@event.Description == null) return false;
+            var isPrivate = new[] { EventOutput.PRIVADO, EventOutput.PRIVATE }.Any(pvt => @event.Description.Contains(pvt));
+
+            return isPrivate;
         }
         private static DateTime? GetDeadLine(Event @event)
         {

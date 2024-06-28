@@ -1,7 +1,9 @@
 using Bora.Events;
 using Google.Apis.Calendar.v3.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Bora.Tests.Unit
 {
@@ -22,6 +24,37 @@ namespace Bora.Tests.Unit
             var events = await eventService.EventsAsync(user, eventsFilterInput);
 
             Assert.True(true);//apenas pra debugar
+        }
+
+        [Theory]
+        [InlineData("lucasfogliarini", EventOutput.PRIVATE, false)]
+        [InlineData("lucasfogliarini", EventOutput.PRIVADO, false)]
+        [InlineData("lucasfogliarini", "", true)]
+        [InlineData("lucasfogliarini", null, true)]
+        public async void EventsAsync_ShouldPublicOrPrivate_When(string? user, string description, bool expectedPublic)
+        {
+            var eventsFilterInput = new EventsFilterInput
+            {
+                TimeMax = DateTime.Now.AddDays(5)
+                //FavoritesCount = true,
+                //HasTicket = true,
+            };
+
+            var eventService = _serviceProvider.GetService<IEventService>()!;
+
+            var events = await eventService.EventsAsync(user, eventsFilterInput);
+            events = events.Where(e=>!string.IsNullOrWhiteSpace(e.Description));
+
+            var eventFiltered = string.IsNullOrWhiteSpace(description) ?
+                                events.FirstOrDefault(e=> !new[] { EventOutput.PRIVADO, EventOutput.PRIVATE }.Any(pvt => e.Description.Contains(pvt))) :
+                                events.FirstOrDefault(e => e.Description!.Contains(description));
+            if (eventFiltered == null)
+            {
+                Assert.True(true, "Evento não encontrado para o teste");
+                return;
+            }
+                
+            Assert.Equal(expectedPublic, eventFiltered.Public);
         }
 
         [Theory]

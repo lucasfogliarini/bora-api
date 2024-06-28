@@ -22,5 +22,8 @@
         public string? GoogleEventUrl { get; set; }
         public IList<string>? Recurrence { get; set; }
         public bool Public { get; set; }
+
+        public const string PRIVATE = "#private";
+        public const string PRIVADO = "#privado";
     }
 }
