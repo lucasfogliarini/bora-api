@@ -344,6 +344,7 @@ namespace Bora.Events
 
             var @event = new Event
             {
+                Visibility = "public",//todos eventos criados pelo bora estão públicos na api e privados no front
                 Location = eventInput.Location,
                 Summary = eventInput.Title,
                 Description = eventInput.Description,
@@ -363,7 +364,7 @@ namespace Bora.Events
 
             if (eventInput.Public != null)
             {
-                if(eventInput.Public.Value)//não funciona ainda
+                if(eventInput.Public.Value)
                     @event.Description = @event.Description?.Replace(EventOutput.PRIVADO, "").Replace(EventOutput.PRIVATE, "");
                 else
                     @event.Description += EventOutput.PRIVADO;
