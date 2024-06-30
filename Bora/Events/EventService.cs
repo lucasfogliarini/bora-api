@@ -166,6 +166,11 @@ namespace Bora.Events
             bool hasTribeChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("live.tribexr.com");
             return hasTribeChannel ? GetUrl(@event.Location, "live.tribexr.com") : null;
         }
+        public static string? GetTwitchChannel(Event @event)
+        {
+            bool hasTwitchChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("twitch.tv");
+            return hasTwitchChannel ? GetUrl(@event.Location, "twitch.tv") : null;
+        }
         public static string GetConferenceUrl(Event @event)
         {
             var conferenceUrl = GetDiscordChannel(@event) ?? 
@@ -173,6 +178,7 @@ namespace Bora.Events
                                 GetWhatsAppMe(@event) ??
                                 GetSpotifyJam(@event) ??
                                 GetTribeChannel(@event) ??
+                                GetTwitchChannel(@event) ??
                                 @event.HangoutLink;
             return conferenceUrl;
         }
