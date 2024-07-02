@@ -80,7 +80,7 @@ namespace Bora.Events
             var request = _calendarService.Events.Insert(@event, eventInput.CalendarId);
             request.ConferenceDataVersion = 1;
             var gEvent = await request.ExecuteAsync();
-            CreateReminderTask(eventInput);
+            //CreateReminderTask(eventInput);
             await AddOrUpdateAttendeesAsync(gEvent, attendeeInput);
             return ToEventOutput(gEvent);
         }

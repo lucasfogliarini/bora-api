@@ -31,11 +31,14 @@ namespace Bora.Entities
 		public string? Photo { get; set; }
         public DateTimeOffset? BirthDate { get; set; }
         public string? WhatsApp { get; set; }
-        public string? Instagram { get; set; }
         public string? Linkedin { get; set; }
+        public string? Github { get; set; }
+        public string? HorizonMeta { get; set; }
+        public string? Tribe { get; set; }
+        public string? Chess { get; set; }
+        public string? Instagram { get; set; }
         public string? Spotify { get; set; }
         public string? YouTube { get; set; }
-        public string? Chess { get; set; }
         public EventVisibility EventVisibility { get; set; }
         /// <summary>
         /// Returns only events organized by the account owner.
