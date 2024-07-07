@@ -189,6 +189,7 @@ namespace Bora.Tests.Unit
         [InlineData("aa https://www.ingresse.com/evento1 bb", "https://www.ingresse.com/evento1", "www.ingresse.com")]
         [InlineData("aa https://www.eventim.com.br/event/evento1 bb", "https://www.eventim.com.br/event/evento1", "www.eventim.com.br")]
         [InlineData("aa https://eleventickets.com/produto/valenbar/88/sabado-com-o-valen-e-mais-gostoso bb", "https://eleventickets.com/produto/valenbar/88/sabado-com-o-valen-e-mais-gostoso", "eleventickets.com")]
+        [InlineData("aa https://www.blueticket.com.br/evento/35590/21-set-house-mag-festival bb", "https://www.blueticket.com.br/evento/35590/21-set-house-mag-festival", "www.blueticket.com.br")]
         public void GetTicketUrl(string description, string expectedTicketUrl, string expectedTicketDomain)
         {
             var @event = new Event
