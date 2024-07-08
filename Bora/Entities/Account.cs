@@ -16,6 +16,7 @@ namespace Bora.Entities
             Username = new MailAddress(email).User;
 		}
         public DateTimeOffset? PartnerSince { get; set; }
+        public DateTimeOffset? LastAuthenticationAt { get; set; }
         public bool IsPartner { get; set; }
         public bool PartnerCommentsEnabled { get; set; }
         public bool PartnerCallsOpen { get; set; }

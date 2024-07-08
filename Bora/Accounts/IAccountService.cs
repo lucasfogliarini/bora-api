@@ -1,4 +1,5 @@
 ﻿using Bora.Entities;
+using Bora.JsonWebToken;
 
 namespace Bora.Accounts
 {
@@ -19,5 +20,6 @@ namespace Bora.Accounts
         Account GetAccountByUsername(string username);
         Task UpdateAsync(string email, AccountInput account);
         Task CreateOrUpdateAsync(AuthenticationInput authenticationInput);
+        Task<Authentication> AuthenticateAsync(Jwt jwt, string provider);
     }
 }

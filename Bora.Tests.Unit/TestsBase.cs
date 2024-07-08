@@ -1,4 +1,5 @@
 using Bora.Events;
+using Bora.JsonWebToken;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,18 +17,27 @@ namespace Bora.Tests.Unit
 
             var configuration = builder.Build();
 
-            var googleCalendarSection = configuration.GetSection(GoogleCalendarConfiguration.AppSettingsKey);
-            var googleCalendarConfig = googleCalendarSection.Get<GoogleCalendarConfiguration>();
-
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton(googleCalendarConfig!);
+            AddConfigs(configuration, serviceCollection);
+
             serviceCollection.AddServices();
             var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
             var connectionString = configuration[boraRepositoryConnectionStringKey];
-            serviceCollection.AddEFCoreRepository(EFCoreProvider.SqlServer, connectionString);
+            serviceCollection.AddEFCoreRepository(EFCoreProvider.InMemory, connectionString);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _serviceProvider.GetService<IRepository>()!.SeedAsync().Wait();
+        }
+
+        private static void AddConfigs(IConfigurationRoot configuration, ServiceCollection serviceCollection)
+        {
+            var googleCalendarSection = configuration.GetSection(GoogleCalendarConfiguration.GoogleCalendarSection);
+            var googleCalendarConfig = googleCalendarSection.Get<GoogleCalendarConfiguration>();
+            serviceCollection.AddSingleton(googleCalendarConfig!);
+
+            var jwtSection = configuration.GetSection(JwtConfiguration.JwtSection);
+            var jwtConfiguration = jwtSection.Get<JwtConfiguration>();
+            serviceCollection.AddSingleton(jwtConfiguration!);
         }
     }
 }

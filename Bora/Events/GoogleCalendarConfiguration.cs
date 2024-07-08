@@ -4,7 +4,7 @@ namespace Bora.Events
 {
     public class GoogleCalendarConfiguration
     {
-        public const string AppSettingsKey = "GoogleCalendar";
+        public const string GoogleCalendarSection = "GoogleCalendar";
         public string? ClientId { get; set; }
         public string? ClientSecret { get; set; }
         public string? TokenFolder { get; set; }

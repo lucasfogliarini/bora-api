@@ -1,31 +1,29 @@
 ﻿using Bora.Accounts;
-using Bora.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BoraApi.Jwt
+namespace Bora.JsonWebToken
 {
-    public class Jwt
+    public class JwtService(JwtConfiguration jwtConfiguration) : IJwtService
     {
-        public string? SecurityKey { get; set; }
+        private readonly JwtConfiguration _jwtConfiguration = jwtConfiguration;
 
-        public Authentication CreateAuthenticationToken(string email, string name)
+        public Jwt CreateJwt(AuthenticationInput authenticationInput)
         {
-            var tokenDescriptor = CreateTokenDescriptor(email, name);
+            var tokenDescriptor = CreateTokenDescriptor(authenticationInput.Email, authenticationInput.Name);
 
-            var authentication = new Authentication
+            var jwt = new Jwt
             {
-                Email = email,
+                Email = authenticationInput.Email,
                 JwToken = GenerateToken(tokenDescriptor),
                 ExpiresAt = tokenDescriptor.Expires.GetValueOrDefault()
             };
 
-            return authentication;
+            return jwt;
         }
-
-        public SecurityTokenDescriptor CreateTokenDescriptor(string email, string name)
+        private SecurityTokenDescriptor CreateTokenDescriptor(string email, string name)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -36,20 +34,20 @@ namespace BoraApi.Jwt
                     new(ClaimTypes.Name, name)
                 }),
                 Expires = DateTime.UtcNow.AddMonths(6),
-                SigningCredentials = new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(GetSymmetricSecurityKey(_jwtConfiguration.SecurityKey), SecurityAlgorithms.HmacSha256Signature)
             };
 
             return tokenDescriptor;
         }
-        public string GenerateToken(SecurityTokenDescriptor securityTokenDescriptor)
+        private static string GenerateToken(SecurityTokenDescriptor securityTokenDescriptor)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(securityTokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        public SymmetricSecurityKey GetSymmetricSecurityKey()
+        public static SymmetricSecurityKey GetSymmetricSecurityKey(string securityKey)
         {
-            var key = Encoding.ASCII.GetBytes(SecurityKey!);
+            var key = Encoding.ASCII.GetBytes(securityKey!);
             return new SymmetricSecurityKey(key);
         }
     }

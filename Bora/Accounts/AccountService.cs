@@ -1,4 +1,5 @@
 ﻿using Bora.Entities;
+using Bora.JsonWebToken;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Accounts
@@ -30,6 +31,7 @@ namespace Bora.Accounts
             {
                 account = new Account(authenticationInput.Email)
                 {
+                    Name = authenticationInput.Name,
                     CreatedAt = DateTime.Now,
                 };
                 _boraRepository.Add(account);
@@ -39,11 +41,25 @@ namespace Bora.Accounts
                 _boraRepository.Update(account);
             }
 
-            account.Name = authenticationInput.Name;
             account.Photo = authenticationInput.PhotoUrl;
-            account.UpdatedAt = DateTime.Now;
+            account.LastAuthenticationAt = account.UpdatedAt = DateTime.Now;
 
             await _boraRepository.CommitAsync();
+        }
+        public async Task<Authentication> AuthenticateAsync(Jwt jwt, string provider)
+        {
+            Authentication authentication = new()
+            {
+                CreatedAt = DateTimeOffset.Now,
+                Email = jwt.Email,
+                ExpiresAt = jwt.ExpiresAt,
+                JwToken = jwt.JwToken,
+                Provider = provider
+            };
+
+            _boraRepository.Add(authentication);
+            await _boraRepository.CommitAsync();
+            return authentication;
         }
         public async Task UpdateAsync(string email, AccountInput accountInput)
         {
@@ -71,8 +87,9 @@ namespace Bora.Accounts
                     account.IsPartner = accountInput.IsPartner.Value;
                     if (account.IsPartner && account.PartnerSince == null)
                         account.PartnerSince = DateTime.Now;
-                }   
+                }
 
+                account.UpdatedAt = DateTime.Now;
                 _boraRepository.Update(account);
                 await _boraRepository.CommitAsync();
 

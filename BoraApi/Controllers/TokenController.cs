@@ -1,34 +1,27 @@
 ﻿using Bora.Accounts;
-using Bora.Entities;
-using BoraApi.Jwt;
+using Bora.JsonWebToken;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace Bora.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TokenController(IRepository boraRepository, IAccountService accountService, IOptions<Jwt> jwt) : BaseController
+    public class TokenController(IRepository boraRepository, IAccountService accountService, IJwtService jwtService) : BaseController
     {
-		private readonly Jwt _jwt = jwt.Value;
-
 		[HttpPost]
         public async Task<IActionResult> Token(AuthenticationInput authenticationInput)
         {
             await accountService.CreateOrUpdateAsync(authenticationInput);
-            var authentication = await CreateAuthenticationAsync(authenticationInput);
-            return Ok(authentication);
+            var jwt = await AuthenticateAsync(authenticationInput);
+            
+            return Ok(jwt);
         }
 
-        private async Task<Authentication> CreateAuthenticationAsync(AuthenticationInput authenticationInput)
+        private async Task<Jwt> AuthenticateAsync(AuthenticationInput authenticationInput)
         {
-            var authentication = _jwt.CreateAuthenticationToken(authenticationInput.Email, authenticationInput.Name);
-            authentication.CreatedAt = DateTime.Now;
-            authentication.Provider = authenticationInput.Provider;
-
-			boraRepository.Add(authentication);
-            await boraRepository.CommitAsync();
-            return authentication;
+            var jwt = jwtService.CreateJwt(authenticationInput);
+            await accountService.AuthenticateAsync(jwt, authenticationInput.Provider);
+            return jwt;
         }
     }
 }

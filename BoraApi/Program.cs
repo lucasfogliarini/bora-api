@@ -11,7 +11,7 @@ using Bora.Accounts;
 using System.Security.Authentication;
 using Bora;
 using BoraApi.OData;
-using BoraApi.Jwt;
+using BoraApi.JsonWebToken;
 
 const string VERSION = "1.0.0";
 const string APP_NAME = "BoraApi";
@@ -43,7 +43,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	builder.Services.AddSwaggerGen((o) =>
 	{
         o.OperationFilter<ODataOperationFilter>();
-		o.AddSwaggerAuthentication();
+		o.AddSwaggerJwtAuthentication();
     });
 
 	Console.WriteLine($"Starting {APP_NAME} version: {VERSION}");
@@ -55,11 +55,8 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 		loggingBuilder.AddDebug();
 	});
 
-	builder.AddJwtAuthentication();
-
-	AddGoogleCalendar(builder);
-
-	AddRepository(builder);
+	builder.AddAuthentications();
+    AddRepository(builder);
     builder.Services.AddServices();
 	//builder.Services.AddSpotifyService();
 
@@ -126,46 +123,6 @@ static void AddRepository(WebApplicationBuilder builder)
 	{
         builder.Services.AddEFCoreRepository(EFCoreProvider.InMemory);
     }
-}
-
-static void AddGoogleCalendar(WebApplicationBuilder builder)
-{
-	var googleCalendarSection = builder.Configuration.GetSection(GoogleCalendarConfiguration.AppSettingsKey);
-	var googleCalendarConfig = googleCalendarSection.Get<GoogleCalendarConfiguration>();
-	builder.Services.AddSingleton(googleCalendarConfig);
-
-	//https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth#web-applications-asp.net-core-3
-	builder.Services
-		.AddAuthentication(o =>
-		{
-			// This forces challenge results to be handled by Google OpenID Handler, so there's no
-			// need to add an AccountController that emits challenges for Login.
-			o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-			// This forces forbid results to be handled by Google OpenID Handler, which checks if
-			// extra scopes are required and does automatic incremental auth.
-			o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-
-			o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-		})
-		.AddCookie()
-		.AddGoogleOpenIdConnect(options =>
-		{
-			options.ClientId = googleCalendarConfig.ClientId;
-			options.ClientSecret = googleCalendarConfig.ClientSecret;
-			options.Events.OnTokenValidated += async (ctx) =>
-			{
-				var accountDataStore = builder.Services.BuildServiceProvider().GetService<IAccountDataStore>();
-				TokenResponse tokenResponse = new()
-				{
-					IssuedUtc = DateTime.UtcNow,
-					AccessToken = ctx.TokenEndpointResponse.AccessToken,
-					RefreshToken = ctx.TokenEndpointResponse.RefreshToken,
-					ExpiresInSeconds = long.Parse(ctx.TokenEndpointResponse.ExpiresIn),//TimeSpan.FromDays(300).Seconds,
-				};
-				string email = ctx.Principal.FindFirst(ClaimTypes.Email).Value;
-				await accountDataStore.AuthorizeCalendarAsync(email, tokenResponse);
-			};
-		});
 }
 
 static async Task SeedAsync(WebApplication app)
