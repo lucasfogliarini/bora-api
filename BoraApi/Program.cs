@@ -1,17 +1,10 @@
-using Bora.Events;
-using Google.Apis.Auth.AspNetCore3;
-using Google.Apis.Auth.OAuth2.Responses;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using Microsoft.AspNetCore.HttpOverrides;
-using Bora.Accounts;
 using System.Security.Authentication;
-using Bora;
 using BoraApi.OData;
-using BoraApi.JsonWebToken;
+using BoraApi;
 
 const string VERSION = "1.0.0";
 const string APP_NAME = "BoraApi";
@@ -23,7 +16,7 @@ var app = AddServices(applicationBuilder).Build();
 
 app.Services.Migrate();
 
-await SeedAsync(app);
+await app.SeedAsync();
 
 Run(app);//Runs an application and block the calling thread until host shutdown.
 
@@ -56,7 +49,7 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	});
 
 	builder.AddAuthentications();
-    AddRepository(builder);
+    builder.AddRepository();
     builder.Services.AddServices();
 	//builder.Services.AddSpotifyService();
 
@@ -108,38 +101,4 @@ static void Run(WebApplication app)
 	});
 
 	app.Run();
-}
-
-static void AddRepository(WebApplicationBuilder builder)
-{
-	try
-	{
-		var efCoreProvider = builder.Environment.IsProduction() ? EFCoreProvider.SqlServer: EFCoreProvider.InMemory;
-        var repositoryConnectionString = TryGetConnectionString(builder);
-        builder.Services.AddEFCoreRepository(efCoreProvider, repositoryConnectionString);
-        //builder.Services.AddDapperRepository(repositoryConnectionString);
-    }
-    catch (Exception)
-	{
-        builder.Services.AddEFCoreRepository(EFCoreProvider.InMemory);
-    }
-}
-
-static async Task SeedAsync(WebApplication app)
-{
-	using var scope = app.Services.CreateScope();
-	var databaseRepository = scope.ServiceProvider.GetService<IRepository>();
-	await databaseRepository!.SeedAsync();
-}
-
-static string? TryGetConnectionString(WebApplicationBuilder builder)
-{
-	var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
-	Console.WriteLine($"Trying to get a database connectionString '{boraRepositoryConnectionStringKey}' from Configuration.");
-	var connectionString = builder.Configuration[boraRepositoryConnectionStringKey];
-    if (connectionString == null)
-		throw new Exception($"{boraRepositoryConnectionStringKey} was not found! From builder.Configuration[{boraRepositoryConnectionStringKey}]");
-
-    Console.WriteLine();
-    return connectionString;
 }

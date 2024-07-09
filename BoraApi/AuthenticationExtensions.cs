@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Claims;
 
-namespace BoraApi.JsonWebToken
+namespace BoraApi
 {
     public static class AuthenticationExtensions
     {
