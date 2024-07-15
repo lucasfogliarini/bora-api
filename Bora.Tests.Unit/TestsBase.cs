@@ -1,5 +1,6 @@
 using Bora.Authentication.JsonWebToken;
 using Bora.Events;
+using Bora.JsonWebToken;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +25,9 @@ namespace Bora.Tests.Unit
             var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
             var connectionString = configuration[boraRepositoryConnectionStringKey];
             serviceCollection.AddEFCoreRepository(EFCoreProvider.InMemory, connectionString);
+            var domain = "https://dataservice.accuweather.com";
+            var apiKey = "bFWsyWDRFVAhTleGWuRi5Sqc6Ou0k5cp";
+            serviceCollection.AddAccuWheatherHttpClient(domain, apiKey);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _serviceProvider.GetService<IRepository>()!.SeedAsync().Wait();
