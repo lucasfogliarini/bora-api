@@ -17,21 +17,22 @@ namespace Bora.Entities
 		}
         public DateTimeOffset? PartnerSince { get; set; }
         public DateTimeOffset? LastAuthenticationAt { get; set; }
-        public bool IsPartner { get; set; }
-        public bool PartnerCommentsEnabled { get; set; }
-        public bool PartnerCallsOpen { get; set; }
-        public bool CalendarAuthorized { get; set; }
         [IgnoreDataMember]
         public string? CalendarAccessToken { get; set; }
         [IgnoreDataMember]
         public string? CalendarRefreshAccessToken { get; set; }
+        [IgnoreDataMember]
+        public string Email { get; set; }
+        public string? WhatsApp { get; set; }
+        public bool IsPartner { get; set; }
+        public bool PartnerCommentsEnabled { get; set; }
+        public bool PartnerCallsOpen { get; set; }
+        public bool CalendarAuthorized { get; set; }
         public string Username { get; set; }
 		public string? Accountability { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
 		public string? Photo { get; set; }
         public DateTimeOffset? BirthDate { get; set; }
-        public string? WhatsApp { get; set; }
         public string? Linkedin { get; set; }
         public string? Github { get; set; }
         public string? HorizonMeta { get; set; }
