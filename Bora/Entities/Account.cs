@@ -21,7 +21,7 @@ namespace Bora.Entities
         public string? CalendarAccessToken { get; set; }
         [IgnoreDataMember]
         public string? CalendarRefreshAccessToken { get; set; }
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public string Email { get; set; }
         public string? WhatsApp { get; set; }
         public bool IsPartner { get; set; }
