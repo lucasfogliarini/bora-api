@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Repository.EntityConfigurations
 {
-    internal sealed class AuthenticationCofiguration : IEntityTypeConfiguration<Authentication>
+    internal sealed class AuthenticationConfiguration : IEntityTypeConfiguration<Authentication>
     {
         public void Configure(EntityTypeBuilder<Authentication> builder)
         {

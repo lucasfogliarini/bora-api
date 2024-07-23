@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Repository.EntityConfigurations
 {
-    internal sealed class ResponsibilityAreaCofiguration : IEntityTypeConfiguration<ResponsibilityArea>
+    internal sealed class ResponsibilityAreaConfiguration : IEntityTypeConfiguration<ResponsibilityArea>
     {
         public void Configure(EntityTypeBuilder<ResponsibilityArea> builder)
         {

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Repository.EntityConfigurations
 {
-    internal sealed class ScenarioCofiguration : IEntityTypeConfiguration<Scenario>
+    internal sealed class LocationConfiguration : IEntityTypeConfiguration<Location>
     {
-        public void Configure(EntityTypeBuilder<Scenario> builder)
+        public void Configure(EntityTypeBuilder<Location> builder)
         {
             builder.ConfigureEntity();
         }

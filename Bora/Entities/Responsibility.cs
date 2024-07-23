@@ -6,5 +6,6 @@
         public int AreaId { get; set; } = areaId;
         public ResponsibilityArea Area { get; set; }
         public string Description { get; set; } = description;
+        public ICollection<Account> Accounts { get; set; } = new HashSet<Account>();
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bora.Repository.EntityConfigurations
 {
-    internal sealed class ContentCofiguration : IEntityTypeConfiguration<Content>
+    internal sealed class ContentConfiguration : IEntityTypeConfiguration<Content>
     {
         public void Configure(EntityTypeBuilder<Content> builder)
         {

@@ -46,6 +46,6 @@ namespace Bora.Entities
         /// Returns only events organized by the account owner.
         /// </summary>
         public bool OnlySelfOrganizer { get; set; }
-        
-	}
+        public ICollection<Responsibility> Responsibilities { get; set; } = new HashSet<Responsibility>();
+    }
 }
