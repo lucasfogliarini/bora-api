@@ -63,6 +63,27 @@ namespace Bora.Repository
         }
         public async Task SeedAsync()
         {
+            var hasResponsibilityArea = Any<ResponsibilityArea>();
+            if (!hasResponsibilityArea)
+            {
+                var responsibilityAreas = new List<ResponsibilityArea>
+                {
+                    new("Ciências Exatas e da Terra", "Matemática, Física, Química, Astronomia, Geologia e Meteorologia"),
+                    new("Ciências Humanas e Sociais", "Filosofia, Direito, Ciências Políticas, Sociologia, Psicologia, Antropologia e História"),
+                    new("Engenharia e Tecnologia", "Engenharia de Computação, Tecnologia da Informação, Engenharia de Software, Engenharia Elétrica, Engenharia Civil, Engenharia Mecânica e Engenharia Química"),
+                    new("Ciências Sociais Aplicadas", "Economia, Administração, Finanças, Contabilidade, Marketing e Serviço Social"),
+                    new("Ciências da Saúde", "Medicina, Enfermagem, Odontologia, Farmácia, Fisioterapia, Nutrição"),
+                    new("Ciências Biológicas", "Biologia, Ecologia, Botânica, Zoologia, Genética e Microbiologia"),
+                };
+                foreach (var responsibilityArea in responsibilityAreas)
+                {
+                    responsibilityArea.CreatedAt = DateTime.Now;
+                    Add(responsibilityArea);
+                }
+
+                await CommitAsync();
+            }
+
             var hasAccount = Any<Account>();
             if (!hasAccount)
             {
