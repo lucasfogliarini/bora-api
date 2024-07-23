@@ -84,6 +84,36 @@ namespace Bora.Repository
                 await CommitAsync();
             }
 
+            var hasResponsibilities = Any<Responsibility>();
+            if (!hasResponsibilities)
+            {
+                var responsibilities = new List<Responsibility>
+                {
+                    new("Arquiteto de Software", ResponsibilityArea.TecnologyScience, "Define a arquitetura do sistema, incluindo a estrutura de módulos, padrões e tecnologias a serem utilizadas"),
+                    new("Engenheiro DevOps", ResponsibilityArea.TecnologyScience, "Automatiza processos de desenvolvimento e operações, gerencia integração contínua e entrega contínua (CI/CD), e monitora a infraestrutura"),
+                    new("Gerente de Projetos (TI)", ResponsibilityArea.TecnologyScience, "Planejamento, execução e controle de projetos de software. Gerencia cronogramas, orçamentos e coordena equipes"),
+                    new("Desenvolvedor Back-end", ResponsibilityArea.TecnologyScience, "Desenvolve a lógica do lado do servidor, integra com bancos de dados e gerencia a comunicação com o front-end"),
+                    new("Desenvolvedor Front-end", ResponsibilityArea.TecnologyScience, "Desenvolve a interface do usuário e a experiência do usuário em um site ou aplicativo"),
+                    new("Quality Assurance (QA)", ResponsibilityArea.TecnologyScience, "Garantir a qualidade do software através de testes manuais e automatizados. Cria e executa planos de teste"),
+                    new("Líder Técnico", ResponsibilityArea.TecnologyScience, "Fornece orientação técnica para a equipe de desenvolvimento. Resolve problemas técnicos e faz a ponte entre a equipe de desenvolvimento e os stakeholders"),
+                    new("Agilista", ResponsibilityArea.TecnologyScience, "Facilita a aplicação de metodologias ágeis, como Scrum, e ajuda a equipe a remover impedimentos"),
+                    new("Product Owner", ResponsibilityArea.TecnologyScience, "Define e prioriza os requisitos do produto com base nas necessidades do cliente e no valor para o negócio"),
+                    new("Designer de UX/UI", ResponsibilityArea.TecnologyScience, "Design da experiência do usuário (UX) e interfaces do usuário (UI). Realiza pesquisas de usuários e testes de usabilidade"),
+                    new("Desenvolvedor Full Stack", ResponsibilityArea.TecnologyScience, "Trabalha tanto no front-end quanto no back-end do desenvolvimento de software. Possui conhecimentos em todas as camadas da aplicação"),
+
+                    /*new("Engenheiro de Dados", ResponsibilityArea.TecnologyScience),
+                    new("Especialista em Segurança da Informação", ResponsibilityArea.TecnologyScience),
+                    new("Analista de Suporte", ResponsibilityArea.TecnologyScience),
+                    new("Engenheiro de Manutenção", ResponsibilityArea.TecnologyScience),*/
+                };
+                foreach (var responsibility in responsibilities)
+                {
+                    Add(responsibility);
+                }
+
+                await CommitAsync();
+            }
+
             var hasAccount = Any<Account>();
             if (!hasAccount)
             {
