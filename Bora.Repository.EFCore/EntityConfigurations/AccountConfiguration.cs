@@ -30,6 +30,11 @@ namespace Bora.Repository.EntityConfigurations
                 j => j.HasOne<Responsibility>().WithMany().HasForeignKey(nameof(AccountResponsibility.ResponsibilityId)),
                 j => j.HasOne<Account>().WithMany().HasForeignKey(nameof(AccountResponsibility.AccountId))
             );
+
+            builder
+                .HasMany(a => a.Locations)
+                .WithOne(l => l.Account)
+                .HasForeignKey(l => l.AccountId);
         }
     }
 }

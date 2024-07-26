@@ -127,7 +127,12 @@ namespace Bora.Repository
                         WhatsApp = "51992364249",
                         Instagram = "lucasfogliarini",
                         Spotify = "12145833562",
-                        Linkedin = "lucasfogliarini"
+                        Linkedin = "lucasfogliarini",
+                        Locations =
+                        [
+                            new Location("Bora Work","bora.work") { IsHome = true },
+                            new Location("💻 Bora Discord","💻 Bora Discord https://discord.gg/Yf4TCsSTG5") { IsHome = true },
+                        ]
                     },
                     new("lucasfogliarini@gmail.com", 2, new DateTime(2024, 5, 14))
                     {
@@ -165,6 +170,11 @@ namespace Bora.Repository
                 foreach (var account in accounts)
                 {
                     account.Id = null;
+                    account.Locations ??= [];
+                    var wa = new Location("📱 WhatsApp");
+                    account.Locations.Add(wa);
+                    var gMeet = new Location("💻 Google Meet", "meet");
+                    account.Locations.Add(gMeet);
                     Add(account);
                 }
 

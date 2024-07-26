@@ -47,5 +47,6 @@ namespace Bora.Entities
         /// </summary>
         public bool OnlySelfOrganizer { get; set; }
         public ICollection<Responsibility> Responsibilities { get; set; } = new HashSet<Responsibility>();
+        public ICollection<Location> Locations { get; set; } = new HashSet<Location>();
     }
 }
