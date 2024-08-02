@@ -12,5 +12,6 @@
         public string? Linkedin { get; set; }
         public string? YouTube { get; set; }
         public bool? IsPartner { get; set; }
+        public int? ResponsibilityArea { get; set; }
     }
 }

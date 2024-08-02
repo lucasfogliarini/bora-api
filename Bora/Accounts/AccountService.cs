@@ -87,6 +87,15 @@ namespace Bora.Accounts
                     account.IsPartner = accountInput.IsPartner.Value;
                     if (account.IsPartner && account.PartnerSince == null)
                         account.PartnerSince = DateTime.Now;
+
+                    if(accountInput.ResponsibilityArea != null)
+                    {
+                        var responsibilityRecruit = _boraRepository.FirstOrDefault<Responsibility>(r => r.AreaId == accountInput.ResponsibilityArea && r.Title.Contains("Recruta"));
+                        if (responsibilityRecruit != null)
+                        {
+                            account.Responsibilities.Add(responsibilityRecruit);
+                        }
+                    }
                 }
 
                 account.UpdatedAt = DateTime.Now;

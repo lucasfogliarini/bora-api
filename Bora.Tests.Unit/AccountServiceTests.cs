@@ -35,16 +35,18 @@ namespace Bora.Tests.Unit
         }
 
         [Theory]
-        [InlineData(ARQUITETO_EMAIL, false, false, "1990-07-17")]//1990-07-17 é o estado atual
-        [InlineData(ARQUITETO_EMAIL, null, false, "1990-07-17")]//1990-07-17 é o estado atual
-        [InlineData(ARQUITETO_EMAIL, true, true, "1990-07-17")]//1990-07-17 é o estado atual
-        public async void UpdateAsync(string email, bool? isPartner, bool expectedIsPartner, string expectedPartnerSinceString)
+        [InlineData(ARQUITETO_EMAIL, false, null, false, "1990-07-17")]//1990-07-17 é o estado atual
+        [InlineData(ARQUITETO_EMAIL, null, null, false, "1990-07-17")]//1990-07-17 é o estado atual
+        [InlineData(ARQUITETO_EMAIL, true, 4, true, "1990-07-17")]//1990-07-17 é o estado atual
+        [InlineData(ARQUITETO_EMAIL, true, null, true, "1990-07-17")]//1990-07-17 é o estado atual
+        public async void UpdateAsync(string email, bool? isPartner, int? responsibilityArea, bool expectedIsPartner, string expectedPartnerSinceString)
         {
             //given
             var expectedPartnerSince = DateTime.Parse(expectedPartnerSinceString);
             var accountInput = new AccountInput
             {
                 IsPartner = isPartner,
+                ResponsibilityArea = responsibilityArea
             };
 
             //when
