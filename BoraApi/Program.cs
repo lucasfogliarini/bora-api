@@ -52,8 +52,9 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
     builder.AddRepository();
     builder.Services.AddServices();
 	//builder.Services.AddSpotifyService();
+	builder.Services.AddHealthChecks();
 
-	builder.Services.AddProblemDetails(x =>
+    builder.Services.AddProblemDetails(x =>
 	{
 		x.MapToStatusCode<ValidationException>(StatusCodes.Status400BadRequest);
 		x.MapToStatusCode<AuthenticationException>(StatusCodes.Status401Unauthorized);
@@ -94,7 +95,9 @@ static void Run(WebApplication app)
 		await context.Response.WriteAsync(VERSION);
 	});
 
-	app.MapGet("/loaderio-bb899ee09dc2c7596f6f3333be0b05af.txt", async context =>
+    app.MapHealthChecks("/health");
+
+    app.MapGet("/loaderio-bb899ee09dc2c7596f6f3333be0b05af.txt", async context =>
 	{
 		string loaderVerificationToken = "loaderio-bb899ee09dc2c7596f6f3333be0b05af";
 		await context.Response.WriteAsync(loaderVerificationToken);
