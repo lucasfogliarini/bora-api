@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Security.Authentication;
 using BoraApi.OData;
 using BoraApi;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.Text.Json;
+using Bora.Repository;
 
 const string VERSION = "1.0.0";
 const string APP_NAME = "BoraApi";
@@ -51,8 +54,9 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	builder.AddAuthentications();
     builder.AddRepository();
     builder.Services.AddServices();
-	//builder.Services.AddSpotifyService();
-	builder.Services.AddHealthChecks();
+    //builder.Services.AddSpotifyService();
+    builder.Services.AddHealthChecks()
+		.AddDbContextCheck<BoraDbContext>();
 
     builder.Services.AddProblemDetails(x =>
 	{
@@ -95,7 +99,7 @@ static void Run(WebApplication app)
 		await context.Response.WriteAsync(VERSION);
 	});
 
-    app.MapHealthChecks("/health");
+    UseHealthChecks(app);
 
     app.MapGet("/loaderio-bb899ee09dc2c7596f6f3333be0b05af.txt", async context =>
 	{
@@ -104,4 +108,30 @@ static void Run(WebApplication app)
 	});
 
 	app.Run();
+}
+
+static void UseHealthChecks(WebApplication app)
+{
+    app.UseHealthChecks("/health", new HealthCheckOptions
+    {
+        Predicate = _ => true, // Executa todos os health checks
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "application/json";
+
+            var result = JsonSerializer.Serialize(new
+            {
+                status = report.Status.ToString(),
+                checks = report.Entries.Select(entry => new
+                {
+                    name = entry.Key,
+                    status = entry.Value.Status.ToString(),
+                    description = entry.Value.Description,
+                    data = entry.Value.Data
+                })
+            });
+
+            await context.Response.WriteAsync(result);
+        }
+    });
 }
