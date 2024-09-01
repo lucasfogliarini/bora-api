@@ -51,9 +51,8 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 		loggingBuilder.AddDebug();
 	});
 
-	builder.AddAuthentications();
+	builder.AddServices();
     builder.AddRepository();
-    builder.Services.AddServices();
     //builder.Services.AddSpotifyService();
     builder.Services.AddHealthChecks()
 		.AddDbContextCheck<BoraDbContext>();

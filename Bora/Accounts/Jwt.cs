@@ -1,4 +1,4 @@
-﻿namespace Bora.JsonWebToken
+﻿namespace Bora.Accounts
 {
     public class Jwt
     {

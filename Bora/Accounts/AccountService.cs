@@ -1,10 +1,9 @@
 ﻿using Bora.Entities;
-using Bora.JsonWebToken;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bora.Accounts
 {
-	public class AccountService : IAccountService
+    public class AccountService : IAccountService
     {
 		private readonly IRepository _boraRepository;
 

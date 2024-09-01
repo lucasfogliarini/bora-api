@@ -1,5 +1,5 @@
+using Bora.Authentication.JsonWebToken;
 using Bora.Events;
-using Bora.JsonWebToken;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +20,7 @@ namespace Bora.Tests.Unit
             var serviceCollection = new ServiceCollection();
             AddConfigs(configuration, serviceCollection);
 
-            serviceCollection.AddServices();
+            serviceCollection.AddBoraServices();
             var boraRepositoryConnectionStringKey = "ConnectionStrings:BoraRepository";
             var connectionString = configuration[boraRepositoryConnectionStringKey];
             serviceCollection.AddEFCoreRepository(EFCoreProvider.InMemory, connectionString);

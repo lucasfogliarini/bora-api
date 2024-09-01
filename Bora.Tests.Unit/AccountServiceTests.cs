@@ -1,5 +1,5 @@
 using Bora.Accounts;
-using Bora.JsonWebToken;
+using Bora.Authentication.JsonWebToken;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bora.Tests.Unit

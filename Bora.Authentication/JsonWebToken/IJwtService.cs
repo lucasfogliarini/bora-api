@@ -1,6 +1,6 @@
 ﻿using Bora.Accounts;
 
-namespace Bora.JsonWebToken
+namespace Bora.Authentication.JsonWebToken
 {
     public interface IJwtService
     {

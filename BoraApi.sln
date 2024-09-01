@@ -30,7 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bora.Repository.EFCore", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bora.Repository.Dapper", "Bora.Repository.Dapper\Bora.Repository.Dapper.csproj", "{7F1BAF6C-32C3-4492-A20C-AA4E462E202E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora.GoogleCalendar", "Bora.GoogleCalendar\Bora.GoogleCalendar.csproj", "{7E944D6A-C511-4A3B-B910-767F7EFF30BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bora.GoogleCalendar", "Bora.GoogleCalendar\Bora.GoogleCalendar.csproj", "{7E944D6A-C511-4A3B-B910-767F7EFF30BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bora.Authentication", "Bora.Authentication\Bora.Authentication.csproj", "{19D7A8CB-9078-4F75-897E-2BFA465099A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{7E944D6A-C511-4A3B-B910-767F7EFF30BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E944D6A-C511-4A3B-B910-767F7EFF30BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E944D6A-C511-4A3B-B910-767F7EFF30BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D7A8CB-9078-4F75-897E-2BFA465099A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D7A8CB-9078-4F75-897E-2BFA465099A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D7A8CB-9078-4F75-897E-2BFA465099A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D7A8CB-9078-4F75-897E-2BFA465099A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

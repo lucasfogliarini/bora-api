@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Bora.JsonWebToken
+namespace Bora.Authentication.JsonWebToken
 {
     public class JwtService(JwtConfiguration jwtConfiguration) : IJwtService
     {

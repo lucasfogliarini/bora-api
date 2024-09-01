@@ -1,5 +1,4 @@
 ﻿using Bora.Entities;
-using Bora.JsonWebToken;
 
 namespace Bora.Accounts
 {

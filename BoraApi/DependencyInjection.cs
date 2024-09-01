@@ -1,6 +1,6 @@
 ﻿using Bora.Accounts;
+using Bora.Authentication.JsonWebToken;
 using Bora.Events;
-using Bora.JsonWebToken;
 using Google.Apis.Auth.AspNetCore3;
 using Google.Apis.Auth.OAuth2.Responses;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,32 +14,15 @@ namespace BoraApi
 {
     public static class DependencyInjection
     {
-        public static void AddAuthentications(this WebApplicationBuilder builder)
-        {
-            builder.AddJwtAuthentication();
-            builder.AddGoogleCalendar();
-        }
-        public static void AddJwtAuthentication(this WebApplicationBuilder builder)
+        public static void AddServices(this WebApplicationBuilder builder)
         {
             var jwtSection = builder.Configuration.GetSection(JwtConfiguration.JwtSection);
             var jwtConfiguration = jwtSection.Get<JwtConfiguration>()!;
-            builder.Services.AddJwtService(jwtConfiguration);
+            builder.Services.AddJwtAuthentication(jwtConfiguration);
 
-            builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = JwtService.GetSymmetricSecurityKey(jwtConfiguration.SecurityKey),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            builder.Services.AddBoraServices();
+
+            builder.AddGoogleCalendar();
         }
         public static void AddGoogleCalendar(this WebApplicationBuilder builder)
         {
