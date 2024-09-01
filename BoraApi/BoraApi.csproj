@@ -21,6 +21,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bora.GoogleCalendar\Bora.GoogleCalendar.csproj" />
     <ProjectReference Include="..\Bora.Repository.Dapper\Bora.Repository.Dapper.csproj" />
     <ProjectReference Include="..\Bora.Repository.EFCore\Bora.Repository.EFCore.csproj" />
     <ProjectReference Include="..\Bora\Bora.csproj" />

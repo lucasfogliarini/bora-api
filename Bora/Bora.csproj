@@ -7,8 +7,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.68.0.3473" />
-		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.68.0.3468" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
 	</ItemGroup>

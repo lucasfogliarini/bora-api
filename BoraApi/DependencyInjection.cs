@@ -12,12 +12,12 @@ using System.Security.Claims;
 
 namespace BoraApi
 {
-    public static class AuthenticationExtensions
+    public static class DependencyInjection
     {
         public static void AddAuthentications(this WebApplicationBuilder builder)
         {
             builder.AddJwtAuthentication();
-            builder.AddGoogleCalendarAuthentication();
+            builder.AddGoogleCalendar();
         }
         public static void AddJwtAuthentication(this WebApplicationBuilder builder)
         {
@@ -41,11 +41,11 @@ namespace BoraApi
                 };
             });
         }
-        public static void AddGoogleCalendarAuthentication(this WebApplicationBuilder builder)
+        public static void AddGoogleCalendar(this WebApplicationBuilder builder)
         {
             var googleCalendarSection = builder.Configuration.GetSection(GoogleCalendarConfiguration.GoogleCalendarSection);
             var googleCalendarConfig = googleCalendarSection.Get<GoogleCalendarConfiguration>()!;
-            builder.Services.AddAccountDataStore(googleCalendarConfig);
+            builder.Services.AddGoogleCalendarService(googleCalendarConfig);
 
             //https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth#web-applications-asp.net-core-3
             builder.Services

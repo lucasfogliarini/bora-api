@@ -8,22 +8,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using SendUpdatesEnum = Google.Apis.Calendar.v3.EventsResource.PatchRequest.SendUpdatesEnum;
 using System.Net.Mail;
+using Bora.Events;
 
-namespace Bora.Events
+namespace Bora.GoogleCalendar
 {
-    public class EventService : IEventService
+    public class GoogleCalendarService : IEventService
     {
         CalendarService _calendarService;
         TasksService _tasksService;
 		private readonly IRepository _boraRepository;
 		private readonly IAccountDataStore _accountDataStore;
         private readonly IAccountService _accountService;
-        //private IEnumerable<Account> _accounts;
-        //private IEnumerable<Account> Accounts => _accounts ??= _boraRepository.All<Account>();//for azure tables
         const string BORA_ADMIN_EMAIL = "bora.reunir@gmail.com";
         const string BORA_ALWAYS_PRESENT_EMAIL = "lucasfogliarini@gmail.com";
 
-        public EventService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
+        public GoogleCalendarService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
         {
             _boraRepository = boraRepository;
             _accountDataStore = accountDataStore;
@@ -102,97 +101,6 @@ namespace Bora.Events
             await AddOrUpdateAttendeesAsync(@event, attendeeInput);
 
             return ToEventOutput(@event);
-        }
-        public static string[]? GetAttachments(Event @event)
-        {
-            if (@event?.Attachments != null)
-            {
-                return @event.Attachments.Select(e => $"https://drive.google.com/uc?id={e.FileId}").ToArray();
-            }
-            return null;
-        }
-        public static string? GetTicketUrl(Event @event)
-        {
-            var ticketDomains = new[] { "sympla", "eleventickets", "uhuu", "eventbrite", "blueticket", "ingresse", "ticketswap", "vamoapp", "ingressorapido", "uhuu", "eventbrite", "lets.events", "appticket", "ingressonacional", "minhaentrada", "eventim" };
-            return GetUrl(@event.Description, ticketDomains);
-        }
-        public static string? GetTicketDomain(Event @event)
-        {
-            if (@event?.Description != null)
-            {
-                var urlPattern = @"(?:https?:\/\/)?(?:www\.)?([^\/]+)";
-                var matches = Regex.Matches(@event.Description, urlPattern);
-                return matches?.ElementAtOrDefault(1)?.Value;
-            }
-            return null;
-        }
-        public static string? GetSpotifyUrl(Event @event)
-        {
-            return GetUrl(@event.Description, "spotify");
-        }
-        public static string? GetInstagramUrl(Event @event)
-        {
-            return GetUrl(@event.Description, "instagram");
-        }
-        public static string? GetYouTubeUrl(Event @event)
-        {
-            return GetUrl(@event.Description, "youtube", "youtu.be");
-        }
-        public static string? GetWhatsAppGroupChat(Event @event)
-        {
-            return GetUrl(@event.Description, "chat.whatsapp.com");
-        }
-        public static string? GetSpotifyJam(Event @event)
-        {
-            return GetUrl(@event.Description, "spotify.link", "open.spotify.com");
-        }
-        public static string? GetDiscordChannel(Event @event)
-        {
-            bool hasDiscord = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("discord.gg");
-            return hasDiscord ? GetUrl(@event.Location, "discord.gg") : null;
-        }
-        public static string? GetWhatsAppMe(Event @event)
-        {
-            bool hasWaMe = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("wa.me");
-            return hasWaMe ? GetUrl(@event.Location, "wa.me") : null;
-        }
-        public static string? GetMetaChannel(Event @event)
-        {
-            bool hasMetaChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("horizon.meta.com");
-            return hasMetaChannel ? GetUrl(@event.Location, "horizon.meta.com") : null;
-        }
-        public static string? GetTribeChannel(Event @event)
-        {
-            bool hasTribeChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("live.tribexr.com");
-            return hasTribeChannel ? GetUrl(@event.Location, "live.tribexr.com") : null;
-        }
-        public static string? GetTwitchChannel(Event @event)
-        {
-            bool hasTwitchChannel = !string.IsNullOrEmpty(@event.Location) && @event.Location.Contains("twitch.tv");
-            return hasTwitchChannel ? GetUrl(@event.Location, "twitch.tv") : null;
-        }
-        public static string GetConferenceUrl(Event @event)
-        {
-            var conferenceUrl = GetDiscordChannel(@event) ?? 
-                                GetMetaChannel(@event) ??
-                                GetWhatsAppMe(@event) ??
-                                GetSpotifyJam(@event) ??
-                                GetTribeChannel(@event) ??
-                                GetTwitchChannel(@event) ??
-                                @event.HangoutLink;
-            return conferenceUrl;
-        }
-        public static decimal GetDiscount(Event @event)
-        {
-            if (@event.Summary != null)
-            {
-                Regex regex = new(@"\b(\d{1,3})%\$");
-                Match match = regex.Match(@event.Summary);
-
-                if (match.Success)
-                    return decimal.Parse(match.Groups[1].Value);
-            }
-            return 0;
         }
 
         private static void ValidateEvent(EventInput eventInput)
@@ -378,24 +286,10 @@ namespace Bora.Events
 
 			if (eventInput.AddConference)
             {
-                AddGoogleMeet(@event);
+                @event.AddGoogleMeet();
             }
 
             return @event;
-        }
-        private static void AddGoogleMeet(Event @event)
-        {
-            @event.ConferenceData = new ConferenceData
-            {
-                CreateRequest = new CreateConferenceRequest
-                {
-                    RequestId = $"{@event.Summary}-{@event.Start?.DateTime}",
-                    ConferenceSolutionKey = new ConferenceSolutionKey
-                    {
-                        Type = "hangoutsMeet"
-                    }
-                }
-            };
         }
         private EventOutput ToEventOutput(Event @event, EventsCountOutput? eventsCountOutput = null)
         {
@@ -416,51 +310,20 @@ namespace Bora.Events
                 Start = @event.Start.DateTime ?? DateTime.Parse(@event.Start.Date),
                 End = @event.End.DateTime ?? DateTime.Parse(@event.End.Date),
                 GoogleEventUrl = @event.HtmlLink,
-                Public = !IsPrivate(@event),
-                Chat = GetWhatsAppGroupChat(@event),
-                ConferenceUrl = GetConferenceUrl(@event),
+                Public = !@event.IsPrivate(),
+                Chat = @event.GetWhatsAppGroupChat(),
+                ConferenceUrl = @event.GetConferenceUrl(),
                 Attendees = attendeeOutputs,
-                TicketUrl = GetTicketUrl(@event),
-                TicketDomain = GetTicketDomain(@event),
-                SpotifyUrl = GetSpotifyUrl(@event),
-                Discount = GetDiscount(@event),
-                InstagramUrl = GetInstagramUrl(@event),
-                YouTubeUrl = GetYouTubeUrl(@event),
-                Attachments = GetAttachments(@event),
-                Deadline = GetDeadLine(@event),
+                TicketUrl = @event.GetTicketUrl(),
+                TicketDomain = @event.GetTicketDomain(),
+                SpotifyUrl = @event.GetSpotifyUrl(),
+                Discount = @event.GetDiscount(),
+                InstagramUrl = @event.GetInstagramUrl(),
+                YouTubeUrl = @event.GetYouTubeUrl(),
+                Attachments = @event.GetAttachments(),
+                Deadline = @event.GetDeadLine(),
                 Recurrence = @event.Recurrence,
             };
-        }
-        private static string? GetUrl(string description, params string[] domains)
-        {
-            if (description != null)
-            {
-                var urlPattern = @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
-                var matches = Regex.Matches(description, urlPattern);
-                foreach (Match match in matches.Where(m=>m.Success))
-                {
-                    bool urlHasDomain = domains.Any(domain => match.Value.Contains(domain));
-                    if (urlHasDomain)
-                        return match.Value;
-                }
-            }
-            return null;
-        }
-        private static bool IsPrivate(Event @event)
-        {
-            if (@event.Description == null) return false;
-            var isPrivate = new[] { EventOutput.PRIVADO, EventOutput.PRIVATE }.Any(pvt => @event.Description.Contains(pvt));
-
-            return isPrivate;
-        }
-        private static DateTime? GetDeadLine(Event @event)
-        {
-            var reminderMinutes = @event.Reminders.Overrides?.FirstOrDefault()?.Minutes;
-            if (reminderMinutes != null && @event.Start.DateTime.HasValue)
-            {
-                return @event.Start.DateTime.Value.AddMinutes(-reminderMinutes.Value);
-            }
-            return null;
         }
         private async Task AlwaysPresent(IEnumerable<Event> eventItems)
         {

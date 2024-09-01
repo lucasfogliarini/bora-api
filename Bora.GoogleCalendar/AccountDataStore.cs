@@ -2,13 +2,12 @@
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
-using Google.Apis.Util.Store;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace Bora.Accounts
 {
-	internal class AccountDataStore : IAccountDataStore
+    internal class AccountDataStore : IAccountDataStore
     {
         private readonly IRepository _boraRepository;
         private readonly IAccountService _accountService;
@@ -112,12 +111,5 @@ namespace Bora.Accounts
 			_boraRepository.Update(account);
 			await _boraRepository.CommitAsync();
 		}
-    }
-
-    public interface IAccountDataStore : IDataStore
-    {
-        Task<UserCredential> GetUserCredentialAsync(string username);
-        Task AuthorizeCalendarAsync(string email, TokenResponse tokenResponse);
-        Task UnauthorizeCalendarAsync(string email);
     }
 }

@@ -5,7 +5,7 @@ using System.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class DapperExtensions
+	public static class DependencyInjection
 	{
 		public static void AddDapperRepository(this IServiceCollection serviceCollection, string boraDatabaseConnString)
 		{
