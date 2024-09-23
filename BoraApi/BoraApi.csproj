@@ -11,11 +11,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.8" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="9.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
 		<PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
 	</ItemGroup>
@@ -23,7 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Bora.Authentication\Bora.Authentication.csproj" />
     <ProjectReference Include="..\Bora.GoogleCalendar\Bora.GoogleCalendar.csproj" />
-    <ProjectReference Include="..\Bora.Repository.Dapper\Bora.Repository.Dapper.csproj" />
+    <ProjectReference Include="..\Bora.Repository.Dapper\Bora.Repository.Dapper.csproj">
+      <TreatAsUsed>true</TreatAsUsed>
+    </ProjectReference>
     <ProjectReference Include="..\Bora.Repository.EFCore\Bora.Repository.EFCore.csproj" />
     <ProjectReference Include="..\Bora\Bora.csproj" />
     <ProjectReference Include="..\Spotify\Spotify.csproj" />

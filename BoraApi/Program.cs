@@ -45,7 +45,6 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
 	Console.WriteLine($"Starting {APP_NAME} version: {VERSION}");
 	Console.WriteLine();
 
-	builder.Services.AddCors();
 	builder.Services.AddLogging((loggingBuilder) =>
 	{
 		loggingBuilder.AddDebug();
