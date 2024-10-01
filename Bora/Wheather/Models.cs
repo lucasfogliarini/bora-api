@@ -48,7 +48,7 @@
         /// indicates the presence of any type of precipitation for a given day. Displays true if precipitation is present
         /// </summary>
         public bool? HasPrecipitation { get; set; }
-        public int PrecipitationType { get; set; }
+        public string PrecipitationType { get; set; }
         public int? ThunderstormProbability { get; set; }
         public int? PrecipitationProbability { get; set; }
         public double? HoursOfPrecipitation { get; set; }
@@ -69,12 +69,12 @@
         public int? IceProbability { get; set; }
         public ForecastUnit Ice { get; set; }
         public double? HoursOfIce { get; set; }
-        #endregion        
-        
+        #endregion
+
         public ForecastUnit SolarIrradiance { get; set; }
         public ForecastUnit TotalLiquid { get; set; }
         public ForecastUnit Evapotranspiration { get; set; }
-        
+
         public int? CloudCover { get; set; }
         public Wind Wind { get; set; }
         public Wind WindGust { get; set; }
@@ -126,7 +126,7 @@
         public WindDirection Direction { get; set; }
     }
 
-    
+
 
     public class WetBulbTemperature
     {
@@ -134,7 +134,7 @@
         public Temperature Maximum { get; set; }
         public Temperature Average { get; set; }
     }
-    
+
 
     public class DegreeDaySummary
     {

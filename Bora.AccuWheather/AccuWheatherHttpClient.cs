@@ -1,10 +1,12 @@
-﻿using System.Text.Json;
+﻿using Bora.Wheather;
+using System.Net.Http.Json;
+using System.Text.Json;
 
-namespace Bora.Wheather
+namespace Bora.AccuWheather
 {
-    public class AccuWheatherHttpClient(HttpClient httpClient) : IWheather
+    public class AccuWheatherHttpClient(HttpClient httpClient) : IWheatherService
     {
-        public async Task<WeatherForecast> GetForecastAsync(string days = "1day")
+        public async Task<WeatherForecast> GetForecastAsync(string days = "5day")
         {
             var apiKey = httpClient.DefaultRequestHeaders.Authorization?.Parameter;
             ArgumentException.ThrowIfNullOrEmpty(httpClient.DefaultRequestHeaders.Authorization?.Parameter);
@@ -12,8 +14,7 @@ namespace Bora.Wheather
 
             var requestUri = $"forecasts/v1/daily/{days}/{locationKeyPOA}?apikey={apiKey}&language=pt-BR&details=true";
             HttpResponseMessage response = await httpClient.GetAsync(requestUri);
-            var eventsString = await response.Content.ReadAsStringAsync();
-            var weatherForecast = JsonSerializer.Deserialize<WeatherForecast>(eventsString, new JsonSerializerOptions
+            var weatherForecast = await response.Content.ReadFromJsonAsync<WeatherForecast>(new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });

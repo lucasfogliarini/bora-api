@@ -9,25 +9,20 @@ using System.Text.RegularExpressions;
 using SendUpdatesEnum = Google.Apis.Calendar.v3.EventsResource.PatchRequest.SendUpdatesEnum;
 using System.Net.Mail;
 using Bora.Events;
+using Bora.Wheather;
 
 namespace Bora.GoogleCalendar
 {
-    public class GoogleCalendarService : IEventService
+    public class GoogleCalendarService(IRepository boraRepository, IWheatherService wheatherService, IAccountService accountService, IAccountDataStore accountDataStore) : IEventService
     {
         CalendarService _calendarService;
         TasksService _tasksService;
-		private readonly IRepository _boraRepository;
-		private readonly IAccountDataStore _accountDataStore;
-        private readonly IAccountService _accountService;
+		private readonly IRepository _boraRepository = boraRepository;
+        private readonly IWheatherService _wheatherService = wheatherService;
+        private readonly IAccountDataStore _accountDataStore = accountDataStore;
+        private readonly IAccountService _accountService = accountService;
         const string BORA_ADMIN_EMAIL = "bora.reunir@gmail.com";
         const string BORA_ALWAYS_PRESENT_EMAIL = "lucasfogliarini@gmail.com";
-
-        public GoogleCalendarService(IRepository boraRepository, IAccountService accountService, IAccountDataStore accountDataStore)
-        {
-            _boraRepository = boraRepository;
-            _accountDataStore = accountDataStore;
-            _accountService = accountService;
-        }
 
         public async Task<IEnumerable<EventOutput>> EventsAsync(string user, EventsFilterInput eventsFilter)
         {
@@ -48,7 +43,7 @@ namespace Bora.GoogleCalendar
             if (account.OnlySelfOrganizer)
                 eventItems = eventItems.Where(i => i.Organizer.Self == account.OnlySelfOrganizer);
 
-			var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
+            var eventsOutput = eventItems.Where(i => i.Visibility == "public").Select(i=>ToEventOutput(i, eventsCount));
             if(eventsFilter.HasTicket.GetValueOrDefault())
                 eventsOutput = eventsOutput.Where(e => e.TicketUrl != null);
             return eventsOutput;

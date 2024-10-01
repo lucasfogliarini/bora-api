@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Bora.Tests.Unit
 {
-    public class WheatherTests : TestsBase
+    public class WheatherServiceTests : TestsBase
     {
         [Fact]
         public async Task GetForecastAsync()
         {
             //when
-            var wheather = _serviceProvider.GetService<IWheather>()!;
-            var forecast = await wheather.GetForecastAsync();
+            var wheatherService = _serviceProvider.GetService<IWheatherService>()!;
+            var forecast = await wheatherService.GetForecastAsync();
         }
     }
 }
