@@ -72,28 +72,27 @@ export function handleSummary(data) {
   - ${green} Sucesso (2xx-3xx): ${successRate.toFixed(2)}% (${passed} de ${total})
   - ${red} Falhas (4xx-5xx): ${failureRate.toFixed(2)}% (${failed} de ${total})
 ${reset}
-⏱ Tempo de requisição:
-   - média:  ${data.metrics.http_req_duration.values.avg.toFixed(2)} ms
-   - máximo: ${data.metrics.http_req_duration.values.max.toFixed(2)} ms
-   - mínimo: ${data.metrics.http_req_duration.values.min.toFixed(2)} ms
-   - mediana: ${data.metrics.http_req_duration.values.med.toFixed(2)} ms
 
-⚡ Taxa de requisições:
-   - http_reqs: ${data.metrics.http_reqs.values.count}
-   - rate: ${data.metrics.http_reqs.values.rate.toFixed(2)} req/s
+⚡ Taxa de Entrada | Arrival Rate (λ): ${(data.metrics.iterations.values.count / (data.state.testRunDurationMs / 1000)).toFixed(2)} req/s
+✔ Vazão | Throughput (X): ${data.metrics.http_reqs.values.rate.toFixed(2)} req/s
 
-👥 VUs:
+⏱ Tempo de resposta | Response Time (R):
+   - Média:  ${data.metrics.http_req_duration.values.avg.toFixed(2)} ms
+   - Máximo: ${data.metrics.http_req_duration.values.max.toFixed(2)} ms
+   - Mínimo: ${data.metrics.http_req_duration.values.min.toFixed(2)} ms
+   - Mediana: ${data.metrics.http_req_duration.values.med.toFixed(2)} ms
+
+👥 Usuários Virtuais | Virtual Users (λ⋅R):
    - vus:     ${data.metrics.vus.values.value}
    - vus_max: ${data.metrics.vus_max.values.max}
 
-🔁 Iterações: ${data.metrics.iterations.values.count}
+🔁 Iterações concluídas: ${data.metrics.iterations.values.count}
 
-📤 Dados:
-   - enviados:  ${bytesToMB(data.metrics.data_sent.values.count)} MB
-   - recebidos: ${bytesToMB(data.metrics.data_received.values.count)} MB
+📤 Tráfego de dados:
+   - Enviados:  ${bytesToMB(data.metrics.data_sent.values.count)} MB
+   - Recebidos: ${bytesToMB(data.metrics.data_received.values.count)} MB
 
-⏱️ Duração total do teste:
-   - ${(data.state.testRunDurationMs / 1000).toFixed(2)} s
+⏱️ Duração total do teste: ${(data.state.testRunDurationMs / 1000).toFixed(2)} s
 `,
   };
 }
