@@ -54,7 +54,12 @@ static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
     builder.AddRepository();
     //builder.Services.AddSpotifyService();
     builder.Services.AddHealthChecks()
-		.AddDbContextCheck<BoraDbContext>();
+        .AddDbContextCheck<BoraDbContext>(customTestQuery: async (context, ct) =>
+        {
+            if (context.Database.ProviderName.Contains("InMemory"))
+                return false;
+            return await context.Database.CanConnectAsync(ct);
+        });
 
     builder.Services.AddProblemDetails(x =>
 	{

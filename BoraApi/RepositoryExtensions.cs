@@ -30,7 +30,11 @@ namespace BoraApi
             Console.WriteLine($"Trying to get a database connectionString '{boraRepositoryConnectionStringKey}' from Configuration.");
             var connectionString = builder.Configuration[boraRepositoryConnectionStringKey];
             if (connectionString == null)
-                throw new Exception($"{boraRepositoryConnectionStringKey} was not found! From builder.Configuration[{boraRepositoryConnectionStringKey}]");
+            {
+                var message = $"{boraRepositoryConnectionStringKey} was not found! From builder.Configuration[{boraRepositoryConnectionStringKey}]";
+                Console.WriteLine(message);
+                throw new Exception(message);
+            }
 
             Console.WriteLine();
             return connectionString;
